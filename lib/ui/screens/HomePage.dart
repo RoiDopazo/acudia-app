@@ -1,4 +1,4 @@
-import 'package:acudia/core/localizations/app-localizations.dart';
+import 'package:acudia/app-localizations.dart';
 import 'package:acudia/core/providers/CounterProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
