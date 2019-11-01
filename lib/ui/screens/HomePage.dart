@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(translate(context, 'app_name')),
+        title: Text('Flutter Demo Home Page'),
       ),
       body: Center(
         child: Column(

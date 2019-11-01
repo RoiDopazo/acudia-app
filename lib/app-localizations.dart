@@ -4,9 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-String translate(context, i18nKey) =>
-    AppLocalizations.of(context).translate(i18nKey);
-
 class AppLocalizations {
   final Locale locale;
 
@@ -39,10 +36,7 @@ class AppLocalizations {
 
   // This method will be called from every widget which needs a localized text
   String translate(String key) {
-    final translation = _localizedStrings[key];
-    return translation == null
-        ? "Missing translation for <<$key>>"
-        : translation;
+    return _localizedStrings[key];
   }
 }
 
