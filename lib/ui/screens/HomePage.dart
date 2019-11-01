@@ -25,6 +25,12 @@ class HomePage extends StatelessWidget {
                 style: Theme.of(context).textTheme.display1,
               ),
             ),
+            MaterialButton(
+              child: Text('Decrement'),
+              onPressed: () =>
+                  Provider.of<CounterProvider>(context, listen: false)
+                      .decrement(),
+            )
           ],
         ),
       ),
