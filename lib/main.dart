@@ -1,4 +1,4 @@
-import 'package:acudia/app-localizations.dart';
+import 'package:acudia/core/localizations/app-localizations.dart';
 import 'package:acudia/core/providers/CounterProvider.dart';
 import 'package:acudia/ui/screens/HomePage.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       supportedLocales: [
         Locale('en', 'US'),
-        Locale('es', 'ES'),
+        Locale('ar', ''),
       ],
       localizationsDelegates: [
         AppLocalizations.delegate,
