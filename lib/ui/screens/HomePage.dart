@@ -1,3 +1,4 @@
+import 'package:acudia/core/localizations/app-localizations.dart';
 import 'package:acudia/core/providers/CounterProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('You have pushed the button this many times:'),
+            Text(AppLocalizations.of(context).translate('title')),
             // Consumer looks for an ancestor Provider widget
             // and retrieves its model (Counter, in this case).
             // Then it uses that model to build widgets, and will trigger
