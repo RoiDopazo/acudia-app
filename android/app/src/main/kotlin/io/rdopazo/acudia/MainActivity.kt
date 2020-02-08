@@ -1,4 +1,4 @@
-package com.example.acudia
+package io.rdopazo.acudia
 
 import android.os.Bundle
 
