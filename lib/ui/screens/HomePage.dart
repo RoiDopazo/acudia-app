@@ -1,4 +1,5 @@
 import 'package:acudia/app-localizations.dart';
+import 'package:acudia/core/providers/AuthProvider.dart';
 import 'package:acudia/core/providers/CounterProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,6 +8,8 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // final authModel = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(translate(context, 'app_name')),
@@ -31,6 +34,12 @@ class HomePage extends StatelessWidget {
               onPressed: () =>
                   Provider.of<CounterProvider>(context, listen: false)
                       .decrement(),
+            ),
+            RaisedButton(
+              onPressed: () =>
+                  Provider.of<AuthProvider>(context, listen: false).doLogin(),
+              child: Text("Login G+"),
+              color: Colors.primaries[0],
             )
           ],
         ),

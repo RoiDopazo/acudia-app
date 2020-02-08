@@ -1,17 +1,20 @@
 import 'package:acudia/app-localizations.dart';
+import 'package:acudia/core/providers/AuthProvider.dart';
 import 'package:acudia/core/providers/CounterProvider.dart';
 import 'package:acudia/ui/screens/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(ChangeNotifierProvider(
-      // Initialize the model in the builder. That way, Provider
-      // can own Counter's lifecycle, making sure to call `dispose`
-      // when not needed anymore.
-      builder: (context) => CounterProvider(),
-      child: MyApp(),
-    ));
+void main() => runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(builder: (context) => CounterProvider()),
+          Provider(builder: (context) => AuthProvider()),
+        ],
+        child: MyApp(),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
