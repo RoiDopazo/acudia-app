@@ -29,15 +29,15 @@ Create a signinconfig for debug purpose
   > keytool -genkey -v -keystore debug.keystore -storepass [storepass] -alias android_debugkey -keypass [keypass] -keyalg RSA -keysize 2048 -validity 10000
 
 
-  - Create a file named <app dir>/android/key.properties that contains a reference to your keystore:
+  - Create a file named `<app dir>/android/key.properties` that contains a reference to your keystore:
   > storePassword=[storepass]  
   > keyPassword=[keypass]  
   > keyAlias=android_debugkey  
-  > storeFile=<location of the key store file, such as /Users/<user name>/key.jks>  
+  > storeFile=<location of the key store file, such as /Users/<user name>/key.jks>
   
   - Add the SHA certificate fingerprints of the debug key in the google console.
   
-  - Update the google-services.json file in <app dir>/android
+  - Update the google-services.json file in `<app dir>/android/app`
   
   
 
@@ -51,7 +51,7 @@ Create a signinconfig for debug purpose
 
   - A dialog will show up and ask you to select the targets, select the Runner target.
 
-  - Then add the CFBundleURLTypes attributes below into the [my_project]/ios/Runner/Info.plist file.
+  - Then add the CFBundleURLTypes attributes below into the `[my_project]/ios/Runner/Info.plist` file.
   
   
   
