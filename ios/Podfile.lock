@@ -95,7 +95,7 @@ DEPENDENCIES:
   - google_sign_in_web (from `.symlinks/plugins/google_sign_in_web/ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AppAuth
     - Firebase
     - FirebaseAnalytics
@@ -142,4 +142,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: cf7347e9f82182c690792c85f55cb958ff66f4d4
 
-COCOAPODS: 1.7.4
+COCOAPODS: 1.9.0.beta.3
