@@ -7,6 +7,19 @@ assignees: ''
 
 ---
 
-**AS I USER:**
-**I WANT TO:**
-**SO THAT:**
+**As a** 
+**I want to** 
+**so** 
+
+---
+
+#### DESCRIPTION
+
+
+---
+
+#### DESIGN
+
+---
+
+#### TECNICAL DETAILS
