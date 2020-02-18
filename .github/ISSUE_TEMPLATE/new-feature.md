@@ -3,7 +3,7 @@ name: New feature
 about: Create a new feature
 title: ''
 labels: feature
-assignees: ''
+assignees: RoiDopazo
 
 ---
 
@@ -22,4 +22,4 @@ assignees: ''
 
 ---
 
-#### TECNICAL DETAILS
+#### TECHNICAL DETAILS
