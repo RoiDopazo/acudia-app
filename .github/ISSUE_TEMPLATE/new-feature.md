@@ -2,7 +2,7 @@
 name: New feature
 about: Create a new feature
 title: ''
-labels: feature
+labels: feature, mobile
 assignees: RoiDopazo
 
 ---
