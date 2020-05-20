@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 void main() => runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(builder: (context) => CounterProvider()),
-          Provider(builder: (context) => AuthProvider()),
+          ChangeNotifierProvider(create: (context) => CounterProvider()),
+          Provider(create: (context) => AuthProvider()),
         ],
         child: MyApp(),
       ),
