@@ -1,3 +1,5 @@
 {
-  "app_name": "Acudia"
+  "app_name": "Acudia",
+  "auth_login": "Iniciar sesión",
+  "auth_signUp": "Registarse"
 }

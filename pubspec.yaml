@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^3.1.0
+  flutter_svg: ^0.17.4
   google_sign_in: ^4.1.1
   googleapis: any
   googleapis_auth: any
@@ -48,6 +49,7 @@ flutter:
   assets:
     - assets/i18n/en.json
     - assets/i18n/es.json
+    - assets/media/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
