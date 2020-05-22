@@ -1,6 +1,6 @@
-import 'package:acudia/app-localizations.dart';
-import 'package:acudia/core/providers/AuthProvider.dart';
-import 'package:acudia/core/providers/CounterProvider.dart';
+import 'package:acudia/app_localizations.dart';
+import 'package:acudia/core/providers/auth_provider.dart';
+import 'package:acudia/core/providers/counter_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
