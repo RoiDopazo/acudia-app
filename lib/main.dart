@@ -1,7 +1,8 @@
-import 'package:acudia/app-localizations.dart';
-import 'package:acudia/core/providers/AuthProvider.dart';
-import 'package:acudia/core/providers/CounterProvider.dart';
-import 'package:acudia/ui/screens/HomePage.dart';
+import 'package:acudia/app_localizations.dart';
+import 'package:acudia/company_theme.dart';
+import 'package:acudia/core/providers/auth_provider.dart';
+import 'package:acudia/core/providers/counter_provider.dart';
+import 'package:acudia/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +10,8 @@ import 'package:provider/provider.dart';
 void main() => runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(builder: (context) => CounterProvider()),
-          Provider(builder: (context) => AuthProvider()),
+          ChangeNotifierProvider(create: (context) => CounterProvider()),
+          Provider(create: (context) => AuthProvider()),
         ],
         child: MyApp(),
       ),
@@ -22,18 +23,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       supportedLocales: [
-        Locale('en', 'US'),
         Locale('es', 'ES'),
+        Locale('en', 'US'),
       ],
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomePage(),
+      theme: CompanyThemeData,
+      initialRoute: Routes.Splash,
+      routes: Routes.getRoutes(),
     );
   }
 }
