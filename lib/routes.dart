@@ -1,3 +1,4 @@
+import 'package:acudia/ui/screens/auth/signup/sign_up_screen.dart';
 import 'package:acudia/ui/screens/auth/splash_page.dart';
 import 'package:flutter/widgets.dart';
 
@@ -10,6 +11,7 @@ class Routes {
   static Map<String, WidgetBuilder> getRoutes() {
     return {
       Routes.Splash: (context) => SplashScreen(),
+      Routes.SignUp: (context) => SignUpScreen(),
     };
   }
 }

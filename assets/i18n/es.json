@@ -1,5 +1,22 @@
 {
   "app_name": "Acudia",
   "auth_login": "Iniciar sesión",
-  "auth_signUp": "Registarse"
+  "auth_signUp": "Registarse",
+  "auth_step1": "Datos",
+  "auth_step2": "Perfil",
+  "auth_step3": "Verificación",
+  "field_email_label": "Correo electrónico",
+  "field_email_hint": "Introduzca correo electrónico",
+  "field_email_validation_empty": "Por favor, introduzca un email",
+  "field_password_label": "Contraseña",
+  "field_password_hint": "Introduzca contraseña",
+  "field_password_validation_empty": "Por favor, introduzca una contraseña",
+  "field_name_label": "Nombre",
+  "field_name_hint": "Introduzca su nombre",
+  "field_name_validation_empty": "Por favor, introduzca su nombre",
+  "field_gender_label": "Género",
+  "field_gender_male": "Hombre",
+  "field_gender_female": "Mujer",
+  "field_gender_other": "Otro",
+  "next": "Siguiente"
 }

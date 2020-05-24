@@ -1,4 +1,5 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +35,9 @@ class SplashScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         textColor: Theme.of(context).textTheme.bodyText1.color,
         color: Theme.of(context).primaryColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.SignUp);
+        },
         child: new Text(translate(context, 'auth_signUp')),
       ),
     );

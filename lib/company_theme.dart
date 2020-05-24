@@ -19,7 +19,11 @@ final ThemeData CompanyThemeData = new ThemeData(
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 32,
-        )));
+        ),
+        headline2: TextStyle(
+            color: CompanyColors.blue[100],
+            fontWeight: FontWeight.bold,
+            fontSize: 16)));
 
 class CompanyColors {
   CompanyColors._(); // this basically makes it so you can instantiate this class
