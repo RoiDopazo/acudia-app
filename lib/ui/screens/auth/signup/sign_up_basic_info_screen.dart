@@ -1,6 +1,8 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class SignUpBasicInfo extends StatelessWidget {
   @override
@@ -19,7 +21,6 @@ class SignUpBasicInfo extends StatelessWidget {
         decoration: new InputDecoration(
             labelText: translate(context, 'field_name_label'),
             hintText: translate(context, 'field_name_hint'),
-            //filled: true,
             icon: const Icon(Icons.person),
             labelStyle:
                 new TextStyle(decorationStyle: TextDecorationStyle.solid)),
@@ -38,7 +39,6 @@ class SignUpBasicInfo extends StatelessWidget {
         decoration: new InputDecoration(
             labelText: translate(context, 'field_email_label'),
             hintText: translate(context, 'field_email_hint'),
-            //filled: true,
             icon: const Icon(Icons.mail),
             labelStyle:
                 new TextStyle(decorationStyle: TextDecorationStyle.solid)),
@@ -107,9 +107,16 @@ class SignUpBasicInfo extends StatelessWidget {
         child: new Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              Text(
-                  "${translate(context, 'next')}: ${translate(context, 'auth_step2')}"),
-              Icon(Icons.arrow_forward),
+              new GestureDetector(
+                onTap: () {
+                  Provider.of<SignUpProvider>(context, listen: false)
+                      .setSelectedTab(1);
+                },
+                child: new Text(
+                    "${translate(context, 'next')}: ${translate(context, 'auth_step2')}"),
+              ),
+              Icon(Icons.arrow_forward_ios,
+                  color: Theme.of(context).primaryColor),
             ]),
       ),
     ]);

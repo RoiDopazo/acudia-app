@@ -2,6 +2,7 @@
   "app_name": "Acudia",
   "auth_login": "Iniciar sesión",
   "auth_signUp": "Registarse",
+  "auth_register_label": "Registro",
   "auth_step1": "Datos",
   "auth_step2": "Perfil",
   "auth_step3": "Verificación",
