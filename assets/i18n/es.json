@@ -19,5 +19,9 @@
   "field_gender_male": "Hombre",
   "field_gender_female": "Mujer",
   "field_gender_other": "Otro",
+  "field_role_label": "Cuál va ser tu rol en la aplicación?",
+  "field_role_client": "Cliente",
+  "field_role_acudier": "Acudier",
+  "field_picture_label": "Añade una imagen de perfil",
   "next": "Siguiente"
 }

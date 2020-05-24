@@ -1,6 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:acudia/ui/screens/auth/signup/sign_up_basic_info_screen.dart';
+import 'package:acudia/ui/screens/auth/signup/sign_up_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class SignUpScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline2),
             isActive: selecteTab >= 1,
             state: StepState.indexed,
-            content: Text(translate(context, 'auth_step2'))),
+            content: SignUpProfile()),
         new Step(
             title: Text(translate(context, 'auth_step3'),
                 style: Theme.of(context).textTheme.headline2),

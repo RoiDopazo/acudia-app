@@ -8,7 +8,7 @@ final ThemeData CompanyThemeData = new ThemeData(
     primaryColor: CompanyColors.blue[100],
     primaryColorBrightness: Brightness.light,
     accentColor: Colors.blue,
-    scaffoldBackgroundColor: Colors.white60,
+    disabledColor: Colors.grey[300],
     backgroundColor: Colors.white,
     textSelectionColor: Colors.white,
     accentColorBrightness: Brightness.light,
