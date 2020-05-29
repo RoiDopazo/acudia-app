@@ -43,7 +43,8 @@ class SignUpScreen extends StatelessWidget {
           constraints:
               BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
           child: Consumer<SignUpProvider>(
-              builder: (context, signup, child) => new Stepper(
+              builder: (context, signup, child) => new Form(
+                      child: new Stepper(
                     steps: buildSteps(signup.selectedTab),
                     type: StepperType.horizontal,
                     currentStep: signup.selectedTab,
@@ -55,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                       Provider.of<SignUpProvider>(context, listen: false)
                           .setSelectedTab(index);
                     },
-                  )),
+                  ))),
         ));
   }
 }
