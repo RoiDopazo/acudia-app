@@ -25,9 +25,16 @@
   "field_gender_male": "Hombre",
   "field_gender_female": "Mujer",
   "field_gender_other": "Otro",
+  "field_gender_validation_empty": "Seleccione un género",
   "field_role_label": "Cuál va ser tu rol en la aplicación?",
   "field_role_client": "Cliente",
   "field_role_acudier": "Acudier",
-  "field_picture_label": "Añade una imagen de perfil",
-  "next": "Siguiente"
+  "field_role_validation_empty": "Seleccione un rol",
+  "field_picture_label": "Foto de perfil",
+  "field_birthdate_label": "Fecha de nacimiento",
+  "field_birthdate_validation_empty": "Seleccione su fecha de nacimiento",
+  "next": "Siguiente",
+  "select": "Seleccionar",
+  "optional": "Opcional",
+  "recommendable": "Recomendable"
 }

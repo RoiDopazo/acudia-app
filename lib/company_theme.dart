@@ -15,6 +15,7 @@ final ThemeData CompanyThemeData = new ThemeData(
     textTheme: TextTheme(
         bodyText1: TextStyle(color: Colors.white),
         bodyText2: TextStyle(color: CompanyColors.blue[100]),
+        headline4: TextStyle(color: Colors.red),
         headline1: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

@@ -13,7 +13,6 @@ class SignUpBasicInfo extends StatelessWidget {
               TextFormField(
                 keyboardType: TextInputType.text,
                 autocorrect: false,
-                onSaved: (String value) {},
                 maxLines: 1,
                 initialValue: signup.values[FIELD_NAME],
                 onChanged: (text) {
@@ -39,7 +38,6 @@ class SignUpBasicInfo extends StatelessWidget {
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
-                onSaved: (String value) {},
                 maxLines: 1,
                 initialValue: signup.values[FIELD_EMAIL],
                 onChanged: (text) {
@@ -65,9 +63,9 @@ class SignUpBasicInfo extends StatelessWidget {
               TextFormField(
                 keyboardType: TextInputType.text,
                 autocorrect: false,
-                onSaved: (String value) {},
                 maxLines: 1,
                 initialValue: signup.values[FIELD_PASSWORD],
+                obscureText: true,
                 onChanged: (text) {
                   Provider.of<SignUpProvider>(context, listen: false)
                       .updateValue(FIELD_PASSWORD, text);
@@ -96,51 +94,6 @@ class SignUpBasicInfo extends StatelessWidget {
                     labelStyle: new TextStyle(
                         decorationStyle: TextDecorationStyle.solid)),
               ),
-              SizedBox(height: 24),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text("${translate(context, 'field_gender_label')}:"),
-                      SizedBox(height: 32),
-                    ]),
-              ),
-              ToggleButtons(
-                isSelected: signup.values[FIELD_GENDER],
-                onPressed: (int index) {
-                  List<bool> genderValues = [false, false, false];
-                  genderValues[index] = true;
-                  Provider.of<SignUpProvider>(context, listen: false)
-                      .updateValue(FIELD_GENDER, genderValues);
-                },
-                children: <Widget>[
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 52) / 3,
-                    child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(translate(context, 'field_gender_male')),
-                        ]),
-                  ),
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 52) / 3,
-                    child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(translate(context, 'field_gender_female')),
-                        ]),
-                  ),
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 52) / 3,
-                    child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(translate(context, 'field_gender_other')),
-                        ]),
-                  )
-                ],
-              ),
               SizedBox(height: 48),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -149,13 +102,7 @@ class SignUpBasicInfo extends StatelessWidget {
                     children: <Widget>[
                       new GestureDetector(
                         onTap: () {
-                          // Provider.of<SignUpProvider>(context, listen: false)
-                          //     .setSelectedTab(1);
-
-                          if (Form.of(context).validate()) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-
+                          if (!Form.of(context).validate()) {
                             Provider.of<SignUpProvider>(context, listen: false)
                                 .setSelectedTab(1);
                           }
