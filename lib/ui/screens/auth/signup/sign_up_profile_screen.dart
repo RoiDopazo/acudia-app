@@ -1,4 +1,5 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/colors.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -32,14 +33,17 @@ class SignUpProfile extends StatelessWidget {
               : [Container()],
         );
 
-    return new Consumer<SignUpProvider>(
+    return Consumer<SignUpProvider>(
         builder: (context, signup, child) => Column(children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
                 child: new Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text(translate(context, 'field_role_label')),
+                      Text(
+                        translate(context, 'field_role_label'),
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
                       SizedBox(height: 32),
                     ]),
               ),
@@ -72,26 +76,6 @@ class SignUpProfile extends StatelessWidget {
                     )
                   ]),
               errorComponent(signup, FIELD_ROLE),
-              // Column(
-              //   children: signup.errors[FIELD_ROLE] != ''
-              //       ? [
-              //           SizedBox(height: 8),
-              //           Row(
-              //               mainAxisAlignment: MainAxisAlignment.start,
-              //               children: [
-              //                 Text(
-              //                     translate(context, signup.errors[FIELD_ROLE]))
-              //               ])
-              //         ]
-              //       : [Container()],
-              // ),
-              // Row(
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     children: signup.errors[FIELD_ROLE] != ''
-              //         ? [
-              //             Text(translate(context, 'field_role_label')),
-              //           ]
-              //         : [Container()]),
               SizedBox(height: 16),
               Column(
                   children: isAcudier
@@ -102,7 +86,10 @@ class SignUpProfile extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                      "${translate(context, 'field_gender_label')}:"),
+                                      "${translate(context, 'field_gender_label')}:",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4),
                                   SizedBox(height: 32),
                                 ]),
                           ),
@@ -158,8 +145,12 @@ class SignUpProfile extends StatelessWidget {
                             child: new Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(translate(
-                                      context, 'field_birthdate_label')),
+                                  Text(
+                                      translate(
+                                          context, 'field_birthdate_label'),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4),
                                   SizedBox(height: 32),
                                 ]),
                           ),
@@ -169,11 +160,6 @@ class SignUpProfile extends StatelessWidget {
                                 width: 150.0,
                                 child: RaisedButton(
                                   elevation: 8,
-                                  textColor: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .color,
-                                  color: Theme.of(context).primaryColor,
                                   child: Text(translate(context, 'select')),
                                   onPressed: () => showMaterialDatePicker(
                                       context: context,
@@ -210,7 +196,8 @@ class SignUpProfile extends StatelessWidget {
                 child: new Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text(translate(context, 'field_picture_label')),
+                      Text(translate(context, 'field_picture_label'),
+                          style: Theme.of(context).textTheme.headline4),
                       Text(' ('),
                       !isAcudier
                           ? Text(translate(context, 'optional'))
@@ -235,10 +222,11 @@ class SignUpProfile extends StatelessWidget {
                           }
                         },
                         child: new Text(
-                            "${translate(context, 'next')}: ${translate(context, 'auth_step3')}"),
+                            "${translate(context, 'next')}: ${translate(context, 'auth_step3')}",
+                            style: Theme.of(context).textTheme.headline3),
                       ),
                       Icon(Icons.arrow_forward_ios,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme.of(context).appBarTheme.color),
                     ]),
               ),
             ]));

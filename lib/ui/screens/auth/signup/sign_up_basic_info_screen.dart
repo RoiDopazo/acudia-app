@@ -108,10 +108,12 @@ class SignUpBasicInfo extends StatelessWidget {
                           }
                         },
                         child: new Text(
-                            "${translate(context, 'next')}: ${translate(context, 'auth_step2')}"),
+                          "${translate(context, 'next')}: ${translate(context, 'auth_step2')}",
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
                       ),
                       Icon(Icons.arrow_forward_ios,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme.of(context).appBarTheme.color),
                     ]),
               ),
             ]));

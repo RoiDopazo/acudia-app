@@ -8,7 +8,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget svgIcon = SvgPicture.asset('assets/media/logo.svg',
-        color: Colors.white, semanticsLabel: 'Acudia Logo');
+        color: Theme.of(context).accentColor, semanticsLabel: 'Acudia Logo');
 
     final loginButton = new ButtonTheme(
       minWidth: MediaQuery.of(context).size.width,
@@ -17,8 +17,8 @@ class SplashScreen extends StatelessWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
         padding: const EdgeInsets.all(16.0),
-        textColor: Theme.of(context).textTheme.bodyText2.color,
-        color: Theme.of(context).backgroundColor,
+        textColor: Theme.of(context).primaryColor,
+        color: Theme.of(context).accentColor,
         onPressed: () {},
         child: new Text(translate(context, 'auth_login')),
       ),
