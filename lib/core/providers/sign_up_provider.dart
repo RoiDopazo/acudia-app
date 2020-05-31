@@ -1,3 +1,4 @@
+import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:flutter/material.dart';
 
 const FIELD_NAME = 'name';
@@ -61,5 +62,10 @@ class SignUpProvider with ChangeNotifier {
     notifyListeners();
 
     return fails;
+  }
+
+  signUp() {
+    CognitoService.signUp(
+        values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
   }
 }

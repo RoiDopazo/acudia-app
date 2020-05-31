@@ -23,6 +23,8 @@ dependencies:
   flutter_svg: ^0.17.4
   form_field_validator: ^1.0.1
   flutter_material_pickers: ^1.5.4
+  amazon_cognito_identity_dart_2: ^0.1.12+3
+  flutter_dotenv: ^2.1.0
   intl: ^0.16.1
   google_sign_in: ^4.1.1
   googleapis: any
@@ -53,6 +55,7 @@ flutter:
     - assets/i18n/en.json
     - assets/i18n/es.json
     - assets/media/
+    - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

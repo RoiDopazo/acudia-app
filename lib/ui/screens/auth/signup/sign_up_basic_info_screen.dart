@@ -102,7 +102,7 @@ class SignUpBasicInfo extends StatelessWidget {
                     children: <Widget>[
                       new GestureDetector(
                         onTap: () {
-                          if (!Form.of(context).validate()) {
+                          if (Form.of(context).validate()) {
                             Provider.of<SignUpProvider>(context, listen: false)
                                 .setSelectedTab(1);
                           }

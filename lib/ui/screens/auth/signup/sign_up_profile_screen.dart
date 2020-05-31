@@ -26,7 +26,10 @@ class SignUpProfile extends StatelessWidget {
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Text(
                       translate(context, signup.errors[key]),
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(color: Theme.of(context).errorColor),
                     )
                   ])
                 ]
@@ -218,7 +221,7 @@ class SignUpProfile extends StatelessWidget {
                                   listen: false)
                               .validate()) {
                             Provider.of<SignUpProvider>(context, listen: false)
-                                .setSelectedTab(2);
+                                .signUp();
                           }
                         },
                         child: new Text(
