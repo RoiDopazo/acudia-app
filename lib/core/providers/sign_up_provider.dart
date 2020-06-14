@@ -1,5 +1,6 @@
-import 'package:acudia/core/aws/cognito_service.dart';
+import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 const FIELD_NAME = 'name';
 const FIELD_EMAIL = 'email';
@@ -64,8 +65,13 @@ class SignUpProvider with ChangeNotifier {
     return fails;
   }
 
-  signUp() {
-    CognitoService.signUp(
-        values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+  signUp(context) {
+    Provider.of<ErrorNotifierProvider>(context, listen: false).notifyError(
+        errorTitle: 'signUp fails',
+        error: 'error',
+        type: ERROR_VISUALIZATIONS_TYPE.dialog);
+
+    // CognitoService.signUp(
+    //     values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
   }
 }

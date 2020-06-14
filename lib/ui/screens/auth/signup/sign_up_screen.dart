@@ -1,5 +1,6 @@
 import 'package:acudia/app_localizations.dart';
-import 'package:acudia/colors.dart';
+import 'package:acudia/components/generic_error.dart';
+import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:acudia/ui/screens/auth/signup/sign_up_basic_info_screen.dart';
 import 'package:acudia/ui/screens/auth/signup/sign_up_profile_screen.dart';
@@ -50,24 +51,30 @@ class SignUpScreen extends StatelessWidget {
         body: ConstrainedBox(
           constraints:
               BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-          child: Consumer<SignUpProvider>(
-              builder: (context, signup, child) => new Form(
-                  child: Theme(
-                      data: Theme.of(context).copyWith(
-                          primaryColor: Theme.of(context).secondaryHeaderColor),
-                      child: new Stepper(
-                        steps: buildSteps(signup.selectedTab),
-                        type: StepperType.horizontal,
-                        currentStep: signup.selectedTab,
-                        controlsBuilder: (BuildContext context,
-                                {VoidCallback onStepContinue,
-                                VoidCallback onStepCancel}) =>
-                            Container(),
-                        onStepTapped: (index) {
-                          Provider.of<SignUpProvider>(context, listen: false)
-                              .setSelectedTab(index);
-                        },
-                      )))),
+          child: Consumer2<SignUpProvider, ErrorNotifierProvider>(
+              builder: (context, signup, errorProvider, child) =>
+                  new Stack(children: <Widget>[
+                    new Form(
+                        child: Theme(
+                            data: Theme.of(context).copyWith(
+                                primaryColor:
+                                    Theme.of(context).secondaryHeaderColor),
+                            child: new Stepper(
+                              steps: buildSteps(signup.selectedTab),
+                              type: StepperType.horizontal,
+                              currentStep: signup.selectedTab,
+                              controlsBuilder: (BuildContext context,
+                                      {VoidCallback onStepContinue,
+                                      VoidCallback onStepCancel}) =>
+                                  Container(),
+                              onStepTapped: (index) {
+                                Provider.of<SignUpProvider>(context,
+                                        listen: false)
+                                    .setSelectedTab(index);
+                              },
+                            ))),
+                    GenericError(errorProvider: errorProvider),
+                  ])),
         ));
   }
 }

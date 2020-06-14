@@ -1,5 +1,4 @@
 import 'package:acudia/app_localizations.dart';
-import 'package:acudia/colors.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,7 +11,7 @@ class SignUpProfile extends StatelessWidget {
   // Future getImage() async {
   //   var image = await ImagePicker.pickImage(source: ImageSource.gallery);
   // }
-  var time = TimeOfDay.now();
+  final time = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +220,7 @@ class SignUpProfile extends StatelessWidget {
                                   listen: false)
                               .validate()) {
                             Provider.of<SignUpProvider>(context, listen: false)
-                                .signUp();
+                                .signUp(context);
                           }
                         },
                         child: new Text(
