@@ -185,6 +185,7 @@ class SignUpProfile extends StatelessWidget {
                                           signup.values[FIELD_BIRTHDATE])
                                       : 'Sin especificar',
                                   textAlign: TextAlign.right,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],

@@ -35,45 +35,41 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      theme: _kShrineTheme,
+      theme: _aCTheme,
       initialRoute: Routes.Splash,
       routes: Routes.getRoutes(),
     );
   }
 }
 
-final ThemeData _kShrineTheme = _buildShrineTheme();
+final ThemeData _aCTheme = _buildTheme();
 
-ThemeData _buildShrineTheme() {
+ThemeData _buildTheme() {
   final ThemeData base = new ThemeData.light();
   final ThemeData finalTheme = new ThemeData(
-      primarySwatch: colorCustom,
+      primarySwatch: aCPalette,
       primaryColorBrightness: Brightness.light,
-      accentColor: kShrineBrown900,
-      primaryColor: kShrinePink100,
-      secondaryHeaderColor: kShrinePink400,
-      buttonColor: kShrinePink100,
-      backgroundColor: kShrineBackgroundWhite,
-      scaffoldBackgroundColor: kShrineBackgroundWhite,
-      cardColor: kShrineBackgroundWhite,
-      textSelectionColor: kShrinePink100,
-      errorColor: kShrineErrorRed,
+      accentColor: aCPaletteAccent,
+      primaryColor: aCPalette,
+      secondaryHeaderColor: aCPalette,
+      buttonColor: aCPalette,
+      backgroundColor: aCBackground,
+      scaffoldBackgroundColor: aCWhite,
+      cardColor: aCWhite,
+      textSelectionColor: aCPalette,
+      errorColor: aCErrorRed,
       buttonTheme: ButtonThemeData(
-        textTheme: ButtonTextTheme.accent,
-        buttonColor: kShrinePink100,
+        textTheme: ButtonTextTheme.primary,
+        buttonColor: aCPalette,
       ),
-      buttonBarTheme: base.buttonBarTheme.copyWith(
-        buttonTextTheme: ButtonTextTheme.accent,
-      ),
-      appBarTheme: base.appBarTheme.copyWith(
-        color: kShrinePink400,
-      ),
-      dialogBackgroundColor: kShrineBackgroundWhite,
-      primaryIconTheme: base.iconTheme.copyWith(color: kShrineBrown900),
+      appBarTheme: base.appBarTheme
+          .copyWith(color: aCPalette, iconTheme: IconThemeData(color: aCWhite)),
+      dialogBackgroundColor: aCWhite,
+      primaryIconTheme: base.iconTheme.copyWith(color: aCTextColor),
       inputDecorationTheme: InputDecorationTheme(),
-      textTheme: _buildShrineTextTheme(base.textTheme),
-      primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
-      accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
+      textTheme: _buildTextTheme(base.textTheme),
+      primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
+      accentTextTheme: _buildTextTheme(base.accentTextTheme),
       toggleButtonsTheme: _buildToggleButtonsTheme(base.toggleButtonsTheme));
 
   return finalTheme;
@@ -81,21 +77,19 @@ ThemeData _buildShrineTheme() {
 
 ToggleButtonsThemeData _buildToggleButtonsTheme(ToggleButtonsThemeData base) {
   return base.copyWith(
-    fillColor: kShrinePink50,
-    selectedColor: kShrineBrown900,
+    fillColor: aCBackground,
+    selectedColor: aCTextColor,
   );
 }
 
-TextTheme _buildShrineTextTheme(TextTheme base) {
+TextTheme _buildTextTheme(TextTheme base) {
   return base
       .copyWith(
           headline1: base.headline1.copyWith(
             fontSize: 48,
           ),
-          headline2: base.headline2.copyWith(
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
+          headline2: base.headline2
+              .copyWith(fontSize: 24, fontWeight: FontWeight.w500),
           headline3: base.headline3.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w500,
@@ -116,11 +110,11 @@ TextTheme _buildShrineTextTheme(TextTheme base) {
             fontSize: 16.0,
           ),
           subtitle1: base.subtitle1.copyWith(
-            color: kShrineBrown900,
+            color: aCTextColor,
           ))
       .apply(
         fontFamily: 'Rubik',
-        displayColor: kShrineBrown900,
-        bodyColor: kShrineBrown900,
+        displayColor: aCTextColor,
+        bodyColor: aCTextColor,
       );
 }

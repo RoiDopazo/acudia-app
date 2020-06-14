@@ -20,35 +20,29 @@ class SignUpScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline3),
             isActive: selectedTab >= 0,
             state: selectedTab == 2 ? StepState.complete : StepState.indexed,
-            content: Theme(
-                data: Theme.of(context)
-                    .copyWith(primaryColor: Theme.of(context).accentColor),
-                child: SignUpBasicInfo())),
+            content: SignUpBasicInfo()),
         Step(
             title: Text(translate(context, 'auth_step2'),
                 style: Theme.of(context).textTheme.headline3),
             isActive: selectedTab >= 1,
             state: selectedTab == 2 ? StepState.complete : StepState.indexed,
-            content: Theme(
-                data: Theme.of(context)
-                    .copyWith(primaryColor: Theme.of(context).primaryColor),
-                child: SignUpProfile())),
+            content: SignUpProfile()),
         Step(
             title: Text(translate(context, 'auth_step3'),
                 style: Theme.of(context).textTheme.headline3),
             isActive: selectedTab >= 2,
             state: StepState.indexed,
-            content: Theme(
-                data: Theme.of(context)
-                    .copyWith(primaryColor: Theme.of(context).primaryColor),
-                child: SignUpVerification())),
+            content: SignUpVerification()),
       ];
     }
 
     return Scaffold(
         appBar: AppBar(
           title: Text(translate(context, 'auth_register_label'),
-              style: Theme.of(context).textTheme.headline2),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline2
+                  .copyWith(color: Colors.white)),
         ),
         body: ConstrainedBox(
           constraints:
@@ -59,8 +53,7 @@ class SignUpScreen extends StatelessWidget {
                     new Form(
                         child: Theme(
                             data: Theme.of(context).copyWith(
-                                primaryColor:
-                                    Theme.of(context).secondaryHeaderColor),
+                                primaryColor: Theme.of(context).primaryColor),
                             child: Stepper(
                               steps: buildSteps(signup.selectedTab),
                               type: StepperType.horizontal,

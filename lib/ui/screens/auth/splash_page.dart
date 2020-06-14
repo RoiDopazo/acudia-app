@@ -8,7 +8,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget svgIcon = SvgPicture.asset('assets/media/logo.svg',
-        color: Theme.of(context).accentColor, semanticsLabel: 'Acudia Logo');
+        color: Theme.of(context).primaryColor, semanticsLabel: 'Acudia Logo');
 
     final loginButton = new ButtonTheme(
       minWidth: MediaQuery.of(context).size.width,
@@ -17,8 +17,8 @@ class SplashScreen extends StatelessWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
         padding: const EdgeInsets.all(16.0),
-        textColor: Theme.of(context).primaryColor,
-        color: Theme.of(context).accentColor,
+        textColor: Theme.of(context).backgroundColor,
+        color: Theme.of(context).primaryColor,
         onPressed: () {},
         child: new Text(translate(context, 'auth_login')),
       ),
@@ -34,7 +34,7 @@ class SplashScreen extends StatelessWidget {
                 BorderSide(color: Theme.of(context).textTheme.bodyText1.color)),
         padding: const EdgeInsets.all(16.0),
         textColor: Theme.of(context).textTheme.bodyText1.color,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).backgroundColor,
         onPressed: () {
           Navigator.pushNamed(context, Routes.SignUp);
         },
@@ -43,7 +43,7 @@ class SplashScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
