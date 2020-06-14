@@ -26,6 +26,9 @@ dependencies:
   amazon_cognito_identity_dart_2: ^0.1.12+3
   flutter_dotenv: ^2.1.0
   intl: ^0.16.1
+  pin_code_fields: ^3.0.1
+  flare_flutter: ^2.0.3
+
   google_sign_in: ^4.1.1
   googleapis: any
   googleapis_auth: any

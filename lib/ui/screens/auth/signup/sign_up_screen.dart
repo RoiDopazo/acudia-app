@@ -4,6 +4,7 @@ import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:acudia/ui/screens/auth/signup/sign_up_basic_info_screen.dart';
 import 'package:acudia/ui/screens/auth/signup/sign_up_profile_screen.dart';
+import 'package:acudia/ui/screens/auth/signup/sign_up_verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -11,35 +12,36 @@ import 'package:provider/provider.dart';
 class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Step> buildSteps(selecteTab) {
+    List<Step> buildSteps(selectedTab) {
+      print(selectedTab == 2);
       return [
-        new Step(
+        Step(
             title: Text(translate(context, 'auth_step1'),
                 style: Theme.of(context).textTheme.headline3),
-            isActive: selecteTab >= 0,
-            state: StepState.indexed,
+            isActive: selectedTab >= 0,
+            state: selectedTab == 2 ? StepState.complete : StepState.indexed,
             content: Theme(
                 data: Theme.of(context)
                     .copyWith(primaryColor: Theme.of(context).accentColor),
                 child: SignUpBasicInfo())),
-        new Step(
+        Step(
             title: Text(translate(context, 'auth_step2'),
                 style: Theme.of(context).textTheme.headline3),
-            isActive: selecteTab >= 1,
-            state: StepState.indexed,
+            isActive: selectedTab >= 1,
+            state: selectedTab == 2 ? StepState.complete : StepState.indexed,
             content: Theme(
                 data: Theme.of(context)
                     .copyWith(primaryColor: Theme.of(context).primaryColor),
                 child: SignUpProfile())),
-        new Step(
+        Step(
             title: Text(translate(context, 'auth_step3'),
                 style: Theme.of(context).textTheme.headline3),
-            isActive: selecteTab >= 2,
+            isActive: selectedTab >= 2,
             state: StepState.indexed,
             content: Theme(
                 data: Theme.of(context)
                     .copyWith(primaryColor: Theme.of(context).primaryColor),
-                child: Text(translate(context, 'auth_step3')))),
+                child: SignUpVerification())),
       ];
     }
 
@@ -59,7 +61,7 @@ class SignUpScreen extends StatelessWidget {
                             data: Theme.of(context).copyWith(
                                 primaryColor:
                                     Theme.of(context).secondaryHeaderColor),
-                            child: new Stepper(
+                            child: Stepper(
                               steps: buildSteps(signup.selectedTab),
                               type: StepperType.horizontal,
                               currentStep: signup.selectedTab,
@@ -68,9 +70,10 @@ class SignUpScreen extends StatelessWidget {
                                       VoidCallback onStepCancel}) =>
                                   Container(),
                               onStepTapped: (index) {
-                                Provider.of<SignUpProvider>(context,
-                                        listen: false)
-                                    .setSelectedTab(index);
+                                if (signup.selectedTab != 2)
+                                  Provider.of<SignUpProvider>(context,
+                                          listen: false)
+                                      .setSelectedTab(index);
                               },
                             ))),
                     GenericError(errorProvider: errorProvider),

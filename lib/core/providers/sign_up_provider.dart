@@ -39,7 +39,7 @@ class SignUpProvider with ChangeNotifier {
   }
 
   updateValue(key, value) {
-    // values[key] = value;
+    values[key] = value;
     notifyListeners();
   }
 
@@ -77,6 +77,9 @@ class SignUpProvider with ChangeNotifier {
     } on CustomCognitoUsernameExistsException catch (e) {
       showError(context, 'Error creating account', e.cause,
           ERROR_VISUALIZATIONS_TYPE.dialog);
+      isRegistered = true;
+      selectedTab = 2;
+      notifyListeners();
     }
   }
 }
