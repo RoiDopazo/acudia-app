@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum ERROR_VISUALIZATIONS_TYPE { snackbar, dialog }
+
+void showError(context, errorTitle, error, type) {
+  Provider.of<ErrorNotifierProvider>(context, listen: false).notifyError(
+      errorTitle: errorTitle,
+      error: error,
+      type: ERROR_VISUALIZATIONS_TYPE.dialog);
+}
 
 class ErrorNotifierProvider with ChangeNotifier {
   String _error;

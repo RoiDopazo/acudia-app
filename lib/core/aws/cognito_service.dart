@@ -1,5 +1,8 @@
+import 'package:acudia/core/aws/cognito_exceptions.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
+
+// enum COGNITO_ERROR_TYPES { USERNAME_EXISTS, EMAIL_VERIFICATION }
 
 class Credentials {
   CognitoUserPool _cognitoUserPool;
@@ -29,11 +32,14 @@ class CognitoService {
     ];
 
     try {
-      var data = await userPool.signUp(email, password,
+      return await userPool.signUp(email, password,
           userAttributes: userAttributes);
-      print(data);
+    } on CognitoClientException catch (e) {
+      if (e.code == "UsernameExistsException") {
+        throw new CustomCognitoUsernameExistsException(e.message);
+      }
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 }

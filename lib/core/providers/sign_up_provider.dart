@@ -1,6 +1,7 @@
+import 'package:acudia/core/aws/cognito_exceptions.dart';
+import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 const FIELD_NAME = 'name';
 const FIELD_EMAIL = 'email';
@@ -38,7 +39,7 @@ class SignUpProvider with ChangeNotifier {
   }
 
   updateValue(key, value) {
-    values[key] = value;
+    // values[key] = value;
     notifyListeners();
   }
 
@@ -65,13 +66,17 @@ class SignUpProvider with ChangeNotifier {
     return fails;
   }
 
-  signUp(context) {
-    Provider.of<ErrorNotifierProvider>(context, listen: false).notifyError(
-        errorTitle: 'signUp fails',
-        error: 'error',
-        type: ERROR_VISUALIZATIONS_TYPE.dialog);
-
-    // CognitoService.signUp(
-    //     values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+  signUp(context) async {
+    try {
+      var user = await CognitoService.signUp(
+          values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+      if (!user.userConfirmed) {
+        isRegistered = true;
+        selectedTab = 2;
+      }
+    } on CustomCognitoUsernameExistsException catch (e) {
+      showError(context, 'Error creating account', e.cause,
+          ERROR_VISUALIZATIONS_TYPE.dialog);
+    }
   }
 }

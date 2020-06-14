@@ -9,7 +9,6 @@ class Environment {
 
   static String getEnvValueForKey(String key) {
     String value = DotEnv().env[key];
-    print('Env value: ' + value.toString());
 
     return value;
   }
