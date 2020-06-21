@@ -56,7 +56,6 @@ ThemeData _buildTheme() {
       backgroundColor: aCBackground,
       scaffoldBackgroundColor: aCWhite,
       cardColor: aCWhite,
-      textSelectionColor: aCPalette,
       errorColor: aCErrorRed,
       buttonTheme: ButtonThemeData(
         textTheme: ButtonTextTheme.primary,

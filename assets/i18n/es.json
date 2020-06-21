@@ -36,5 +36,9 @@
   "next": "Siguiente",
   "select": "Seleccionar",
   "optional": "Opcional",
-  "recommendable": "Recomendable"
+  "recommendable": "Recomendable",
+  "email_verification_label": "Verificar email",
+  "email_verification_sub": "Introduzca el código enviado a ",
+  "email_verification_not_received": "No has recibido el código? ",
+  "resend": "Reenviar"
 }
