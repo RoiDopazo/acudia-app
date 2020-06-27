@@ -1,3 +1,4 @@
+import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_exceptions.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
@@ -13,6 +14,7 @@ const FIELD_BIRTHDATE = 'birthdate';
 class SignUpProvider with ChangeNotifier {
   int selectedTab = 0;
   bool isRegistered = false;
+  String verificationCode = '';
   final values = {
     FIELD_NAME: '',
     FIELD_EMAIL: '',
@@ -36,6 +38,11 @@ class SignUpProvider with ChangeNotifier {
       selectedTab = tab;
       notifyListeners();
     }
+  }
+
+  setVerificationCode(code) {
+    verificationCode = code;
+    notifyListeners();
   }
 
   updateValue(key, value) {
@@ -75,11 +82,42 @@ class SignUpProvider with ChangeNotifier {
         selectedTab = 2;
       }
     } on CustomCognitoUsernameExistsException catch (e) {
-      showError(context, 'Error creating account', e.cause,
+      showError(
+          context,
+          translate(context, 'error_creating_account'),
+          translate(context, 'error_creating_account_username_exists'),
           ERROR_VISUALIZATIONS_TYPE.dialog);
       isRegistered = true;
       selectedTab = 2;
       notifyListeners();
+    }
+  }
+
+  verifyEmail(email, code) {
+    try {
+      CognitoService.verifyEmail(email, code);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  resendVerificationCode(context, email) async {
+    try {
+      await CognitoService.resendVerificationCode(email);
+    } catch (error) {
+      print(error.statusCode);
+      if (error.statusCode == 400 && error.code == 'LimitExceededException') {
+        return showError(
+            context,
+            translate(context, 'error_limit_exceeded'),
+            translate(context, 'error_try_again_later'),
+            ERROR_VISUALIZATIONS_TYPE.dialog);
+      }
+      return showError(
+          context,
+          translate(context, 'error_unexpected'),
+          translate(context, 'error_try_again_later'),
+          ERROR_VISUALIZATIONS_TYPE.dialog);
     }
   }
 }

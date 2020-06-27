@@ -1,5 +1,6 @@
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class GenericError extends StatelessWidget {
   final dynamic errorProvider;
@@ -8,18 +9,21 @@ class GenericError extends StatelessWidget {
 
   void _showAlert(BuildContext context,
       {@required String errorTitle, @required String error}) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text(errorTitle),
-              content: Text(error),
-            ));
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.ERROR,
+      animType: AnimType.SCALE,
+      title: errorTitle,
+      desc: error,
+      btnCancelOnPress: () {},
+      btnOkOnPress: () {},
+    )..show();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (errorProvider.type != null) {
-      switch (errorProvider.type) {
+    if (errorProvider.vtype != null) {
+      switch (errorProvider.vtype) {
         case ERROR_VISUALIZATIONS_TYPE.dialog:
           WidgetsBinding.instance.addPostFrameCallback((_) => _displayDialog(
               context,

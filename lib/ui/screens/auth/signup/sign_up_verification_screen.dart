@@ -1,6 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -19,15 +20,15 @@ class SignUpVerification extends StatelessWidget {
               //     alignment: Alignment.center,
               //   ),
               // ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  translate(context, 'email_verification_label'),
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              // SizedBox(height: 16),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 8.0),
+              //   child: Text(
+              //     translate(context, 'email_verification_label'),
+              //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              //     textAlign: TextAlign.center,
+              //   ),
+              // ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -46,7 +47,7 @@ class SignUpVerification extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 8),
               PinCodeTextField(
                 length: 6,
                 obsecureText: false,
@@ -63,24 +64,22 @@ class SignUpVerification extends StatelessWidget {
                   activeColor: Theme.of(context).primaryColor,
                   selectedColor: Theme.of(context).primaryColor,
                 ),
+                onChanged: (value) {
+                  Provider.of<SignUpProvider>(context, listen: false)
+                      .setVerificationCode(value);
+                },
                 textStyle: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
                 animationDuration: Duration(milliseconds: 300),
                 enableActiveFill: true,
-                onCompleted: (v) {
-                  print("Completed");
-                },
-                onChanged: (value) {
-                  print(value);
-                },
                 beforeTextPaste: (text) {
                   return true;
                 },
               ),
               SizedBox(
-                height: 24,
+                height: 16,
               ),
               RichText(
                 textAlign: TextAlign.center,
@@ -90,7 +89,11 @@ class SignUpVerification extends StatelessWidget {
                     children: [
                       TextSpan(
                           text: translate(context, 'resend'),
-                          // recognizer: () {},
+                          recognizer: new TapGestureRecognizer()
+                            ..onTap = () => Provider.of<SignUpProvider>(context,
+                                    listen: false)
+                                .resendVerificationCode(
+                                    context, signup.values[FIELD_EMAIL]),
                           style: TextStyle(
                               color: Theme.of(context).accentColor,
                               fontWeight: FontWeight.bold,
@@ -98,7 +101,26 @@ class SignUpVerification extends StatelessWidget {
                     ]),
               ),
               SizedBox(
-                height: 14,
+                height: 16,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0)),
+                  padding: const EdgeInsets.all(16.0),
+                  textColor: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: signup.verificationCode.length == 6
+                      ? () =>
+                          Provider.of<SignUpProvider>(context, listen: false)
+                              .verifyEmail(signup.values[FIELD_EMAIL],
+                                  signup.verificationCode)
+                      : null,
+                  child: new Text(translate(context, 'verificar')),
+                ),
               ),
             ]));
   }

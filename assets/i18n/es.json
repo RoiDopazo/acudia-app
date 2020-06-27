@@ -40,5 +40,11 @@
   "email_verification_label": "Verificar email",
   "email_verification_sub": "Introduzca el código enviado a ",
   "email_verification_not_received": "No has recibido el código? ",
-  "resend": "Reenviar"
+  "resend": "Reenviar",
+  "verificar": "Verificar",
+  "error_limit_exceeded": "Límite excedido",
+  "error_try_again_later": "Intentelo de nuevo más tarde",
+  "error_unexpected": "Se produjo un error inespereado",
+  "error_creating_account": "No se puedo crear la cuenta",
+  "error_creating_account_username_exists": "El email introducido ya está siendo utilizado. Intente loguearse o cree una cuenta empleando otro correo electrónico"
 }

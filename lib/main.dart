@@ -60,6 +60,7 @@ ThemeData _buildTheme() {
       buttonTheme: ButtonThemeData(
         textTheme: ButtonTextTheme.primary,
         buttonColor: aCPalette,
+        disabledColor: aCPalette,
       ),
       appBarTheme: base.appBarTheme
           .copyWith(color: aCPalette, iconTheme: IconThemeData(color: aCWhite)),
