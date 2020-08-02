@@ -11,24 +11,15 @@ class SignUpVerification extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<SignUpProvider>(
         builder: (context, signup, child) => Column(children: <Widget>[
-              // Container(
-              //   height: MediaQuery.of(context).size.height / 3,
-              //   child: FlareActor(
-              //     "assets/media/otp.flr",
-              //     animation: "otp",
-              //     fit: BoxFit.fitHeight,
-              //     alignment: Alignment.center,
-              //   ),
-              // ),
-              // SizedBox(height: 16),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-              //   child: Text(
-              //     translate(context, 'email_verification_label'),
-              //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              //     textAlign: TextAlign.center,
-              //   ),
-              // ),
+              Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: FlareActor(
+                  "assets/media/otp.flr",
+                  animation: "otp",
+                  fit: BoxFit.fitHeight,
+                  alignment: Alignment.center,
+                ),
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -116,7 +107,7 @@ class SignUpVerification extends StatelessWidget {
                   onPressed: signup.verificationCode.length == 6
                       ? () =>
                           Provider.of<SignUpProvider>(context, listen: false)
-                              .verifyEmail(signup.values[FIELD_EMAIL],
+                              .verifyEmail(context, signup.values[FIELD_EMAIL],
                                   signup.verificationCode)
                       : null,
                   child: new Text(translate(context, 'verificar')),

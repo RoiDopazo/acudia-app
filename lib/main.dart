@@ -1,5 +1,4 @@
 import 'package:acudia/app_localizations.dart';
-import 'package:acudia/core/providers/auth_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:acudia/routes.dart';
@@ -14,7 +13,6 @@ Future main() async {
   await Environment.loadEnvFile();
   runApp(
     MultiProvider(providers: [
-      Provider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => SignUpProvider()),
       ChangeNotifierProvider(create: (context) => ErrorNotifierProvider()),
     ], child: MyApp()),

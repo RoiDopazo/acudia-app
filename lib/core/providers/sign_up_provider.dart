@@ -2,6 +2,7 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_exceptions.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
 
 const FIELD_NAME = 'name';
@@ -47,6 +48,11 @@ class SignUpProvider with ChangeNotifier {
 
   updateValue(key, value) {
     values[key] = value;
+    errors[key] = '';
+    if (key == FIELD_ROLE && value[0]) {
+      values[FIELD_GENDER] = [];
+      values[FIELD_BIRTHDATE] = '';
+    }
     notifyListeners();
   }
 
@@ -59,18 +65,31 @@ class SignUpProvider with ChangeNotifier {
       errors[FIELD_ROLE] = 'field_role_validation_empty';
       fails = true;
     }
-    if (genderValues.every((item) => item == false)) {
-      errors[FIELD_GENDER] = 'field_gender_validation_empty';
-      fails = true;
-    }
-    if (values[FIELD_BIRTHDATE] == null) {
-      errors[FIELD_BIRTHDATE] = 'field_birthdate_validation_empty';
-      fails = true;
+
+    // If is acudier validate
+    if (roleValues[1] == true) {
+      if (genderValues.every((item) => item == false)) {
+        errors[FIELD_GENDER] = 'field_gender_validation_empty';
+        fails = true;
+      }
+      if (values[FIELD_BIRTHDATE] == null) {
+        errors[FIELD_BIRTHDATE] = 'field_birthdate_validation_empty';
+        fails = true;
+      }
     }
 
     notifyListeners();
-
     return fails;
+  }
+
+  login(context) async {
+    try {
+      CognitoUserSession session =
+          CognitoService.login("rdopazobucket@gmail.com", "Aaaa1234");
+      print(session.getAccessToken().getJwtToken());
+    } catch (error) {
+      print(error);
+    }
   }
 
   signUp(context) async {
@@ -80,6 +99,7 @@ class SignUpProvider with ChangeNotifier {
       if (!user.userConfirmed) {
         isRegistered = true;
         selectedTab = 2;
+        notifyListeners();
       }
     } on CustomCognitoUsernameExistsException catch (e) {
       showError(
@@ -87,17 +107,18 @@ class SignUpProvider with ChangeNotifier {
           translate(context, 'error_creating_account'),
           translate(context, 'error_creating_account_username_exists'),
           ERROR_VISUALIZATIONS_TYPE.dialog);
-      isRegistered = true;
-      selectedTab = 2;
-      notifyListeners();
     }
   }
 
-  verifyEmail(email, code) {
+  verifyEmail(context, email, code) {
     try {
       CognitoService.verifyEmail(email, code);
     } catch (error) {
-      print(error);
+      return showError(
+          context,
+          translate(context, 'error_unexpected'),
+          translate(context, 'error_try_again_later'),
+          ERROR_VISUALIZATIONS_TYPE.dialog);
     }
   }
 
@@ -105,7 +126,6 @@ class SignUpProvider with ChangeNotifier {
     try {
       await CognitoService.resendVerificationCode(email);
     } catch (error) {
-      print(error.statusCode);
       if (error.statusCode == 400 && error.code == 'LimitExceededException') {
         return showError(
             context,

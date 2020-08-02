@@ -13,7 +13,6 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Step> buildSteps(selectedTab) {
-      print(selectedTab == 2);
       return [
         Step(
             title: Text(translate(context, 'auth_step1'),

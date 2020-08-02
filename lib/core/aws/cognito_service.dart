@@ -36,6 +36,20 @@ class CognitoService {
     }
   }
 
+  static login(String email, String password) async {
+    CognitoUserPool userPool = Credentials.cognitoUserPool;
+    final cognitoUser = new CognitoUser(email, userPool);
+    final authDetails =
+        new AuthenticationDetails(username: email, password: password);
+    CognitoUserSession session;
+    try {
+      session = await cognitoUser.authenticateUser(authDetails);
+      return session;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   static verifyEmail(String email, String code) async {
     CognitoUserPool userPool = Credentials.cognitoUserPool;
 
