@@ -11,6 +11,7 @@ const FIELD_PASSWORD = 'password';
 const FIELD_GENDER = 'gender';
 const FIELD_ROLE = 'role';
 const FIELD_BIRTHDATE = 'birthdate';
+const FIELD_IMAGE = 'image';
 
 class SignUpProvider with ChangeNotifier {
   int selectedTab = 0;
@@ -23,6 +24,7 @@ class SignUpProvider with ChangeNotifier {
     FIELD_ROLE: [false, false],
     FIELD_GENDER: [false, false, false],
     FIELD_BIRTHDATE: null,
+    FIELD_IMAGE: null,
   };
 
   final errors = {
@@ -50,8 +52,8 @@ class SignUpProvider with ChangeNotifier {
     values[key] = value;
     errors[key] = '';
     if (key == FIELD_ROLE && value[0]) {
-      values[FIELD_GENDER] = [];
-      values[FIELD_BIRTHDATE] = '';
+      values[FIELD_GENDER] = [false, false, false];
+      values[FIELD_BIRTHDATE] = null;
     }
     notifyListeners();
   }

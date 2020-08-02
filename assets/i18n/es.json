@@ -46,5 +46,8 @@
   "error_try_again_later": "Intentelo de nuevo más tarde",
   "error_unexpected": "Se produjo un error inespereado",
   "error_creating_account": "No se puedo crear la cuenta",
-  "error_creating_account_username_exists": "El email introducido ya está siendo utilizado. Intente loguearse o cree una cuenta empleando otro correo electrónico"
+  "error_creating_account_username_exists": "El email introducido ya está siendo utilizado. Intente loguearse o cree una cuenta empleando otro correo electrónico",
+  "add_image": "Añadir imagen",
+  "no_specified": "Sin especificar",
+  "modify": "Modificar"
 }

@@ -1,20 +1,29 @@
+import 'dart:io';
+
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUpProfile extends StatelessWidget {
-  // Future getImage() async {
-  //   var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-  // }
+  final ImagePicker _picker = ImagePicker();
   final time = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
+    void getImage() async {
+      var _image = await _picker.getImage(source: ImageSource.gallery);
+      Provider.of<SignUpProvider>(context, listen: false)
+          .updateValue(FIELD_IMAGE, _image.path);
+    }
+
+    String image = Provider.of<SignUpProvider>(context).values[FIELD_IMAGE];
+
     List<bool> role = Provider.of<SignUpProvider>(context).values[FIELD_ROLE];
     final isAcudier = role[1];
 
@@ -162,7 +171,9 @@ class SignUpProfile extends StatelessWidget {
                                 width: 150.0,
                                 child: RaisedButton(
                                   elevation: 8,
-                                  child: Text(translate(context, 'select')),
+                                  child: signup.values[FIELD_BIRTHDATE] == null
+                                      ? Text(translate(context, 'select'))
+                                      : Text(translate(context, 'modify')),
                                   onPressed: () => showMaterialDatePicker(
                                       context: context,
                                       firstDate: new DateTime(1900),
@@ -183,7 +194,7 @@ class SignUpProfile extends StatelessWidget {
                                   signup.values[FIELD_BIRTHDATE] != null
                                       ? DateFormat.yMMMd().format(
                                           signup.values[FIELD_BIRTHDATE])
-                                      : 'Sin especificar',
+                                      : translate(context, 'no_specified'),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
@@ -209,6 +220,23 @@ class SignUpProfile extends StatelessWidget {
                       SizedBox(height: 32),
                     ]),
               ),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 300,
+                  child: Container(
+                    child: signup.values[FIELD_IMAGE] == null
+                        ? FlatButton(
+                            onPressed: () => getImage(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.add_a_photo),
+                                Text(translate(context, 'add_image'))
+                              ],
+                            ),
+                          )
+                        : _previewImage(image, getImage),
+                  )),
               SizedBox(height: 48),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -234,4 +262,21 @@ class SignUpProfile extends StatelessWidget {
               ),
             ]));
   }
+}
+
+Widget _previewImage(_imageFile, getImageCallback) {
+  if (_imageFile != null) {
+    if (kIsWeb) {
+      return Image.network(_imageFile);
+    } else {
+      return GestureDetector(
+        onTap: () => getImageCallback(),
+        child: Image.file(
+          File(_imageFile),
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+  }
+  return null;
 }
