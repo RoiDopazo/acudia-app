@@ -3,6 +3,7 @@ import 'package:acudia/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:load/load.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -19,7 +20,9 @@ class SplashScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         textColor: Theme.of(context).backgroundColor,
         color: Theme.of(context).primaryColor,
-        onPressed: () {},
+        onPressed: () {
+          showLoadingDialog();
+        },
         child: new Text(translate(context, 'auth_login')),
       ),
     );
