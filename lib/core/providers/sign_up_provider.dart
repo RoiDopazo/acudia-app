@@ -14,6 +14,7 @@ const FIELD_BIRTHDATE = 'birthdate';
 const FIELD_IMAGE = 'image';
 
 class SignUpProvider with ChangeNotifier {
+  bool showLogin = false;
   int selectedTab = 0;
   bool isRegistered = false;
   String verificationCode = '';
@@ -45,6 +46,11 @@ class SignUpProvider with ChangeNotifier {
 
   setVerificationCode(code) {
     verificationCode = code;
+    notifyListeners();
+  }
+
+  setToggleLogin() {
+    showLogin = !showLogin;
     notifyListeners();
   }
 

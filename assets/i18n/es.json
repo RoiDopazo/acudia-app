@@ -2,6 +2,7 @@
   "app_name": "Acudia",
   "auth_login": "Iniciar sesión",
   "auth_signUp": "Registarse",
+  "auth_register": "Registrate",
   "auth_register_label": "Registro",
   "auth_step1": "Datos",
   "auth_step2": "Perfil",
@@ -49,5 +50,6 @@
   "error_creating_account_username_exists": "El email introducido ya está siendo utilizado. Intente loguearse o cree una cuenta empleando otro correo electrónico",
   "add_image": "Añadir imagen",
   "no_specified": "Sin especificar",
-  "modify": "Modificar"
+  "modify": "Modificar",
+  "auth_dont_have_acc_question": "No tienes cuenta? "
 }
