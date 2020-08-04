@@ -8,18 +8,25 @@ final ThemeData CompanyThemeData = new ThemeData(
     primaryColor: CompanyColors.blue[100],
     primaryColorBrightness: Brightness.light,
     accentColor: Colors.blue,
-    scaffoldBackgroundColor: Colors.white60,
+    disabledColor: Colors.grey[300],
     backgroundColor: Colors.white,
     textSelectionColor: Colors.white,
     accentColorBrightness: Brightness.light,
     textTheme: TextTheme(
         bodyText1: TextStyle(color: Colors.white),
         bodyText2: TextStyle(color: CompanyColors.blue[100]),
+        headline4: TextStyle(color: Colors.red),
         headline1: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 32,
-        )));
+        ),
+        headline2: TextStyle(
+            color: CompanyColors.blue[100],
+            fontWeight: FontWeight.bold,
+            fontSize: 16),
+        headline3: TextStyle(
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24)));
 
 class CompanyColors {
   CompanyColors._(); // this basically makes it so you can instantiate this class
