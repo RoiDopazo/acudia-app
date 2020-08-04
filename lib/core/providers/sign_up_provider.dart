@@ -44,6 +44,12 @@ class SignUpProvider with ChangeNotifier {
     }
   }
 
+  resetValues() {
+    values[FIELD_EMAIL] = '';
+    values[FIELD_PASSWORD] = '';
+    notifyListeners();
+  }
+
   setVerificationCode(code) {
     verificationCode = code;
     notifyListeners();

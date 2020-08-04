@@ -1,8 +1,8 @@
 {
   "app_name": "Acudia",
   "auth_login": "Iniciar sesión",
-  "auth_signUp": "Registarse",
-  "auth_register": "Registrate",
+  "auth_signUp": "Registrarse",
+  "auth_register": "Regístrate",
   "auth_register_label": "Registro",
   "auth_step1": "Datos",
   "auth_step2": "Perfil",
@@ -51,5 +51,5 @@
   "add_image": "Añadir imagen",
   "no_specified": "Sin especificar",
   "modify": "Modificar",
-  "auth_dont_have_acc_question": "No tienes cuenta? "
+  "auth_dont_have_acc_question": "¿No tienes cuenta? "
 }
