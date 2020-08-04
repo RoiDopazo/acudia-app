@@ -10,6 +10,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     List<Step> buildSteps(selectedTab) {
@@ -50,6 +52,7 @@ class SignUpScreen extends StatelessWidget {
               builder: (context, signup, errorProvider, child) =>
                   new Stack(children: <Widget>[
                     new Form(
+                        key: _formKey,
                         child: Theme(
                             data: Theme.of(context).copyWith(
                                 primaryColor: Theme.of(context).primaryColor),
@@ -62,10 +65,13 @@ class SignUpScreen extends StatelessWidget {
                                       VoidCallback onStepCancel}) =>
                                   Container(),
                               onStepTapped: (index) {
-                                if (signup.selectedTab != 2)
-                                  Provider.of<SignUpProvider>(context,
-                                          listen: false)
-                                      .setSelectedTab(index);
+                                if (signup.selectedTab != 2) {
+                                  if (_formKey.currentState.validate()) {
+                                    Provider.of<SignUpProvider>(context,
+                                            listen: false)
+                                        .setSelectedTab(index);
+                                  }
+                                }
                               },
                             ))),
                     GenericError(errorProvider: errorProvider),

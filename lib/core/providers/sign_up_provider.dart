@@ -39,6 +39,7 @@ class SignUpProvider with ChangeNotifier {
       if (tab == 2 && !isRegistered) {
         return;
       }
+
       selectedTab = tab;
       notifyListeners();
     }
