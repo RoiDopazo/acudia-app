@@ -245,7 +245,7 @@ class SignUpProfile extends StatelessWidget {
                     children: <Widget>[
                       new GestureDetector(
                         onTap: () {
-                          if (Provider.of<SignUpProvider>(context,
+                          if (!Provider.of<SignUpProvider>(context,
                                   listen: false)
                               .validate()) {
                             Provider.of<SignUpProvider>(context, listen: false)

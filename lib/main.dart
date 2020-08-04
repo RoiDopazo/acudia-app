@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
           ],
           theme: _aCTheme,
-          initialRoute: Routes.Splash,
+          initialRoute: Routes.SPLASH,
           routes: Routes.getRoutes(),
         ));
   }

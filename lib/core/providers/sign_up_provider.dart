@@ -2,8 +2,10 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_exceptions.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
+import 'package:acudia/routes.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
+import 'package:load/load.dart';
 
 const FIELD_NAME = 'name';
 const FIELD_EMAIL = 'email';
@@ -48,6 +50,7 @@ class SignUpProvider with ChangeNotifier {
   resetValues() {
     values[FIELD_EMAIL] = '';
     values[FIELD_PASSWORD] = '';
+    selectedTab = 0;
     notifyListeners();
   }
 
@@ -93,30 +96,40 @@ class SignUpProvider with ChangeNotifier {
       }
     }
 
+    print(fails);
+
     notifyListeners();
     return fails;
   }
 
   login(context) async {
     try {
-      CognitoUserSession session =
-          CognitoService.login("rdopazobucket@gmail.com", "Aaaa1234");
-      print(session.getAccessToken().getJwtToken());
+      showLoadingDialog();
+      CognitoUserSession session = await CognitoService.login(
+          values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+      hideLoadingDialog();
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.MAIN, (Route<dynamic> route) => false);
     } catch (error) {
+      // TODO: Handle error
       print(error);
     }
   }
 
   signUp(context) async {
     try {
+      showLoadingDialog();
       var user = await CognitoService.signUp(
           values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+
+      hideLoadingDialog();
       if (!user.userConfirmed) {
         isRegistered = true;
         selectedTab = 2;
         notifyListeners();
       }
     } on CustomCognitoUsernameExistsException catch (e) {
+      hideLoadingDialog();
       showError(
           context,
           translate(context, 'error_creating_account'),
@@ -125,10 +138,15 @@ class SignUpProvider with ChangeNotifier {
     }
   }
 
-  verifyEmail(context, email, code) {
+  verifyEmail(context, email, code) async {
     try {
-      CognitoService.verifyEmail(email, code);
+      showLoadingDialog();
+      await CognitoService.verifyEmail(email, code);
+      hideLoadingDialog();
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.MAIN, (Route<dynamic> route) => false);
     } catch (error) {
+      hideLoadingDialog();
       return showError(
           context,
           translate(context, 'error_unexpected'),
@@ -139,8 +157,11 @@ class SignUpProvider with ChangeNotifier {
 
   resendVerificationCode(context, email) async {
     try {
+      showLoadingDialog();
       await CognitoService.resendVerificationCode(email);
+      hideLoadingDialog();
     } catch (error) {
+      hideLoadingDialog();
       if (error.statusCode == 400 && error.code == 'LimitExceededException') {
         return showError(
             context,

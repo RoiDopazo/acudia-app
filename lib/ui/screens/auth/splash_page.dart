@@ -52,7 +52,11 @@ class SplashScreen extends StatelessWidget {
         textColor: Theme.of(context).backgroundColor,
         color: Theme.of(context).primaryColor,
         onPressed: () {
-          Provider.of<SignUpProvider>(context, listen: false).setToggleLogin();
+          Provider.of<SignUpProvider>(context).showLogin
+              ? Provider.of<SignUpProvider>(context, listen: false)
+                  .login(context)
+              : Provider.of<SignUpProvider>(context, listen: false)
+                  .setToggleLogin();
         },
         child: new Text(translate(context, 'auth_login')),
       ),
@@ -71,7 +75,7 @@ class SplashScreen extends StatelessWidget {
         color: Theme.of(context).backgroundColor,
         onPressed: () {
           Provider.of<SignUpProvider>(context, listen: false).resetValues();
-          Navigator.pushNamed(context, Routes.SignUp);
+          Navigator.pushNamed(context, Routes.SIGNUP);
         },
         child: new Text(translate(context, 'auth_signUp')),
       ),
@@ -151,7 +155,7 @@ class SplashScreen extends StatelessWidget {
                                               listen: false)
                                           .resetValues();
                                       Navigator.pushNamed(
-                                          context, Routes.SignUp);
+                                          context, Routes.SIGNUP);
                                     },
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,

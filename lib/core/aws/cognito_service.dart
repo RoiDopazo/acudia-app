@@ -25,8 +25,9 @@ class CognitoService {
     ];
 
     try {
-      return await userPool.signUp(email, password,
+      CognitoUserPoolData user = await userPool.signUp(email, password,
           userAttributes: userAttributes);
+      return user;
     } on CognitoClientException catch (e) {
       if (e.code == "UsernameExistsException") {
         throw new CustomCognitoUsernameExistsException(e.message);

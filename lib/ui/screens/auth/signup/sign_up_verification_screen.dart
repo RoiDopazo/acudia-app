@@ -86,7 +86,7 @@ class SignUpVerification extends StatelessWidget {
                                 .resendVerificationCode(
                                     context, signup.values[FIELD_EMAIL]),
                           style: TextStyle(
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 16))
                     ]),
