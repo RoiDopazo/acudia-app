@@ -3,6 +3,9 @@ import 'package:acudia/core/aws/cognito_exceptions.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/routes.dart';
+import 'package:acudia/utils/constants.dart';
+import 'package:cloudinary_client/cloudinary_client.dart';
+import 'package:cloudinary_client/models/CloudinaryResponse.dart';
 import 'package:flutter/material.dart';
 import 'package:load/load.dart';
 
@@ -15,6 +18,9 @@ const FIELD_BIRTHDATE = 'birthdate';
 const FIELD_IMAGE = 'image';
 
 class SignUpProvider with ChangeNotifier {
+  CloudinaryClient _cloudinaryClient = new CloudinaryClient(
+      CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_API_NAME);
+
   bool showLogin = false;
   int selectedTab = 0;
   bool isRegistered = false;
@@ -117,6 +123,11 @@ class SignUpProvider with ChangeNotifier {
   signUp(context) async {
     try {
       showLoadingDialog();
+
+      if (values[FIELD_IMAGE]) {
+        CloudinaryResponse response =
+            await _cloudinaryClient.uploadImage(values[FIELD_IMAGE]);
+      }
       var user = await CognitoService.signUp(
           values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
 
