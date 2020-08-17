@@ -3,7 +3,6 @@ import 'package:acudia/core/aws/cognito_exceptions.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/routes.dart';
-import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:load/load.dart';
 
@@ -105,8 +104,7 @@ class SignUpProvider with ChangeNotifier {
   login(context) async {
     try {
       showLoadingDialog();
-      CognitoUserSession session = await CognitoService.login(
-          values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+      await CognitoService.login(values[FIELD_EMAIL], values[FIELD_PASSWORD]);
       hideLoadingDialog();
       Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.MAIN, (Route<dynamic> route) => false);
@@ -128,6 +126,7 @@ class SignUpProvider with ChangeNotifier {
         selectedTab = 2;
         notifyListeners();
       }
+      // ignore: unused_catch_clause
     } on CustomCognitoUsernameExistsException catch (e) {
       hideLoadingDialog();
       showError(

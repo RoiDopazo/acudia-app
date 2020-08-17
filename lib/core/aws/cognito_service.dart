@@ -1,24 +1,42 @@
 import 'package:acudia/core/aws/cognito_exceptions.dart';
+import 'package:acudia/core/storage-service.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 
 class Credentials {
-  CognitoUserPool _cognitoUserPool;
+  static Credentials _instance;
+  factory Credentials() => _instance ??= new Credentials._();
+  Credentials._();
 
-  Credentials._privateConstructor() {
-    _cognitoUserPool = new CognitoUserPool(USER_POOL_ID, USER_POOL_CLIENT_ID);
+  final CognitoUserPool _cognitoUserPool =
+      new CognitoUserPool(USER_POOL_ID, USER_POOL_CLIENT_ID);
+
+  Storage _storage;
+
+  void init(prefs) {
+    _storage = new Storage(prefs);
   }
 
-  static final Credentials _instance = Credentials._privateConstructor();
-
-  static CognitoUserPool get cognitoUserPool {
-    return _instance._cognitoUserPool;
+  CognitoUserPool getUserPool() {
+    _cognitoUserPool.storage = _storage;
+    return _cognitoUserPool;
   }
 }
 
 class CognitoService {
+  static getUserData() async {
+    CognitoUserPool userPool = Credentials().getUserPool();
+
+    final user = await userPool.getCurrentUser();
+    if (user != null) {
+      final session = await user.getSession();
+      return session;
+    }
+    return null;
+  }
+
   static signUp(String name, String email, String password) async {
-    CognitoUserPool userPool = Credentials.cognitoUserPool;
+    CognitoUserPool userPool = Credentials().getUserPool();
     final userAttributes = [
       new AttributeArg(name: 'name', value: name),
       new AttributeArg(name: 'email', value: email),
@@ -38,8 +56,9 @@ class CognitoService {
   }
 
   static login(String email, String password) async {
-    CognitoUserPool userPool = Credentials.cognitoUserPool;
-    final cognitoUser = new CognitoUser(email, userPool);
+    CognitoUserPool userPool = Credentials().getUserPool();
+    final cognitoUser =
+        new CognitoUser(email, userPool, storage: userPool.storage);
     final authDetails =
         new AuthenticationDetails(username: email, password: password);
     CognitoUserSession session;
@@ -52,7 +71,7 @@ class CognitoService {
   }
 
   static verifyEmail(String email, String code) async {
-    CognitoUserPool userPool = Credentials.cognitoUserPool;
+    CognitoUserPool userPool = Credentials().getUserPool();
 
     final cognitoUser = new CognitoUser(email, userPool);
 
@@ -60,9 +79,16 @@ class CognitoService {
   }
 
   static resendVerificationCode(email) async {
-    CognitoUserPool userPool = Credentials.cognitoUserPool;
+    CognitoUserPool userPool = Credentials().getUserPool();
 
     final cognitoUser = new CognitoUser(email, userPool);
     await cognitoUser.resendConfirmationCode();
+  }
+
+  static logout() async {
+    CognitoUserPool userPool = Credentials().getUserPool();
+
+    final user = await userPool.getCurrentUser();
+    user.signOut();
   }
 }
