@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^3.1.0
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.18.0
   form_field_validator: ^1.0.1
   flutter_material_pickers: ^1.5.4
   amazon_cognito_identity_dart_2: ^0.1.12+3
@@ -32,6 +32,7 @@ dependencies:
   image_picker: ^0.6.7+4
   load: ^0.1.6
   flutter_spinkit: "^4.1.2"
+  shared_preferences: "^0.4.1"
 
   google_sign_in: ^4.1.1
   googleapis: any
