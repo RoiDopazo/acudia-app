@@ -5,16 +5,16 @@ import 'package:flutter/widgets.dart';
 
 class Routes {
   // Route name constants
-  static const String SPLASH = '/';
+  static const String SPLASH = '/splash';
   static const String SIGNUP = '/sign-up';
   static const String MAIN = '/main';
 
   /// The map used to define our routes, needs to be supplied to [MaterialApp]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
-      Routes.SPLASH: (context) => SplashScreen(),
-      Routes.SIGNUP: (context) => SignUpScreen(),
       Routes.MAIN: (context) => MainPage(),
+      Routes.SIGNUP: (context) => SignUpScreen(),
+      Routes.SPLASH: (context) => SplashScreen(),
     };
   }
 }

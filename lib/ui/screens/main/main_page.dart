@@ -1,5 +1,6 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
+import 'package:acudia/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -18,9 +19,11 @@ class MainPage extends StatelessWidget {
         textColor: Theme.of(context).textTheme.bodyText1.color,
         color: Theme.of(context).backgroundColor,
         onPressed: () {
-          CognitoService.getUserData();
+          CognitoService.logout();
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.SPLASH, (Route<dynamic> route) => false);
         },
-        child: new Text('logout'),
+        child: new Text(translate(context, 'auth_logout')),
       ),
     );
 

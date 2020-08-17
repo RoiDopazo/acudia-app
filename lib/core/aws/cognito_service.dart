@@ -28,8 +28,11 @@ class CognitoService {
     CognitoUserPool userPool = Credentials().getUserPool();
 
     final user = await userPool.getCurrentUser();
-    final session = await user.getSession();
-    return session;
+    if (user != null) {
+      final session = await user.getSession();
+      return session;
+    }
+    return null;
   }
 
   static signUp(String name, String email, String password) async {
@@ -80,5 +83,12 @@ class CognitoService {
 
     final cognitoUser = new CognitoUser(email, userPool);
     await cognitoUser.resendConfirmationCode();
+  }
+
+  static logout() async {
+    CognitoUserPool userPool = Credentials().getUserPool();
+
+    final user = await userPool.getCurrentUser();
+    user.signOut();
   }
 }
