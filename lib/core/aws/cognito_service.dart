@@ -36,12 +36,37 @@ class CognitoService {
   }
 
   static Future<CognitoUserPoolData> signUp(
-      String name, String email, String password) async {
+      String name,
+      String secondName,
+      String email,
+      String password,
+      String role,
+      String gender,
+      String birthDate,
+      String photoUrl) async {
     CognitoUserPool userPool = Credentials().getUserPool();
     final userAttributes = [
       new AttributeArg(name: 'name', value: name),
       new AttributeArg(name: 'email', value: email),
+      new AttributeArg(name: 'custom:secondName', value: secondName),
+      new AttributeArg(name: 'custom:role', value: role),
     ];
+
+    if (gender != null) {
+      userAttributes
+          .add(new AttributeArg(name: 'custom:gender', value: gender));
+    }
+
+    if (birthDate != null) {
+      userAttributes
+          .add(new AttributeArg(name: 'custom:birthDate', value: birthDate));
+    }
+
+    if (photoUrl != null) {
+      userAttributes.add(
+        new AttributeArg(name: 'custom:photoUrl', value: photoUrl),
+      );
+    }
 
     try {
       CognitoUserPoolData user = await userPool.signUp(email, password,
@@ -75,7 +100,8 @@ class CognitoService {
   static verifyEmail(String email, String code) async {
     CognitoUserPool userPool = Credentials().getUserPool();
 
-    final cognitoUser = new CognitoUser(email, userPool);
+    final cognitoUser =
+        new CognitoUser(email, userPool, storage: userPool.storage);
 
     await cognitoUser.confirmRegistration(code);
   }

@@ -4,12 +4,15 @@ import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/utils/constants.dart';
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:cloudinary_client/cloudinary_client.dart';
 import 'package:cloudinary_client/models/CloudinaryResponse.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:load/load.dart';
 
 const FIELD_NAME = 'name';
+const FIELD_SECOND_NAME = 'secondName';
 const FIELD_EMAIL = 'email';
 const FIELD_PASSWORD = 'password';
 const FIELD_GENDER = 'gender';
@@ -123,14 +126,40 @@ class SignUpProvider with ChangeNotifier {
   signUp(context) async {
     try {
       showLoadingDialog();
+      List<bool> genderList = values[FIELD_GENDER];
+      List<bool> roleList = values[FIELD_ROLE];
+      final DateFormat formatter = DateFormat('yyyy-MM-dd');
+      String photoUrl;
 
-      var user = await CognitoService.signUp(
-          values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+      String gender = roleList.indexOf(true) == 0
+          ? null
+          : USER_GENDER.values[genderList.indexOf(true)]
+              .toString()
+              .split('.')
+              .last;
 
-      if (values[FIELD_IMAGE]) {
+      String birthDate = roleList.indexOf(true) == 0
+          ? null
+          : formatter.format(values[FIELD_BIRTHDATE]);
+
+      // Upload image to cloudinary
+      if (values[FIELD_IMAGE] != null) {
         CloudinaryResponse response =
             await _cloudinaryClient.uploadImage(values[FIELD_IMAGE]);
+        if (response != null) {
+          photoUrl = response.secure_url;
+        }
       }
+
+      CognitoUserPoolData user = await CognitoService.signUp(
+          values[FIELD_NAME],
+          values[FIELD_SECOND_NAME],
+          values[FIELD_EMAIL],
+          values[FIELD_PASSWORD],
+          USER_ROLES.values[roleList.indexOf(true)].toString().split('.').last,
+          gender,
+          birthDate,
+          photoUrl);
 
       hideLoadingDialog();
       if (!user.userConfirmed) {

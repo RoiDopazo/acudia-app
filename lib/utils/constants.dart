@@ -15,5 +15,5 @@ final String CLOUDINARY_API_NAME =
 final String AWS_APP_SYNC_API_KEY =
     Environment.getEnvValueForKey('AWS_APP_SYNC_API_KEY');
 
-enum USER_ROLES { client, acudier }
-enum USER_GENDER { male, female, other }
+enum USER_ROLES { CLIENT, ACUDIER }
+enum USER_GENDER { MALE, FEMALE, OTHER }

@@ -36,6 +36,31 @@ class SignUpBasicInfo extends StatelessWidget {
               ),
               SizedBox(height: 24),
               TextFormField(
+                keyboardType: TextInputType.text,
+                autocorrect: false,
+                maxLines: 1,
+                initialValue: signup.values[FIELD_SECOND_NAME],
+                onChanged: (text) {
+                  Provider.of<SignUpProvider>(context, listen: false)
+                      .updateValue(FIELD_SECOND_NAME, text);
+                },
+                validator: MultiValidator([
+                  RequiredValidator(
+                      errorText: translate(
+                          context, 'field_second_name_validation_empty')),
+                  MaxLengthValidator(32,
+                      errorText: translate(
+                          context, 'field_second_name_validation_max_length')),
+                ]),
+                decoration: new InputDecoration(
+                    labelText: translate(context, 'field_sencond_name_label'),
+                    hintText: translate(context, 'field_second_name_hint'),
+                    icon: const Icon(Icons.person),
+                    labelStyle: new TextStyle(
+                        decorationStyle: TextDecorationStyle.solid)),
+              ),
+              SizedBox(height: 24),
+              TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 maxLines: 1,
