@@ -1,5 +1,5 @@
 import 'package:acudia/core/aws/cognito_exceptions.dart';
-import 'package:acudia/core/storage-service.dart';
+import 'package:acudia/core/aws/cognito_storage.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 
@@ -24,7 +24,7 @@ class Credentials {
 }
 
 class CognitoService {
-  static getUserData() async {
+  static Future<CognitoUserSession> getUserData() async {
     CognitoUserPool userPool = Credentials().getUserPool();
 
     final user = await userPool.getCurrentUser();
@@ -35,7 +35,8 @@ class CognitoService {
     return null;
   }
 
-  static signUp(String name, String email, String password) async {
+  static Future<CognitoUserPoolData> signUp(
+      String name, String email, String password) async {
     CognitoUserPool userPool = Credentials().getUserPool();
     final userAttributes = [
       new AttributeArg(name: 'name', value: name),
@@ -53,6 +54,7 @@ class CognitoService {
     } catch (e) {
       rethrow;
     }
+    return null;
   }
 
   static login(String email, String password) async {

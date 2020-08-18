@@ -124,12 +124,13 @@ class SignUpProvider with ChangeNotifier {
     try {
       showLoadingDialog();
 
+      var user = await CognitoService.signUp(
+          values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+
       if (values[FIELD_IMAGE]) {
         CloudinaryResponse response =
             await _cloudinaryClient.uploadImage(values[FIELD_IMAGE]);
       }
-      var user = await CognitoService.signUp(
-          values[FIELD_NAME], values[FIELD_EMAIL], values[FIELD_PASSWORD]);
 
       hideLoadingDialog();
       if (!user.userConfirmed) {
