@@ -47,7 +47,7 @@
   "email_verification_sub": "Introduzca el código enviado a ",
   "email_verification_not_received": "No has recibido el código? ",
   "resend": "Reenviar",
-  "verificar": "Verificar",
+  "verify": "Verificar",
   "error_limit_exceeded": "Límite excedido",
   "error_try_again_later": "Intentelo de nuevo más tarde",
   "error_unexpected": "Se produjo un error inespereado",

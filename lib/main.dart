@@ -2,9 +2,8 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
-import 'package:acudia/core/services/auth_link.dart';
+import 'package:acudia/core/services/graphql_services.dart';
 import 'package:acudia/routes.dart';
-import 'package:acudia/utils/constants.dart';
 import 'package:acudia/utils/environment.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,16 +38,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var authLink = CustomAuthLink()
-        .concat(HttpLink(uri: "$AWS_APP_SYNC_ENDPOINT/graphql"));
-
-    ValueNotifier<GraphQLClient> client = ValueNotifier(
-      GraphQLClient(
-        cache: InMemoryCache(),
-        link: authLink,
-      ),
-    );
-
     return LoadingProvider(
         themeData: LoadingThemeData(
             tapDismiss: false, loadingBackgroundColor: Colors.transparent),
@@ -68,7 +57,7 @@ class MyApp extends StatelessWidget {
           );
         },
         child: GraphQLProvider(
-            client: client,
+            client: graphQLClient,
             child: MaterialApp(
               supportedLocales: [
                 Locale('es', 'ES'),

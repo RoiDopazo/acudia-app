@@ -72,29 +72,41 @@ class CognitoService {
       CognitoUserPoolData user = await userPool.signUp(email, password,
           userAttributes: userAttributes);
       return user;
-    } on CognitoClientException catch (e) {
-      if (e.code == "UsernameExistsException") {
-        throw new CustomCognitoUsernameExistsException(e.message);
+    } on CognitoClientException catch (error) {
+      if (error.code == "UsernameExistsException") {
+        throw new CustomCognitoUsernameExistsException(error.message);
       }
-    } catch (e) {
+    } catch (error) {
       rethrow;
     }
     return null;
   }
 
-  static login(String email, String password) async {
+  static Future<CognitoUser> login(String email, String password) async {
     CognitoUserPool userPool = Credentials().getUserPool();
-    final cognitoUser =
+    final CognitoUser cognitoUser =
         new CognitoUser(email, userPool, storage: userPool.storage);
     final authDetails =
         new AuthenticationDetails(username: email, password: password);
-    CognitoUserSession session;
     try {
-      session = await cognitoUser.authenticateUser(authDetails);
-      return session;
-    } catch (e) {
-      print(e);
+      await cognitoUser.authenticateUser(authDetails);
+      return cognitoUser;
+    } catch (error) {
+      print(error);
     }
+    return null;
+  }
+
+  static Future<List<CognitoUserAttribute>> getUserAttributes(
+      CognitoUser cognitoUser) async {
+    List<CognitoUserAttribute> attributes;
+    try {
+      attributes = await cognitoUser.getUserAttributes();
+      return attributes;
+    } catch (error) {
+      print(error);
+    }
+    return null;
   }
 
   static verifyEmail(String email, String code) async {
@@ -103,7 +115,12 @@ class CognitoService {
     final cognitoUser =
         new CognitoUser(email, userPool, storage: userPool.storage);
 
-    await cognitoUser.confirmRegistration(code);
+    try {
+      await cognitoUser.confirmRegistration(code);
+    } catch (error) {
+      // TODO: error handling
+      print(error);
+    }
   }
 
   static resendVerificationCode(email) async {

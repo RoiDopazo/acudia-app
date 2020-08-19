@@ -39,6 +39,7 @@ class SignUpScreen extends StatelessWidget {
 
     return Consumer2<SignUpProvider, ErrorNotifierProvider>(
         builder: (context, signup, errorProvider, child) => Scaffold(
+              resizeToAvoidBottomPadding: false,
               appBar: AppBar(
                 title: Text(translate(context, 'auth_register_label'),
                     style: Theme.of(context)
@@ -95,6 +96,10 @@ class SignUpScreen extends StatelessWidget {
                             Provider.of<SignUpProvider>(context, listen: false)
                                 .signUp(context);
                           }
+                        } else if (signup.selectedTab == 2) {
+                          Provider.of<SignUpProvider>(context, listen: false)
+                              .verifyEmail(context, signup.values[FIELD_EMAIL],
+                                  signup.verificationCode);
                         }
                       },
                       isExtended: true,
@@ -102,7 +107,12 @@ class SignUpScreen extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(translate(context, 'next'),
+                            Text(
+                                translate(
+                                    context,
+                                    signup.selectedTab == 2
+                                        ? 'verify'
+                                        : 'next'),
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline4

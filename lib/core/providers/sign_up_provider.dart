@@ -2,12 +2,14 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_exceptions.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
+import 'package:acudia/core/services/graphql_services.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:cloudinary_client/cloudinary_client.dart';
 import 'package:cloudinary_client/models/CloudinaryResponse.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:load/load.dart';
 
@@ -104,8 +106,6 @@ class SignUpProvider with ChangeNotifier {
       }
     }
 
-    print(fails);
-
     notifyListeners();
     return fails;
   }
@@ -120,6 +120,7 @@ class SignUpProvider with ChangeNotifier {
     } catch (error) {
       // TODO: Handle error
       print(error);
+      hideLoadingDialog();
     }
   }
 
@@ -182,6 +183,47 @@ class SignUpProvider with ChangeNotifier {
     try {
       showLoadingDialog();
       await CognitoService.verifyEmail(email, code);
+      CognitoUser cognitoUser =
+          await CognitoService.login(email, values[FIELD_PASSWORD]);
+
+      bool isAcudier;
+      const validAtt = [
+        'name',
+        'custom:secondName',
+        'email',
+        'custom:role',
+        'custom:gender',
+        'custom:birthDate',
+        'custom:photoUrl'
+      ];
+
+      List<CognitoUserAttribute> attributes =
+          await CognitoService.getUserAttributes(cognitoUser);
+
+      Map<String, String> variables = {};
+
+      attributes.forEach((e) {
+        if (validAtt.contains(e.name)) {
+          if (e.value != null) {
+            if (e.name == 'custom:role') {
+              isAcudier =
+                  e.value == USER_ROLES.values[1].toString().split('.').last;
+            }
+            String name = e.name.indexOf(':') != -1
+                ? e.name.substring(e.name.indexOf(':') + 1)
+                : e.name;
+            variables[name] = e.value;
+          }
+        }
+      });
+
+      await graphQLClient.value.mutate(
+        MutationOptions(
+            documentNode: gql(isAcudier
+                ? GRAPHQL_CREATE_ACUDIER_MUTATION
+                : GRAPHQL_CREATE_CLIENT_MUTATION),
+            variables: variables),
+      );
       hideLoadingDialog();
       Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.MAIN, (Route<dynamic> route) => false);
