@@ -2,6 +2,7 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
+import 'package:acudia/core/services/graphql_services.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/utils/environment.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:load/load.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,22 +56,24 @@ class MyApp extends StatelessWidget {
             ),
           );
         },
-        child: MaterialApp(
-          supportedLocales: [
-            Locale('es', 'ES'),
-            Locale('en', 'US'),
-          ],
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          theme: _aCTheme,
-          initialRoute: userSession != null && userSession.isValid()
-              ? Routes.MAIN
-              : Routes.SPLASH,
-          routes: Routes.getRoutes(),
-        ));
+        child: GraphQLProvider(
+            client: graphQLClient,
+            child: MaterialApp(
+              supportedLocales: [
+                Locale('es', 'ES'),
+                Locale('en', 'US'),
+              ],
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              theme: _aCTheme,
+              initialRoute: userSession != null && userSession.isValid()
+                  ? Routes.MAIN
+                  : Routes.SPLASH,
+              routes: Routes.getRoutes(),
+            )));
   }
 }
 

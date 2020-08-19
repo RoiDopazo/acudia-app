@@ -237,29 +237,7 @@ class SignUpProfile extends StatelessWidget {
                           )
                         : _previewImage(image, getImage),
                   )),
-              SizedBox(height: 48),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      new GestureDetector(
-                        onTap: () {
-                          if (!Provider.of<SignUpProvider>(context,
-                                  listen: false)
-                              .validate()) {
-                            Provider.of<SignUpProvider>(context, listen: false)
-                                .signUp(context);
-                          }
-                        },
-                        child: new Text(
-                            "${translate(context, 'next')}: ${translate(context, 'auth_step3')}",
-                            style: Theme.of(context).textTheme.headline3),
-                      ),
-                      Icon(Icons.arrow_forward_ios,
-                          color: Theme.of(context).appBarTheme.color),
-                    ]),
-              ),
+              SizedBox(height: 64),
             ]));
   }
 }

@@ -41,6 +41,7 @@ class SignUpVerification extends StatelessWidget {
               SizedBox(height: 8),
               PinCodeTextField(
                 length: 6,
+                textInputType: TextInputType.number,
                 obsecureText: false,
                 animationType: AnimationType.fade,
                 pinTheme: PinTheme(
@@ -92,26 +93,7 @@ class SignUpVerification extends StatelessWidget {
                     ]),
               ),
               SizedBox(
-                height: 16,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0)),
-                  padding: const EdgeInsets.all(16.0),
-                  textColor: Theme.of(context).backgroundColor,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: signup.verificationCode.length == 6
-                      ? () =>
-                          Provider.of<SignUpProvider>(context, listen: false)
-                              .verifyEmail(context, signup.values[FIELD_EMAIL],
-                                  signup.verificationCode)
-                      : null,
-                  child: new Text(translate(context, 'verificar')),
-                ),
+                height: 72,
               ),
             ]));
   }

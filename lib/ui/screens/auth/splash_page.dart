@@ -116,12 +116,13 @@ class SplashScreen extends StatelessWidget {
     ]);
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         body: SingleChildScrollView(
             child: Column(children: <Widget>[
           Container(
               width: MediaQuery.of(context).size.width,
               child: CustomPaint(child: logo, painter: CurvePainter())),
+          SizedBox(height: MediaQuery.of(context).size.height / 20),
           Container(
               child: Column(children: <Widget>[
             Container(
