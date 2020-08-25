@@ -93,8 +93,8 @@ class CognitoService {
       return cognitoUser;
     } catch (error) {
       print(error);
+      rethrow;
     }
-    return null;
   }
 
   static Future<List<CognitoUserAttribute>> getUserAttributes(

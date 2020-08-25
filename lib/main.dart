@@ -1,6 +1,8 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
+import 'package:acudia/core/providers/app_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
+import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:acudia/core/services/graphql_services.dart';
 import 'package:acudia/routes.dart';
@@ -25,7 +27,9 @@ Future main() async {
 
   runApp(
     MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => AppProvider()),
       ChangeNotifierProvider(create: (context) => SignUpProvider()),
+      ChangeNotifierProvider(create: (context) => HospitalProvider()),
       ChangeNotifierProvider(create: (context) => ErrorNotifierProvider()),
     ], child: MyApp(userSession: userSession)),
   );

@@ -14,6 +14,8 @@ final String CLOUDINARY_API_NAME =
     Environment.getEnvValueForKey('CLOUDINARY_API_NAME');
 final String AWS_APP_SYNC_API_KEY =
     Environment.getEnvValueForKey('AWS_APP_SYNC_API_KEY');
+final String OPENDATA_HOSPITAL_API =
+    Environment.getEnvValueForKey('OPENDATA_HOSPITAL_API');
 
 enum USER_ROLES { CLIENT, ACUDIER }
 enum USER_GENDER { MALE, FEMALE, OTHER }
