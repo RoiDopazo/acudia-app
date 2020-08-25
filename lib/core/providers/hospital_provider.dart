@@ -6,21 +6,52 @@ class HospitalProvider with ChangeNotifier {
   List<Hospital> hospList = [];
   List<Hospital> paginatedList = [];
   int currentPage = 1;
-  int offset = 10;
-  bool loading;
+  int offset = 20;
+  bool isSearching = false;
+  bool isLoading = true;
 
   fetchHospitals() async {
     if (hospList.length == 0) {
-      hospList = await HospitalService.getAll();
-      paginatedList = hospList.sublist(0, 1 * offset);
+      currentPage = 1;
+      hospList = await HospitalService.find();
+      int maxValue = currentPage * offset < hospList.length
+          ? currentPage * offset
+          : hospList.length;
+      paginatedList = hospList.sublist(0, maxValue);
+      isLoading = false;
       notifyListeners();
     }
   }
 
+  searchHospitals({String searchValue}) async {
+    isLoading = true;
+    notifyListeners();
+    currentPage = 1;
+    hospList = await HospitalService.find(search: searchValue);
+    int maxValue = currentPage * offset < hospList.length
+        ? currentPage * offset
+        : hospList.length;
+    paginatedList = hospList.sublist(0, maxValue);
+    isLoading = false;
+    notifyListeners();
+  }
+
   getMoreItems() {
-    currentPage++;
-    if (currentPage * offset < hospList.length) {
-      paginatedList = hospList.sublist(0, currentPage * offset);
+    if ((currentPage + 1) * offset < hospList.length) {
+      currentPage++;
+      int maxValue = currentPage * offset < hospList.length
+          ? currentPage * offset
+          : hospList.length;
+      paginatedList = hospList.sublist(0, maxValue);
+      notifyListeners();
+    }
+  }
+
+  toggleIsSearching({String searchValue}) async {
+    isSearching = !isSearching;
+    if (!isSearching && (searchValue != null && searchValue != '')) {
+      await searchHospitals();
+    } else {
       notifyListeners();
     }
   }

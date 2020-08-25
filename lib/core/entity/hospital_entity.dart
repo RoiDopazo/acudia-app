@@ -57,7 +57,7 @@ class Hospital {
       name: capitalize(json["NOMBRE"]),
       address: capitalize(json["DIRECCION"]),
       postalCode: json["CODPOSTAL"],
-      phone: int.parse(json["TELEFONO"]),
+      phone: json["TELEFONO"] != '' ? int.parse(json["TELEFONO"]) : null,
       codMu: int.parse(json["CODMU"]),
       municipallity: capitalize(json["MUNICIPIOS"]),
       codProv: int.parse(json["CODPROV"]),

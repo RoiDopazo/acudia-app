@@ -56,5 +56,6 @@
   "add_image": "Añadir imagen",
   "no_specified": "Sin especificar",
   "modify": "Modificar",
-  "auth_dont_have_acc_question": "¿No tienes cuenta? "
+  "auth_dont_have_acc_question": "¿No tienes cuenta? ",
+  "hospital_search_title": "Lista de hospitales"
 }

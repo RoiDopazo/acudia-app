@@ -19,9 +19,6 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(
         builder: (context, app, child) => Scaffold(
-            appBar: AppBar(
-              title: const Text('BottomNavigationBar Sample'),
-            ),
             body: Center(
               child: _widgetOptions.elementAt(app.selectedTab),
             ),

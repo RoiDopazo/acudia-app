@@ -18,19 +18,28 @@ class SignUpScreen extends StatelessWidget {
       return [
         Step(
             title: Text(translate(context, 'auth_step1'),
-                style: Theme.of(context).textTheme.headline3),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(fontWeight: FontWeight.w500)),
             isActive: selectedTab >= 0,
             state: selectedTab == 2 ? StepState.complete : StepState.indexed,
             content: SignUpBasicInfo()),
         Step(
             title: Text(translate(context, 'auth_step2'),
-                style: Theme.of(context).textTheme.headline3),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(fontWeight: FontWeight.w500)),
             isActive: selectedTab >= 1,
             state: selectedTab == 2 ? StepState.complete : StepState.indexed,
             content: SignUpProfile()),
         Step(
             title: Text(translate(context, 'auth_step3'),
-                style: Theme.of(context).textTheme.headline3),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(fontWeight: FontWeight.w500)),
             isActive: selectedTab >= 2,
             state: StepState.indexed,
             content: SignUpVerification()),
