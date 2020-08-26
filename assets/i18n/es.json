@@ -58,5 +58,9 @@
   "modify": "Modificar",
   "auth_dont_have_acc_question": "¿No tienes cuenta? ",
   "hospital_search_title": "Lista de hospitales",
-  "hospital_search_input_hint": "Buscar hospital..."
+  "hospital_search_input_hint": "Buscar hospital...",
+  "hospital_search_filters_near": "Cercanos",
+  "hospital_search_filters_hosp_general": "Hosp. General",
+  "hospital_search_filters_hosp_specific": "Hosp. Especializado",
+  "hospital_search_filters_private": "Privados"
 }
