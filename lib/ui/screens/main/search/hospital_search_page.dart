@@ -30,6 +30,7 @@ class HospitalSearchPage extends StatelessWidget {
         {String title,
         String filterKey,
         List<String> filterList,
+        bool isLoading,
         BuildContext context}) {
       final bool isActive = filterList.indexOf(filterKey) != -1;
       return new ButtonTheme(
@@ -45,8 +46,10 @@ class HospitalSearchPage extends StatelessWidget {
               ? Theme.of(context).primaryColor
               : Theme.of(context).scaffoldBackgroundColor,
           onPressed: () {
-            Provider.of<HospitalProvider>(context, listen: false)
-                .toggleFilter(filterKey);
+            if (!isLoading) {
+              Provider.of<HospitalProvider>(context, listen: false)
+                  .toggleFilter(filterKey);
+            }
           },
           child: new Text(title),
         ),
@@ -64,48 +67,51 @@ class HospitalSearchPage extends StatelessWidget {
             body: ListView(
               controller: _scrollController,
               children: <Widget>[
-                if (!hospProvider.isLoading)
-                  Container(
-                      height: 60,
-                      padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
-                      child: new ListView(
-                        children: <Widget>[
-                          new Container(
-                            height: 32.0,
-                            child: new ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: [
-                                  filterButton(
-                                      title: translate(context,
-                                          'hospital_search_filters_near'),
-                                      filterKey: FILTER_IS_NEAR,
-                                      filterList: hospProvider.filters,
-                                      context: context),
-                                  SizedBox(width: 8),
-                                  filterButton(
-                                      title: translate(context,
-                                          'hospital_search_filters_hosp_general'),
-                                      filterKey: FILTER_HOSP_GEN,
-                                      filterList: hospProvider.filters,
-                                      context: context),
-                                  SizedBox(width: 8),
-                                  filterButton(
-                                      title: translate(context,
-                                          'hospital_search_filters_hosp_specific'),
-                                      filterKey: FILTER_HOSP_SPE,
-                                      filterList: hospProvider.filters,
-                                      context: context),
-                                  SizedBox(width: 8),
-                                  filterButton(
-                                      title: translate(context,
-                                          'hospital_search_filters_private'),
-                                      filterKey: FILTER_PRIVATE,
-                                      filterList: hospProvider.filters,
-                                      context: context),
-                                ]),
-                          ),
-                        ],
-                      )),
+                Container(
+                    height: 60,
+                    padding: EdgeInsets.fromLTRB(8, 16, 8, 0),
+                    child: new ListView(
+                      children: <Widget>[
+                        new Container(
+                          height: 32.0,
+                          child: new ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                filterButton(
+                                    title: translate(context,
+                                        'hospital_search_filters_near'),
+                                    filterKey: FILTER_IS_NEAR,
+                                    filterList: hospProvider.filters,
+                                    isLoading: hospProvider.isLoading,
+                                    context: context),
+                                SizedBox(width: 8),
+                                filterButton(
+                                    title: translate(context,
+                                        'hospital_search_filters_hosp_general'),
+                                    filterKey: FILTER_HOSP_GEN,
+                                    filterList: hospProvider.filters,
+                                    isLoading: hospProvider.isLoading,
+                                    context: context),
+                                SizedBox(width: 8),
+                                filterButton(
+                                    title: translate(context,
+                                        'hospital_search_filters_hosp_specific'),
+                                    filterKey: FILTER_HOSP_SPE,
+                                    filterList: hospProvider.filters,
+                                    isLoading: hospProvider.isLoading,
+                                    context: context),
+                                SizedBox(width: 8),
+                                filterButton(
+                                    title: translate(context,
+                                        'hospital_search_filters_private'),
+                                    filterKey: FILTER_PRIVATE,
+                                    filterList: hospProvider.filters,
+                                    isLoading: hospProvider.isLoading,
+                                    context: context),
+                              ]),
+                        ),
+                      ],
+                    )),
                 if (hospProvider.isLoading)
                   Container(
                       height: MediaQuery.of(context).size.height - 140,

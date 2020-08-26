@@ -25,12 +25,12 @@ class HospitalListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Stack(children: [
+    return new Column(children: [
       _tile(
         name,
         location,
       ),
-      SizedBox(height: 40)
+      Divider(),
     ]);
   }
 }

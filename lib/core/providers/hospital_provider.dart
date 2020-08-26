@@ -36,7 +36,8 @@ class HospitalProvider with ChangeNotifier {
     notifyListeners();
     try {
       currentPage = 1;
-      hospList = await HospitalService.find(search: searchValue);
+      hospList =
+          await HospitalService.find(search: searchValue, filters: filters);
       int maxValue = currentPage * offset < hospList.length
           ? currentPage * offset
           : hospList.length;
@@ -68,13 +69,13 @@ class HospitalProvider with ChangeNotifier {
     }
   }
 
-  toggleFilter(String filter) {
+  toggleFilter(String filter) async {
     if (filters.indexOf(filter) == -1) {
       filters.add(filter);
     } else {
       filters.remove(filter);
     }
-    notifyListeners();
+    await searchHospitals(searchValue: searchQuery);
   }
 
   cleanup() {
