@@ -9,7 +9,7 @@ class HospitalListItem extends StatelessWidget {
   const HospitalListItem({@required this.name, @required this.location});
 
   Container _tile(String title, String subtitle) => Container(
-      height: 80,
+      height: 72,
       alignment: Alignment.center,
       child: ListTile(
         title: Text(title,

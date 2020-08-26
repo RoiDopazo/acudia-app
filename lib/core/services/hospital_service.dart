@@ -33,8 +33,6 @@ buildWhereStatement({String search, bool hideComplex, List<String> filters}) {
   if (filters != null) {
     filters.forEach((element) {
       switch (element) {
-        case FILTER_IS_NEAR:
-          break;
         case FILTER_HOSP_GEN:
           {
             value = "$value AND CODFI=1";
@@ -58,6 +56,11 @@ buildWhereStatement({String search, bool hideComplex, List<String> filters}) {
   return value;
 }
 
+buildGeometryStatement({double lat, double lng}) {
+  String value = "${lng - 1},${lat - 1},${lng + 1},${lat + 1}";
+  return value;
+}
+
 class HospitalService {
   static Future<List<Hospital>> find(
       {String search, List<String> filters}) async {
@@ -69,7 +72,16 @@ class HospitalService {
         buildWhereStatement(
             search: search, hideComplex: true, filters: filters));
     queryParams.append('outFields', '*');
-    queryParams.append('returnGeometry', 'false');
+    if (filters != null && filters.indexOf(FILTER_IS_NEAR) != -1) {
+      queryParams.append(
+          'geometry', buildGeometryStatement(lat: 42.7331281, lng: -8.6193511));
+      queryParams.append('geometryType', 'esriGeometryEnvelope');
+      queryParams.append('inSR', '4326');
+      queryParams.append('spatialRel', 'esriSpatialRelIntersects');
+      queryParams.append('outSR', '4326');
+    } else {
+      queryParams.append('returnGeometry', 'false');
+    }
     queryParams.append('f', 'json');
 
     final response =
