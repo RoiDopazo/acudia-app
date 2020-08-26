@@ -37,11 +37,16 @@ class MainPage extends StatelessWidget {
                     title: Text(''),
                   ),
                   BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/media/icon_agreement.svg',
-                      height: 32,
-                      color: Colors.white,
-                    ),
+                    icon: app.selectedTab == 1
+                        ? Image(
+                            image:
+                                AssetImage('assets/media/icon_agreement.png'),
+                            height: 32,
+                          )
+                        : SvgPicture.asset(
+                            'assets/media/icon_agreement_outlined.svg',
+                            height: 32,
+                            color: Colors.white),
                     title: Text(''),
                   ),
                   BottomNavigationBarItem(

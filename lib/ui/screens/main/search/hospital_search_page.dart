@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 
 class HospitalSearchPage extends StatelessWidget {
   final ScrollController _scrollController = new ScrollController();
+  final FocusNode _searchFocusNode = new FocusNode();
+
   final TextEditingController _searchController = new TextEditingController();
 
   @override
@@ -29,6 +31,7 @@ class HospitalSearchPage extends StatelessWidget {
             appBar: AppBar(
               title: hospProvider.isSearching == true
                   ? TextField(
+                      focusNode: _searchFocusNode,
                       controller: _searchController,
                       textInputAction: TextInputAction.go,
                       onSubmitted: (value) {
@@ -59,6 +62,7 @@ class HospitalSearchPage extends StatelessWidget {
                       Provider.of<HospitalProvider>(context, listen: false)
                           .toggleIsSearching(
                               searchValue: _searchController.text);
+                      _searchFocusNode.requestFocus();
                     },
                     icon: Icon(hospProvider.isSearching == true
                         ? Icons.cancel
