@@ -49,7 +49,7 @@ class HospitalProvider with ChangeNotifier {
 
   toggleIsSearching({String searchValue}) async {
     isSearching = !isSearching;
-    if (!isSearching && (searchValue != null && searchValue != '')) {
+    if (!isSearching && searchValue != '') {
       await searchHospitals();
     } else {
       notifyListeners();

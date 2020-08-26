@@ -57,5 +57,6 @@
   "no_specified": "Sin especificar",
   "modify": "Modificar",
   "auth_dont_have_acc_question": "¿No tienes cuenta? ",
-  "hospital_search_title": "Lista de hospitales"
+  "hospital_search_title": "Lista de hospitales",
+  "hospital_search_input_hint": "Buscar hospital..."
 }

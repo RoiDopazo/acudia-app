@@ -1,15 +1,14 @@
-import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/ui/screens/main/search/hospital_list_item.dart';
+import 'package:acudia/ui/screens/main/search/hospital_search_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class HospitalSearchPage extends StatelessWidget {
   final ScrollController _scrollController = new ScrollController();
-  final FocusNode _searchFocusNode = new FocusNode();
-
   final TextEditingController _searchController = new TextEditingController();
+  final FocusNode _searchFocusNode = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -28,46 +27,11 @@ class HospitalSearchPage extends StatelessWidget {
 
     return Consumer<HospitalProvider>(
         builder: (context, hospProvider, child) => Scaffold(
-            appBar: AppBar(
-              title: hospProvider.isSearching == true
-                  ? TextField(
-                      focusNode: _searchFocusNode,
-                      controller: _searchController,
-                      textInputAction: TextInputAction.go,
-                      onSubmitted: (value) {
-                        Provider.of<HospitalProvider>(context, listen: false)
-                            .searchHospitals(searchValue: value);
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Search hospital...',
-                        hintStyle: Theme.of(context)
-                            .textTheme
-                            .headline3
-                            .copyWith(color: Colors.white.withAlpha(150)),
-                      ),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          .copyWith(color: Colors.white))
-                  : Text(translate(context, 'hospital_search_title'),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline2
-                          .copyWith(color: Colors.white)),
-              actions: <Widget>[
-                IconButton(
-                    onPressed: () {
-                      _searchController.clear();
-                      Provider.of<HospitalProvider>(context, listen: false)
-                          .toggleIsSearching(
-                              searchValue: _searchController.text);
-                      _searchFocusNode.requestFocus();
-                    },
-                    icon: Icon(hospProvider.isSearching == true
-                        ? Icons.cancel
-                        : Icons.search))
-              ],
+            appBar: HospitalSearchAppBar(
+              isSearching: hospProvider.isSearching,
+              appBar: AppBar(),
+              searchController: _searchController,
+              searchFocusNode: _searchFocusNode,
             ),
             body: ListView(
               controller: _scrollController,
