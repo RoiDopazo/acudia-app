@@ -12,8 +12,10 @@ class CustomAuthLink extends Link {
 
             Future<void> onListen() async {
               try {
-                CognitoUserSession userSession =
+                Map<String, dynamic> userData =
                     await CognitoService.getUserData();
+                CognitoUserSession userSession = userData["session"];
+
                 String token = userSession.getAccessToken().getJwtToken();
                 operation.setContext(<String, Map<String, String>>{
                   'headers': <String, String>{'Authorization': token}

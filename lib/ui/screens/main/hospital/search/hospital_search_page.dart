@@ -1,7 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
-import 'package:acudia/ui/screens/main/search/hospital_list_item.dart';
-import 'package:acudia/ui/screens/main/search/hospital_search_appbar.dart';
+import 'package:acudia/ui/screens/main/hospital/search/hospital_list_item.dart';
+import 'package:acudia/ui/screens/main/hospital/search/hospital_search_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';

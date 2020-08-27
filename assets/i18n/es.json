@@ -62,5 +62,8 @@
   "hospital_search_filters_near": "Cercanos",
   "hospital_search_filters_hosp_general": "Hosp. General",
   "hospital_search_filters_hosp_specific": "Hosp. Especializado",
-  "hospital_search_filters_private": "Privados"
+  "hospital_search_filters_private": "Privados",
+  "hospital_assignments_appbar_title": "Lista de asignaciones",
+  "hospital_assignments_new_label": "Nueva asignación",
+  "hospital_assignments_empty_content": "Sin asignaciones. Puede empezar creando asignaciones haciendo click en el botón '+ Nueva asignación' de la parte inferior."
 }

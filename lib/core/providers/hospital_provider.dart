@@ -1,5 +1,5 @@
 import 'package:acudia/core/entity/hospital_entity.dart';
-import 'package:acudia/core/services/hospital_service.dart';
+import 'package:acudia/core/services/hospitals/hospital_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 

@@ -1,14 +1,8 @@
-// import 'package:latlong/latlong.dart';
-
-import 'package:geolocator/geolocator.dart';
-
 capitalize(String text) {
   String lcText = text != null ? text.toLowerCase() : '';
   return lcText.splitMapJoin(new RegExp(r"(?:^|\s(?!de|del|y\s)|\/|-)\S"),
       onMatch: (m) => "${m.group(0).toUpperCase()}");
 }
-
-// ${m.group(0)}'.substring(0, 1).toUpperCase()
 
 class Hospital {
   final int codCNH;
