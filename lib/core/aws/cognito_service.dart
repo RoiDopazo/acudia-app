@@ -24,13 +24,13 @@ class Credentials {
 }
 
 class CognitoService {
-  static Future<CognitoUserSession> getUserData() async {
+  static Future<Map<String, dynamic>> getUserData() async {
     CognitoUserPool userPool = Credentials().getUserPool();
 
     final user = await userPool.getCurrentUser();
     if (user != null) {
       final session = await user.getSession();
-      return session;
+      return {"session": session, "user": user};
     }
     return null;
   }

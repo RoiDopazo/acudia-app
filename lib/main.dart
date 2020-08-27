@@ -3,11 +3,11 @@ import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/app_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
+import 'package:acudia/core/providers/profile_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
-import 'package:acudia/core/services/graphql_services.dart';
+import 'package:acudia/core/services/graphql_client.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/utils/environment.dart';
-import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,25 +23,31 @@ Future main() async {
   await Environment.loadEnvFile();
   final prefs = await SharedPreferences.getInstance();
   Credentials().init(prefs);
-  CognitoUserSession userSession = await CognitoService.getUserData();
+  Map<String, dynamic> userData = await CognitoService.getUserData();
 
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => AppProvider()),
+      ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ChangeNotifierProvider(create: (context) => SignUpProvider()),
       ChangeNotifierProvider(create: (context) => HospitalProvider()),
       ChangeNotifierProvider(create: (context) => ErrorNotifierProvider()),
-    ], child: MyApp(userSession: userSession)),
+    ], child: MyApp(userData: userData)),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final CognitoUserSession userSession;
+  final Map<String, dynamic> userData;
 
-  const MyApp({@required this.userSession});
+  const MyApp({@required this.userData});
 
   @override
   Widget build(BuildContext context) {
+    if (userData != null && userData["user"] != null) {
+      Provider.of<ProfileProvider>(context, listen: false)
+          .getProfileData(userData["user"]);
+    }
+
     return LoadingProvider(
         themeData: LoadingThemeData(
             tapDismiss: false, loadingBackgroundColor: Colors.transparent),
@@ -73,7 +79,7 @@ class MyApp extends StatelessWidget {
                 GlobalWidgetsLocalizations.delegate,
               ],
               theme: _aCTheme,
-              initialRoute: userSession != null && userSession.isValid()
+              initialRoute: userData != null && userData['session'].isValid()
                   ? Routes.MAIN
                   : Routes.SPLASH,
               routes: Routes.getRoutes(),
