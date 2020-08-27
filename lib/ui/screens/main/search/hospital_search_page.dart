@@ -114,7 +114,7 @@ class HospitalSearchPage extends StatelessWidget {
                     )),
                 if (hospProvider.isLoading)
                   Container(
-                      height: MediaQuery.of(context).size.height - 140,
+                      height: MediaQuery.of(context).size.height - 240,
                       child: Center(
                         child: CircularProgressIndicator(),
                       ))

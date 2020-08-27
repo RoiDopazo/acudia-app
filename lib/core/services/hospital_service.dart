@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/utils/constants.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:query_params/query_params.dart';
 
 const MAX_HOSP_VALUES = 200;
 
-parseResponse(response) {
+parseResponse(response, currentLocation) async {
   var data = json.decode(response.body);
   List<dynamic> items = data["features"];
   List<dynamic> limitedItems = items.length > MAX_HOSP_VALUES
@@ -16,9 +17,20 @@ parseResponse(response) {
   List<Hospital> hospList = [];
 
   for (Map<String, dynamic> item in limitedItems) {
-    hospList.add(Hospital.fromJson(item["attributes"]));
+    Hospital hosp = Hospital.fromJson(item["attributes"]);
+    if (currentLocation != null) {
+      hosp.setDistance(await Geolocator().distanceBetween(
+          currentLocation["lat"],
+          currentLocation["lng"],
+          hosp.coords["lat"],
+          hosp.coords["lng"]));
+    }
+    hospList.add(hosp);
   }
 
+  if (currentLocation != null) {
+    hospList.sort((a, b) => a.distance.compareTo(b.distance));
+  }
   return hospList;
 }
 
@@ -52,7 +64,7 @@ buildWhereStatement({String search, bool hideComplex, List<String> filters}) {
       }
     });
   }
-  print(value);
+
   return value;
 }
 
@@ -63,8 +75,11 @@ buildGeometryStatement({double lat, double lng}) {
 
 class HospitalService {
   static Future<List<Hospital>> find(
-      {String search, List<String> filters}) async {
-    print(filters);
+      {String search,
+      List<String> filters,
+      Map<String, double> currentLocation}) async {
+    final bool useCurrentLocation =
+        (filters != null && filters.indexOf(FILTER_IS_NEAR) != -1);
     URLQueryParams queryParams = new URLQueryParams();
 
     queryParams.append(
@@ -72,9 +87,11 @@ class HospitalService {
         buildWhereStatement(
             search: search, hideComplex: true, filters: filters));
     queryParams.append('outFields', '*');
-    if (filters != null && filters.indexOf(FILTER_IS_NEAR) != -1) {
+    if (filters != null && useCurrentLocation) {
       queryParams.append(
-          'geometry', buildGeometryStatement(lat: 42.7331281, lng: -8.6193511));
+          'geometry',
+          buildGeometryStatement(
+              lat: currentLocation["lat"], lng: currentLocation["lng"]));
       queryParams.append('geometryType', 'esriGeometryEnvelope');
       queryParams.append('inSR', '4326');
       queryParams.append('spatialRel', 'esriSpatialRelIntersects');
@@ -88,7 +105,7 @@ class HospitalService {
         await http.get("$OPENDATA_HOSPITAL_API?${queryParams.toString()}");
 
     if (response.statusCode == 200) {
-      return parseResponse(response);
+      return await parseResponse(response, currentLocation);
     } else {
       throw Exception('Failed to get hospitals');
     }

@@ -1,6 +1,7 @@
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/services/hospital_service.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 const FILTER_IS_NEAR = 'NEAR';
 const FILTER_HOSP_GEN = 'HOSP_GEN';
@@ -13,6 +14,7 @@ class HospitalProvider with ChangeNotifier {
   int currentPage = 1;
   int offset = 20;
   bool isSearching = false;
+  bool useCurrentLocation = false;
   String searchQuery = '';
   bool isLoading = true;
   List<String> filters = [];
@@ -36,8 +38,17 @@ class HospitalProvider with ChangeNotifier {
     notifyListeners();
     try {
       currentPage = 1;
-      hospList =
-          await HospitalService.find(search: searchValue, filters: filters);
+      Position position;
+      if (useCurrentLocation) {
+        position = await Geolocator()
+            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      }
+      hospList = await HospitalService.find(
+          search: searchValue,
+          filters: filters,
+          currentLocation: useCurrentLocation
+              ? {"lat": position.latitude, "lng": position.longitude}
+              : null);
       int maxValue = currentPage * offset < hospList.length
           ? currentPage * offset
           : hospList.length;
@@ -71,14 +82,25 @@ class HospitalProvider with ChangeNotifier {
 
   toggleFilter(String filter) async {
     if (filters.indexOf(filter) == -1) {
+      if ([FILTER_HOSP_GEN, FILTER_HOSP_SPE].indexOf(filter) != -1) {
+        filters.remove(FILTER_HOSP_GEN);
+        filters.remove(FILTER_HOSP_SPE);
+      }
       filters.add(filter);
     } else {
       filters.remove(filter);
     }
+    useCurrentLocation = filters.indexOf(FILTER_IS_NEAR) != -1;
     await searchHospitals(searchValue: searchQuery);
   }
 
   cleanup() {
     currentPage = 1;
+    useCurrentLocation = false;
+    filters = [];
+    searchQuery = '';
+    isLoading = true;
+    isSearching = false;
+    hospList = [];
   }
 }
