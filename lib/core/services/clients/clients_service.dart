@@ -17,8 +17,6 @@ final String GRAPHQL_GET_CLIENT_BY_ID = """query (\$email: String!) {
     name
     secondName
     email
-    genre
-    birthDate
     photoUrl
     createdAt
     updatedAt

@@ -1,15 +1,24 @@
 import 'package:acudia/core/providers/app_provider.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
+import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_page.dart';
+import 'package:acudia/ui/screens/main/hospital/search/hospital_search_page.dart';
 import 'package:acudia/ui/screens/main/profile/profile_page.dart';
-import 'package:acudia/ui/screens/main/search/hospital_search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainPage extends StatelessWidget {
-  static List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _clientWidgetOptions = <Widget>[
     HospitalSearchPage(),
+    Text(
+      'Under development',
+    ),
+    ProfilePage(),
+  ];
+
+  static List<Widget> _acudierWidgetOptions = <Widget>[
+    HospitalAssignmentsPage(),
     Text(
       'Under development',
     ),
@@ -28,7 +37,9 @@ class MainPage extends StatelessWidget {
                 ))
             : Scaffold(
                 body: Center(
-                  child: _widgetOptions.elementAt(app.selectedTab),
+                  child: profile.profile.isAcudier
+                      ? _acudierWidgetOptions.elementAt(app.selectedTab)
+                      : _clientWidgetOptions.elementAt(app.selectedTab),
                 ),
                 bottomNavigationBar: BottomNavigationBar(
                     showSelectedLabels: false,

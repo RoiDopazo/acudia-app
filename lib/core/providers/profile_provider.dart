@@ -33,9 +33,12 @@ class ProfileProvider with ChangeNotifier {
               "email": email.getValue(),
             }),
       );
+      if (isAcudier) {
+        profile = Profile.fromJson(result.data['getAcudierByID']);
+      } else {
+        profile = Profile.fromJson(result.data['getClientByID']);
+      }
 
-      profile = Profile.fromJson(
-          result.data[isAcudier ? 'getAcudierByID' : 'getClientByID']);
       loading = false;
       notifyListeners();
     }
