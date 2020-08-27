@@ -13,6 +13,11 @@ class ProfileProvider with ChangeNotifier {
   Profile profile;
 
   getProfileData(CognitoUser cognitoUser) async {
+    if (!loading) {
+      loading = true;
+      notifyListeners();
+    }
+
     List<CognitoUserAttribute> userAttributes =
         await CognitoService.getUserAttributes(cognitoUser);
     if (userAttributes != null && userAttributes.length != 0) {
