@@ -19,9 +19,6 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(
         builder: (context, app, child) => Scaffold(
-            appBar: AppBar(
-              title: const Text('BottomNavigationBar Sample'),
-            ),
             body: Center(
               child: _widgetOptions.elementAt(app.selectedTab),
             ),
@@ -40,11 +37,16 @@ class MainPage extends StatelessWidget {
                     title: Text(''),
                   ),
                   BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/media/icon_agreement.svg',
-                      height: 32,
-                      color: Colors.white,
-                    ),
+                    icon: app.selectedTab == 1
+                        ? Image(
+                            image:
+                                AssetImage('assets/media/icon_agreement.png'),
+                            height: 32,
+                          )
+                        : SvgPicture.asset(
+                            'assets/media/icon_agreement_outlined.svg',
+                            height: 32,
+                            color: Colors.white),
                     title: Text(''),
                   ),
                   BottomNavigationBarItem(

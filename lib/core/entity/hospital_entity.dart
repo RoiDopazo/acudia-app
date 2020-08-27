@@ -1,5 +1,7 @@
 // import 'package:latlong/latlong.dart';
 
+import 'package:geolocator/geolocator.dart';
+
 capitalize(String text) {
   String lcText = text != null ? text.toLowerCase() : '';
   return lcText.splitMapJoin(new RegExp(r"(?:^|\s(?!de|del|y\s)|\/|-)\S"),
@@ -27,7 +29,8 @@ class Hospital {
   final int codFu;
   final String functionalDependence;
   final bool isPrivate;
-  // final LatLng coords;
+  double distance;
+  final Map<String, double> coords;
 
   Hospital({
     this.codCNH,
@@ -48,8 +51,13 @@ class Hospital {
     this.codFu,
     this.functionalDependence,
     this.isPrivate,
-    // this.coords,
+    this.distance,
+    this.coords,
   });
+
+  setDistance(double distance) {
+    this.distance = distance;
+  }
 
   factory Hospital.fromJson(Map<String, dynamic> json) {
     return Hospital(
@@ -57,7 +65,7 @@ class Hospital {
       name: capitalize(json["NOMBRE"]),
       address: capitalize(json["DIRECCION"]),
       postalCode: json["CODPOSTAL"],
-      phone: int.parse(json["TELEFONO"]),
+      phone: json["TELEFONO"] != '' ? int.parse(json["TELEFONO"]) : null,
       codMu: int.parse(json["CODMU"]),
       municipallity: capitalize(json["MUNICIPIOS"]),
       codProv: int.parse(json["CODPROV"]),
@@ -71,7 +79,8 @@ class Hospital {
       codFu: int.parse(json["CODFU"]),
       functionalDependence: capitalize(json["DEPENDENCIA_FUNCIONAL"]),
       isPrivate: json["DEPENDENCIA_FUNCIONA"] == 'PRIVADOS',
-      // coords: new LatLng(json["Y"], json["X"]),
+      coords: {"lat": json["Y"], "lng": json["X"]},
+      distance: 0,
     );
   }
 }

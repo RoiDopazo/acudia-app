@@ -128,10 +128,9 @@ TextTheme _buildTextTheme(TextTheme base) {
             fontSize: 48,
           ),
           headline2: base.headline2
-              .copyWith(fontSize: 24, fontWeight: FontWeight.w500),
+              .copyWith(fontSize: 20, fontWeight: FontWeight.w500),
           headline3: base.headline3.copyWith(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontSize: 18,
           ),
           headline4: base.headline4.copyWith(
             fontSize: 16,

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HospitalCard extends StatelessWidget {
+class HospitalListItem extends StatelessWidget {
   final String name;
   final String location;
 
-  const HospitalCard({@required this.name, @required this.location});
+  const HospitalListItem({@required this.name, @required this.location});
 
   Container _tile(String title, String subtitle) => Container(
-      height: 80,
+      height: 72,
       alignment: Alignment.center,
       child: ListTile(
         title: Text(title,
@@ -25,29 +25,12 @@ class HospitalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Stack(children: [
+    return new Column(children: [
       _tile(
         name,
         location,
       ),
-      SizedBox(height: 40)
+      Divider(),
     ]);
-
-    return Center(
-        child: Card(
-      margin: EdgeInsets.fromLTRB(0, 16, 0, 16),
-      child: InkWell(
-        splashColor: Theme.of(context).accentColor.withAlpha(60),
-        onTap: () {
-          print('Card tapped.');
-        },
-        child: Container(
-          padding: EdgeInsets.all(16),
-          width: MediaQuery.of(context).size.width - 32,
-          height: 500,
-          child: Text("$name"),
-        ),
-      ),
-    ));
   }
 }
