@@ -82,3 +82,4 @@ android/key.properties
 android/app/google-services.json
 
 .env
+.flutter-plugins-dependencies
