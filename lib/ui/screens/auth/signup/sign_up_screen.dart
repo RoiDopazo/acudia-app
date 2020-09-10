@@ -83,7 +83,6 @@ class SignUpScreen extends StatelessWidget {
                               }
                             },
                           ))),
-                  GenericError(errorProvider: errorProvider),
                 ]),
               ),
               floatingActionButton: Container(

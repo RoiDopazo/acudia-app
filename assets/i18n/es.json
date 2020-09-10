@@ -42,6 +42,7 @@
   "next": "Siguiente",
   "select": "Seleccionar",
   "optional": "Opcional",
+  "refresh": "Actualizar",
   "recommendable": "Recomendable",
   "email_verification_label": "Verificar email",
   "email_verification_sub": "Introduzca el código enviado a ",
@@ -63,7 +64,11 @@
   "hospital_search_filters_hosp_general": "Hosp. General",
   "hospital_search_filters_hosp_specific": "Hosp. Especializado",
   "hospital_search_filters_private": "Privados",
+  "hospital_search_no_hosp_selected": "Ningún hospital seleccionado",
   "hospital_assignments_appbar_title": "Lista de asignaciones",
   "hospital_assignments_new_label": "Nueva asignación",
-  "hospital_assignments_empty_content": "Sin asignaciones. Puede empezar creando asignaciones haciendo click en el botón '+ Nueva asignación' de la parte inferior."
+  "hospital_assignments_empty_content": "Sin asignaciones. Puede empezar creando asignaciones haciendo click en el botón '+ Nueva asignación' de la parte inferior.",
+  "error_unexpected_title": "Opps! Ha ocurrido un error inesperado",
+  "error_unexpected_subtitle": "Intentelo de nuevo más tarde",
+  "error_unexpected_label": "Ha ocurrido un error inesperado, intentelo de nuevo."
 }

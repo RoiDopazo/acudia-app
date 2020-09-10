@@ -11,7 +11,6 @@ import 'package:acudia/utils/environment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:load/load.dart';
 import 'package:provider/provider.dart';
@@ -27,11 +26,11 @@ Future main() async {
 
   runApp(
     MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => ErrorNotifierProvider()),
       ChangeNotifierProvider(create: (context) => AppProvider()),
       ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ChangeNotifierProvider(create: (context) => SignUpProvider()),
       ChangeNotifierProvider(create: (context) => HospitalProvider()),
-      ChangeNotifierProvider(create: (context) => ErrorNotifierProvider()),
     ], child: MyApp(userData: userData)),
   );
 }
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if (userData != null && userData["user"] != null) {
       Provider.of<ProfileProvider>(context, listen: false)
-          .getProfileData(userData["user"]);
+          .getProfileData(context, userData["user"]);
     }
 
     return LoadingProvider(
@@ -54,16 +53,11 @@ class MyApp extends StatelessWidget {
         loadingWidgetBuilder: (ctx, data) {
           return Center(
             child: SizedBox(
-              width: 100,
-              height: 100,
-              child: Container(
-                  child: new Theme(
-                      data: Theme.of(context).copyWith(accentColor: aCPalette),
-                      child: SpinKitFadingCircle(
-                        size: 80,
-                        color: aCPalette,
-                      ))),
-            ),
+                child: new Theme(
+              data:
+                  Theme.of(context).copyWith(accentColor: _aCTheme.accentColor),
+              child: new CircularProgressIndicator(),
+            )),
           );
         },
         child: GraphQLProvider(
@@ -100,6 +94,7 @@ ThemeData _buildTheme() {
       buttonColor: aCPalette,
       backgroundColor: aCBackground,
       scaffoldBackgroundColor: aCWhite,
+      hintColor: aCPaletteAccent,
       cardColor: aCWhite,
       errorColor: aCErrorRed,
       buttonTheme: ButtonThemeData(
@@ -122,7 +117,7 @@ ThemeData _buildTheme() {
 
 ToggleButtonsThemeData _buildToggleButtonsTheme(ToggleButtonsThemeData base) {
   return base.copyWith(
-    fillColor: aCBackground,
+    fillColor: aCPalette.shade100,
     selectedColor: aCTextColor,
   );
 }

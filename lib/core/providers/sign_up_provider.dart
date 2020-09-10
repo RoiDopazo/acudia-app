@@ -112,9 +112,14 @@ class SignUpProvider with ChangeNotifier {
 
   login(context) async {
     try {
+      // return showError(
+      //     context, 'asdasda', 'fdgdfgfdg', ERROR_VISUALIZATIONS_TYPE.dialog);
       showLoadingDialog();
-      await CognitoService.login(values[FIELD_EMAIL], values[FIELD_PASSWORD]);
+      CognitoUser cognitoUser = await CognitoService.login(
+          values[FIELD_EMAIL], values[FIELD_PASSWORD]);
       hideLoadingDialog();
+      Provider.of<ProfileProvider>(context, listen: false)
+          .getProfileData(context, cognitoUser);
       Navigator.of(context).pushNamedAndRemoveUntil(
           Routes.MAIN, (Route<dynamic> route) => false);
     } catch (error) {

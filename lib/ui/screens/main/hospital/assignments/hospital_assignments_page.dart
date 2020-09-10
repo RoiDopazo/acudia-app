@@ -1,5 +1,6 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
+import 'package:acudia/ui/screens/main/hospital/search/hospital_search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,15 @@ class HospitalAssignmentsPage extends StatelessWidget {
               floatingActionButton: FloatingActionButton.extended(
                   shape: StadiumBorder(
                       side: BorderSide(color: Theme.of(context).primaryColor)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            HospitalSearchPage(isAssignment: true),
+                      ),
+                    );
+                  },
                   icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
                   label: Text(
                       translate(context, 'hospital_assignments_new_label'),

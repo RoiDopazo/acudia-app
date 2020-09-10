@@ -18,6 +18,7 @@ class HospitalProvider with ChangeNotifier {
   String searchQuery = '';
   bool isLoading = true;
   List<String> filters = [];
+  Hospital selected;
 
   fetchHospitals() async {
     if (hospList.length == 0) {
@@ -92,6 +93,15 @@ class HospitalProvider with ChangeNotifier {
     }
     useCurrentLocation = filters.indexOf(FILTER_IS_NEAR) != -1;
     await searchHospitals(searchValue: searchQuery);
+  }
+
+  setSelectedHospital(Hospital hospital) {
+    if (selected != null && selected.codCNH == hospital.codCNH) {
+      selected = null;
+    } else {
+      selected = hospital;
+    }
+    notifyListeners();
   }
 
   cleanup() {
