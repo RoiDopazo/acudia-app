@@ -48,14 +48,8 @@ class SignUpScreen extends StatelessWidget {
     return Consumer2<SignUpProvider, ErrorNotifierProvider>(
         builder: (context, signup, errorProvider, child) => Scaffold(
               resizeToAvoidBottomPadding: false,
-              appBar: AppBar(
-                title: Text(translate(context, 'auth_register_label'),
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline2
-                        .copyWith(color: Colors.white)),
-              ),
-              body: ConstrainedBox(
+              body: SafeArea(
+                  child: ConstrainedBox(
                 constraints:
                     BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
                 child: new Stack(children: <Widget>[
@@ -83,7 +77,7 @@ class SignUpScreen extends StatelessWidget {
                             },
                           ))),
                 ]),
-              ),
+              )),
               floatingActionButton: Container(
                   constraints:
                       BoxConstraints(minWidth: double.infinity, minHeight: 70),
