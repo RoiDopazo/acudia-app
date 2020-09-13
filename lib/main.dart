@@ -102,8 +102,8 @@ ThemeData _buildTheme() {
         buttonColor: aCPalette,
         disabledColor: aCPalette,
       ),
-      appBarTheme: base.appBarTheme
-          .copyWith(color: aCPalette, iconTheme: IconThemeData(color: aCWhite)),
+      appBarTheme: base.appBarTheme.copyWith(
+          color: aCPaletteAccent, iconTheme: IconThemeData(color: aCWhite)),
       dialogBackgroundColor: aCWhite,
       primaryIconTheme: base.iconTheme.copyWith(color: aCTextColor),
       inputDecorationTheme: InputDecorationTheme(),

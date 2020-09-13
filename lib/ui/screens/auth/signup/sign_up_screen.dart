@@ -1,5 +1,4 @@
 import 'package:acudia/app_localizations.dart';
-import 'package:acudia/components/generic_error.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:acudia/ui/screens/auth/signup/sign_up_basic_info_screen.dart';

@@ -2,6 +2,7 @@ import 'package:acudia/components/generic_error.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/ui/screens/auth/signup/sign_up_screen.dart';
 import 'package:acudia/ui/screens/auth/splash_page.dart';
+import 'package:acudia/ui/screens/main/hospital/details/hospital_details_page.dart';
 import 'package:acudia/ui/screens/main/hospital/search/hospital_search_page.dart';
 import 'package:acudia/ui/screens/main/main_page.dart';
 import 'package:flutter/widgets.dart';
@@ -19,6 +20,7 @@ class Routes {
   static const String SIGNUP = '/sign-up';
   static const String MAIN = '/main';
   static const String SEARCH_HOSP = '/search-hosp';
+  static const String HOSP_DETAILS = '/hosp-details';
 
   /// The map used to define our routes, needs to be supplied to [MaterialApp]
   static Map<String, WidgetBuilder> getRoutes() {
@@ -27,6 +29,7 @@ class Routes {
       Routes.SIGNUP: (context) => buildRoute(SignUpScreen()),
       Routes.SPLASH: (context) => buildRoute(SplashScreen()),
       Routes.SEARCH_HOSP: (context) => buildRoute(HospitalSearchPage()),
+      Routes.HOSP_DETAILS: (context) => buildRoute(HospitalDetailsPage()),
     };
   }
 }

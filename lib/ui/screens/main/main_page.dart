@@ -53,7 +53,7 @@ class MainPage extends StatelessWidget {
                                   ? 'assets/media/icon_home.svg'
                                   : 'assets/media/icon_home_outlined.svg',
                               height: 24,
-                              color: Colors.white,
+                              color: Theme.of(context).primaryColor,
                             ),
                             title: Text(''),
                           ),
@@ -67,7 +67,7 @@ class MainPage extends StatelessWidget {
                                 : SvgPicture.asset(
                                     'assets/media/icon_agreement_outlined.svg',
                                     height: 32,
-                                    color: Colors.white),
+                                    color: Theme.of(context).primaryColor),
                             title: Text(''),
                           ),
                           BottomNavigationBarItem(
@@ -76,14 +76,14 @@ class MainPage extends StatelessWidget {
                                   ? 'assets/media/icon_user_profile.svg'
                                   : 'assets/media/icon_user_profile_outlined.svg',
                               height: 24,
-                              color: Colors.white,
+                              color: Theme.of(context).primaryColor,
                             ),
                             title: Text(''),
                           ),
                         ],
                         currentIndex: app.selectedTab,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        selectedItemColor: Theme.of(context).backgroundColor,
+                        backgroundColor: Theme.of(context).backgroundColor,
+                        selectedItemColor: Theme.of(context).primaryColor,
                         onTap: (index) {
                           Provider.of<AppProvider>(context, listen: false)
                               .setSelectedTab(context, index);

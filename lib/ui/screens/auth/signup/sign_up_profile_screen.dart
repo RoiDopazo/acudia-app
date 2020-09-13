@@ -168,9 +168,23 @@ class SignUpProfile extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               Container(
-                                width: 150.0,
-                                child: RaisedButton(
-                                  elevation: 8,
+                                width: MediaQuery.of(context).size.width / 2,
+                                child: Text(
+                                  signup.values[FIELD_BIRTHDATE] != null
+                                      ? DateFormat.yMMMd().format(
+                                          signup.values[FIELD_BIRTHDATE])
+                                      : translate(context, 'no_specified'),
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Expanded(
+                                child: FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      side: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                   child: signup.values[FIELD_BIRTHDATE] == null
                                       ? Text(translate(context, 'select'))
                                       : Text(translate(context, 'modify')),
@@ -187,16 +201,6 @@ class SignUpProfile extends StatelessWidget {
                                                   listen: false)
                                               .updateValue(
                                                   FIELD_BIRTHDATE, value)),
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  signup.values[FIELD_BIRTHDATE] != null
-                                      ? DateFormat.yMMMd().format(
-                                          signup.values[FIELD_BIRTHDATE])
-                                      : translate(context, 'no_specified'),
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],

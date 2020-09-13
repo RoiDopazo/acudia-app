@@ -2,7 +2,10 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_exceptions.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
-import 'package:acudia/core/services/graphql_services.dart';
+import 'package:acudia/core/providers/profile_provider.dart';
+import 'package:acudia/core/services/acudiers/acudiers_service.dart';
+import 'package:acudia/core/services/clients/clients_service.dart';
+import 'package:acudia/core/services/graphql_client.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
@@ -12,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:load/load.dart';
+import 'package:provider/provider.dart';
 
 const FIELD_NAME = 'name';
 const FIELD_SECOND_NAME = 'secondName';
@@ -190,6 +194,8 @@ class SignUpProvider with ChangeNotifier {
       await CognitoService.verifyEmail(email, code);
       CognitoUser cognitoUser =
           await CognitoService.login(email, values[FIELD_PASSWORD]);
+      Provider.of<ProfileProvider>(context, listen: false)
+          .getProfileData(context, cognitoUser);
 
       bool isAcudier;
       const validAtt = [

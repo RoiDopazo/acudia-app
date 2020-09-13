@@ -15,7 +15,7 @@ class HospitalSearchPage extends StatelessWidget {
   final TextEditingController _searchController = new TextEditingController();
   final FocusNode _searchFocusNode = new FocusNode();
 
-  HospitalSearchPage({this.isAssignment});
+  HospitalSearchPage({this.isAssignment = false});
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +93,6 @@ class HospitalSearchPage extends StatelessWidget {
       }
     }
 
-    ;
-
     return Consumer<HospitalProvider>(
       builder: (context, hospProvider, child) => Scaffold(
         appBar: HospitalSearchAppBar(
@@ -161,7 +159,9 @@ class HospitalSearchPage extends StatelessWidget {
               for (Hospital hospital in hospProvider.paginatedList)
                 HospitalListItem(
                     hospital: hospital,
-                    isSelected: hospProvider.selected != null &&
+                    isAssigment: isAssignment,
+                    isSelected: isAssignment &&
+                        hospProvider.selected != null &&
                         hospital.codCNH == hospProvider.selected.codCNH)
           ],
         ),
