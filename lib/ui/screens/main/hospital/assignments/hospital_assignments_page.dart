@@ -9,13 +9,15 @@ import 'package:provider/provider.dart';
 class HospitalAssignmentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final emptyContent = Container(
-        alignment: Alignment.center,
-        child: Center(
-            child: Text(
-          translate(context, 'hospital_assignments_empty_content'),
-          textAlign: TextAlign.center,
-        )));
+    final emptyContent = Padding(
+        padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+        child: Container(
+            alignment: Alignment.center,
+            child: Center(
+                child: Text(
+              translate(context, 'hospital_assignments_empty_content'),
+              textAlign: TextAlign.center,
+            ))));
 
     return Consumer<HospitalProvider>(
         builder: (context, hospProvider, child) => Scaffold(
@@ -26,7 +28,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
                           .textTheme
                           .headline2
                           .copyWith(color: Colors.white))),
-              body: emptyContent,
+              body: SafeArea(child: emptyContent),
               floatingActionButton: FloatingActionButton.extended(
                   shape: StadiumBorder(
                       side: BorderSide(color: Theme.of(context).primaryColor)),

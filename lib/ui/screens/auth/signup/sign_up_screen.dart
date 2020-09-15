@@ -1,4 +1,5 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/components/navigation/floating_action_button_full.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
 import 'package:acudia/ui/screens/auth/signup/sign_up_basic_info_screen.dart';
@@ -78,52 +79,29 @@ class SignUpScreen extends StatelessWidget {
                           ))),
                 ]),
               )),
-              floatingActionButton: Container(
-                  constraints:
-                      BoxConstraints(minWidth: double.infinity, minHeight: 70),
-                  child: FloatingActionButton(
-                      shape: ContinuousRectangleBorder(),
-                      backgroundColor: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        if (signup.selectedTab == 0) {
-                          if (_formKey.currentState.validate()) {
-                            Provider.of<SignUpProvider>(context, listen: false)
-                                .setSelectedTab(signup.selectedTab + 1);
-                          }
-                        } else if (signup.selectedTab == 1) {
-                          if (!Provider.of<SignUpProvider>(context,
-                                  listen: false)
-                              .validate()) {
-                            Provider.of<SignUpProvider>(context, listen: false)
-                                .signUp(context);
-                          }
-                        } else if (signup.selectedTab == 2) {
-                          Provider.of<SignUpProvider>(context, listen: false)
-                              .verifyEmail(context, signup.values[FIELD_EMAIL],
-                                  signup.verificationCode);
-                        }
-                      },
-                      isExtended: true,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                                translate(
-                                    context,
-                                    signup.selectedTab == 2
-                                        ? 'verify'
-                                        : 'next'),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline4
-                                    .copyWith(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white)),
-                            SizedBox(width: 4),
-                            Icon(Icons.arrow_forward_ios, color: Colors.white)
-                          ]))),
+              floatingActionButton: AcudiaFloatingActionButtonFull(
+                onPressed: () {
+                  if (signup.selectedTab == 0) {
+                    if (_formKey.currentState.validate()) {
+                      Provider.of<SignUpProvider>(context, listen: false)
+                          .setSelectedTab(signup.selectedTab + 1);
+                    }
+                  } else if (signup.selectedTab == 1) {
+                    if (!Provider.of<SignUpProvider>(context, listen: false)
+                        .validate()) {
+                      Provider.of<SignUpProvider>(context, listen: false)
+                          .signUp(context);
+                    }
+                  } else if (signup.selectedTab == 2) {
+                    Provider.of<SignUpProvider>(context, listen: false)
+                        .verifyEmail(context, signup.values[FIELD_EMAIL],
+                            signup.verificationCode);
+                  }
+                },
+                text: translate(
+                    context, signup.selectedTab == 2 ? 'verify' : 'next'),
+                icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+              ),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerDocked,
             ));

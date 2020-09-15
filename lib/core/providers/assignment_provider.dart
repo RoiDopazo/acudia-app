@@ -6,6 +6,7 @@ class AssignmentsProvider with ChangeNotifier {
   DateTime toDate;
   TimeOfDay startHour;
   TimeOfDay endHour;
+  int fare;
 
   moveToConfig() {
     selectedTab = 1;
@@ -37,11 +38,17 @@ class AssignmentsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  updateFare(int fareParam) {
+    fare = fareParam;
+    notifyListeners();
+  }
+
   cleanup() {
     selectedTab = 0;
     fromDate = null;
     toDate = null;
     startHour = null;
     endHour = null;
+    fare = null;
   }
 }
