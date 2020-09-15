@@ -1,7 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
+import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
-import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_config_page.dart';
 import 'package:acudia/ui/screens/main/hospital/search/hospital_list_item.dart';
 import 'package:acudia/ui/screens/main/hospital/search/hospital_search_appbar.dart';
 import 'package:flutter/material.dart';
@@ -73,13 +73,8 @@ class HospitalSearchPage extends StatelessWidget {
       } else {
         return FloatingActionButton.extended(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      HospitalAssignmentsConfigPage(hospital: selectedHospital),
-                ),
-              );
+              Provider.of<AssignmentsProvider>(context, listen: false)
+                  .moveToConfig();
             },
             label: Row(children: [
               Text(translate(context, 'next'),

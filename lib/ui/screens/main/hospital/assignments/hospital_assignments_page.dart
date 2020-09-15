@@ -1,6 +1,7 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
-import 'package:acudia/ui/screens/main/hospital/search/hospital_search_page.dart';
+import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_add_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +31,13 @@ class HospitalAssignmentsPage extends StatelessWidget {
                   shape: StadiumBorder(
                       side: BorderSide(color: Theme.of(context).primaryColor)),
                   onPressed: () {
+                    Provider.of<HospitalProvider>(context).cleanup();
+                    Provider.of<AssignmentsProvider>(context).cleanup();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            HospitalSearchPage(isAssignment: true),
+                        builder: (context) => HospitalAssignmentsAddPage(),
+                        fullscreenDialog: true,
                       ),
                     );
                   },

@@ -112,5 +112,6 @@ class HospitalProvider with ChangeNotifier {
     isLoading = true;
     isSearching = false;
     hospList = [];
+    selected = null;
   }
 }

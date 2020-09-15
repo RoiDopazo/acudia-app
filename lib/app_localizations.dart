@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 String translate(context, i18nKey) =>
     AppLocalizations.of(context).translate(i18nKey);
@@ -57,7 +58,7 @@ class _AppLocalizationsDelegate
   @override
   bool isSupported(Locale locale) {
     // Include all of your supported language codes here
-    return ['en', 'es'].contains(locale.languageCode);
+    return ['es', 'en'].contains(locale.languageCode);
   }
 
   @override
@@ -65,7 +66,9 @@ class _AppLocalizationsDelegate
     // AppLocalizations class is where the JSON loading actually runs
     AppLocalizations localizations =
         new AppLocalizations(new Locale('es', 'ES'));
+
     await localizations.load();
+    Intl.defaultLocale = 'es';
     return localizations;
   }
 

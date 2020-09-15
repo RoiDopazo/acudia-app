@@ -1,6 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/app_provider.dart';
+import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
@@ -31,6 +32,7 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ChangeNotifierProvider(create: (context) => SignUpProvider()),
       ChangeNotifierProvider(create: (context) => HospitalProvider()),
+      ChangeNotifierProvider(create: (context) => AssignmentsProvider()),
     ], child: MyApp(userData: userData)),
   );
 }
@@ -150,6 +152,11 @@ TextTheme _buildTextTheme(TextTheme base) {
           ),
           subtitle1: base.subtitle1.copyWith(
             color: aCTextColor,
+          ),
+          subtitle2: base.subtitle2.copyWith(
+            color: aCTextColor.withAlpha(100),
+            fontWeight: FontWeight.normal,
+            fontSize: 12,
           ))
       .apply(
         fontFamily: 'Rubik',
