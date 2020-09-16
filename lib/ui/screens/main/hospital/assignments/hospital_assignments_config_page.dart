@@ -6,11 +6,13 @@ import 'package:acudia/components/pickers/number_picker.dart';
 import 'package:acudia/components/pickers/time_picker.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
+import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:load/load.dart';
 import 'package:provider/provider.dart';
 
 class HospitalAssignmentsConfigPage extends StatelessWidget {
@@ -120,10 +122,14 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                 options: MutationOptions(
                     documentNode: gql(GRAPHQL_ADD_ASSIGNMENT_MUTATION),
                     onCompleted: (dynamic resultData) {
-                      print(resultData);
+                      if (resultData != null) {
+                        hideLoadingDialog();
+                        Navigator.of(context).pop(true);
+                      }
                     },
                     onError: (dynamic error) {
-                      print(error);
+                      hideLoadingDialog();
+                      showUnexpectedError(context);
                     }),
                 builder: (
                   RunMutation runMutation,
@@ -134,6 +140,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                         opacity: assingmentsProvider.fare != null ? 1.0 : 0.0,
                         child: AcudiaFloatingActionButtonFull(
                             onPressed: () {
+                              showLoadingDialog();
                               DateFormat dateFormat = DateFormat("yyyy-MM-dd");
                               runMutation({
                                 "hospId": hospital.codCNH,

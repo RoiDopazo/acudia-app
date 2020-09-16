@@ -116,8 +116,6 @@ class SignUpProvider with ChangeNotifier {
 
   login(context) async {
     try {
-      // return showError(
-      //     context, 'asdasda', 'fdgdfgfdg', ERROR_VISUALIZATIONS_TYPE.dialog);
       showLoadingDialog();
       CognitoUser cognitoUser = await CognitoService.login(
           values[FIELD_EMAIL], values[FIELD_PASSWORD]);
