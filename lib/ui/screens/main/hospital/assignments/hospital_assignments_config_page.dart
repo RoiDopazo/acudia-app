@@ -6,8 +6,11 @@ import 'package:acudia/components/pickers/number_picker.dart';
 import 'package:acudia/components/pickers/time_picker.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
+import 'package:acudia/core/services/assignments/assignments_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class HospitalAssignmentsConfigPage extends StatelessWidget {
@@ -65,53 +68,104 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                       Provider.of<AssignmentsProvider>(context, listen: false)
                           .updateFromDate(value),
                 ),
-                AcudiaAnimationOpacity(
-                  opacity: assingmentsProvider.fromDate != null ? 1.0 : 0.0,
-                  child: AcudiaDatePickerField(
-                    date: assingmentsProvider.toDate,
-                    firstDate: assingmentsProvider.fromDate,
-                    label: translate(context, 'end_date'),
-                    onChange: (value) =>
-                        Provider.of<AssignmentsProvider>(context, listen: false)
-                            .updateToDate(value),
+                if (assingmentsProvider.fromDate != null)
+                  AcudiaAnimationOpacity(
+                    opacity: assingmentsProvider.fromDate != null ? 1.0 : 0.0,
+                    child: AcudiaDatePickerField(
+                      date: assingmentsProvider.toDate,
+                      firstDate: assingmentsProvider.fromDate,
+                      label: translate(context, 'end_date'),
+                      onChange: (value) => Provider.of<AssignmentsProvider>(
+                              context,
+                              listen: false)
+                          .updateToDate(value),
+                    ),
                   ),
-                ),
-                AcudiaAnimationOpacity(
-                  opacity: assingmentsProvider.toDate != null ? 1.0 : 0.0,
-                  child: AcudiaTimePickerField(
-                    time: assingmentsProvider.startHour,
-                    label: translate(context, 'start_time'),
-                    onChange: (value) =>
-                        Provider.of<AssignmentsProvider>(context, listen: false)
-                            .updateStartHour(value),
+                if (assingmentsProvider.toDate != null)
+                  AcudiaAnimationOpacity(
+                    opacity: assingmentsProvider.toDate != null ? 1.0 : 0.0,
+                    child: AcudiaTimePickerField(
+                      time: assingmentsProvider.startHour,
+                      label: translate(context, 'start_time'),
+                      onChange: (value) => Provider.of<AssignmentsProvider>(
+                              context,
+                              listen: false)
+                          .updateStartHour(value),
+                    ),
                   ),
-                ),
-                AcudiaAnimationOpacity(
-                  opacity: assingmentsProvider.startHour != null ? 1.0 : 0.0,
-                  child: AcudiaTimePickerField(
-                    time: assingmentsProvider.endHour,
-                    label: translate(context, 'end_time'),
-                    onChange: (value) =>
-                        Provider.of<AssignmentsProvider>(context, listen: false)
-                            .updateEndHour(value),
+                if (assingmentsProvider.startHour != null)
+                  AcudiaAnimationOpacity(
+                    opacity: assingmentsProvider.startHour != null ? 1.0 : 0.0,
+                    child: AcudiaTimePickerField(
+                      time: assingmentsProvider.endHour,
+                      label: translate(context, 'end_time'),
+                      onChange: (value) => Provider.of<AssignmentsProvider>(
+                              context,
+                              listen: false)
+                          .updateEndHour(value),
+                    ),
                   ),
-                ),
-                AcudiaAnimationOpacity(
-                    opacity: assingmentsProvider.endHour != null ? 1.0 : 0.0,
-                    child: AcudiaNumberPickerField(
-                        label: translate(context, 'fare'),
-                        number: assingmentsProvider.fare,
-                        onChange: (value) => Provider.of<AssignmentsProvider>(
-                                context,
-                                listen: false)
-                            .updateFare(value))),
+                if (assingmentsProvider.endHour != null)
+                  AcudiaAnimationOpacity(
+                      opacity: assingmentsProvider.endHour != null ? 1.0 : 0.0,
+                      child: AcudiaNumberPickerField(
+                          label: translate(context, 'fare'),
+                          number: assingmentsProvider.fare,
+                          onChange: (value) => Provider.of<AssignmentsProvider>(
+                                  context,
+                                  listen: false)
+                              .updateFare(value))),
               ]))),
-              floatingActionButton: AcudiaAnimationOpacity(
-                  opacity: assingmentsProvider.fare != null ? 1.0 : 0.0,
-                  child: AcudiaFloatingActionButtonFull(
-                      text:
-                          translate(context, 'hospital_assignments_save_label'),
-                      icon: Icon(Icons.save))),
+              floatingActionButton: Mutation(
+                options: MutationOptions(
+                    documentNode: gql(GRAPHQL_ADD_ASSIGNMENT_MUTATION),
+                    onCompleted: (dynamic resultData) {
+                      print(resultData);
+                    },
+                    onError: (dynamic error) {
+                      print(error);
+                    }),
+                builder: (
+                  RunMutation runMutation,
+                  QueryResult result,
+                ) {
+                  if (assingmentsProvider.fare != null)
+                    return AcudiaAnimationOpacity(
+                        opacity: assingmentsProvider.fare != null ? 1.0 : 0.0,
+                        child: AcudiaFloatingActionButtonFull(
+                            onPressed: () {
+                              DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+                              runMutation({
+                                "hospId": hospital.codCNH,
+                                "hospName": hospital.name,
+                                "hospProvince": hospital.province,
+                                "email": "roidopazo@gmail.com",
+                                "itemList": [
+                                  {
+                                    "from": dateFormat
+                                        .format(assingmentsProvider.fromDate),
+                                    "to": dateFormat
+                                        .format(assingmentsProvider.toDate),
+                                    "startHour": assingmentsProvider
+                                                .startHour.hour *
+                                            3600 +
+                                        assingmentsProvider.startHour.minute *
+                                            60,
+                                    "endHour": assingmentsProvider
+                                                .endHour.hour *
+                                            3600 +
+                                        assingmentsProvider.endHour.minute * 60,
+                                    "fare": assingmentsProvider.fare
+                                  }
+                                ]
+                              });
+                            },
+                            text: translate(
+                                context, 'hospital_assignments_save_label'),
+                            icon: Icon(Icons.save)));
+                  return Container();
+                },
+              ),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerDocked,
             ));
