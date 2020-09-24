@@ -1,6 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/providers/app_provider.dart';
+import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
@@ -11,7 +12,6 @@ import 'package:acudia/utils/environment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:load/load.dart';
 import 'package:provider/provider.dart';
@@ -27,11 +27,12 @@ Future main() async {
 
   runApp(
     MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => ErrorNotifierProvider()),
       ChangeNotifierProvider(create: (context) => AppProvider()),
       ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ChangeNotifierProvider(create: (context) => SignUpProvider()),
       ChangeNotifierProvider(create: (context) => HospitalProvider()),
-      ChangeNotifierProvider(create: (context) => ErrorNotifierProvider()),
+      ChangeNotifierProvider(create: (context) => AssignmentsProvider()),
     ], child: MyApp(userData: userData)),
   );
 }
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if (userData != null && userData["user"] != null) {
       Provider.of<ProfileProvider>(context, listen: false)
-          .getProfileData(userData["user"]);
+          .getProfileData(context, userData["user"]);
     }
 
     return LoadingProvider(
@@ -54,16 +55,11 @@ class MyApp extends StatelessWidget {
         loadingWidgetBuilder: (ctx, data) {
           return Center(
             child: SizedBox(
-              width: 100,
-              height: 100,
-              child: Container(
-                  child: new Theme(
-                      data: Theme.of(context).copyWith(accentColor: aCPalette),
-                      child: SpinKitFadingCircle(
-                        size: 80,
-                        color: aCPalette,
-                      ))),
-            ),
+                child: new Theme(
+              data:
+                  Theme.of(context).copyWith(accentColor: _aCTheme.accentColor),
+              child: new CircularProgressIndicator(),
+            )),
           );
         },
         child: GraphQLProvider(
@@ -100,6 +96,7 @@ ThemeData _buildTheme() {
       buttonColor: aCPalette,
       backgroundColor: aCBackground,
       scaffoldBackgroundColor: aCWhite,
+      hintColor: aCPaletteAccent,
       cardColor: aCWhite,
       errorColor: aCErrorRed,
       buttonTheme: ButtonThemeData(
@@ -107,8 +104,8 @@ ThemeData _buildTheme() {
         buttonColor: aCPalette,
         disabledColor: aCPalette,
       ),
-      appBarTheme: base.appBarTheme
-          .copyWith(color: aCPalette, iconTheme: IconThemeData(color: aCWhite)),
+      appBarTheme: base.appBarTheme.copyWith(
+          color: aCPaletteAccent, iconTheme: IconThemeData(color: aCWhite)),
       dialogBackgroundColor: aCWhite,
       primaryIconTheme: base.iconTheme.copyWith(color: aCTextColor),
       inputDecorationTheme: InputDecorationTheme(),
@@ -122,7 +119,7 @@ ThemeData _buildTheme() {
 
 ToggleButtonsThemeData _buildToggleButtonsTheme(ToggleButtonsThemeData base) {
   return base.copyWith(
-    fillColor: aCBackground,
+    fillColor: aCPalette.shade100,
     selectedColor: aCTextColor,
   );
 }
@@ -155,6 +152,11 @@ TextTheme _buildTextTheme(TextTheme base) {
           ),
           subtitle1: base.subtitle1.copyWith(
             color: aCTextColor,
+          ),
+          subtitle2: base.subtitle2.copyWith(
+            color: aCTextColor.withAlpha(100),
+            fontWeight: FontWeight.normal,
+            fontSize: 12,
           ))
       .apply(
         fontFamily: 'Rubik',

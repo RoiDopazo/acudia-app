@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
 
     final Widget svgIcon = SvgPicture.asset('assets/media/logo.svg',
         height: 200,
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         semanticsLabel: 'Acudia Logo');
 
     final logo = ConstrainedBox(
@@ -37,7 +37,7 @@ class SplashScreen extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 44,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     decoration: TextDecoration.none)),
           )
         ]));

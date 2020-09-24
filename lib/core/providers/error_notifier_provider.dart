@@ -1,7 +1,16 @@
+import 'package:acudia/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 enum ERROR_VISUALIZATIONS_TYPE { snackbar, dialog }
+
+void showUnexpectedError(context) {
+  showError(
+      context,
+      translate(context, 'error_unexpected'),
+      translate(context, 'error_try_again_later'),
+      ERROR_VISUALIZATIONS_TYPE.dialog);
+}
 
 void showError(context, errorTitle, error, vtype) {
   Provider.of<ErrorNotifierProvider>(context, listen: false)
