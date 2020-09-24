@@ -38,6 +38,8 @@ dependencies:
   http: ^0.12.2
   query_params: "^0.6.1"
   geolocator: ^5.3.2+2 #TODO: IOS permissions
+  google_maps_flutter: ^0.5.32
+  table_calendar: ^2.2.3
 
   google_sign_in: ^4.1.1
   googleapis: any

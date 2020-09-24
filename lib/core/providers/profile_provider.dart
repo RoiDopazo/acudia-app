@@ -12,39 +12,51 @@ class ProfileProvider with ChangeNotifier {
   bool loading = true;
   Profile profile;
 
-  getProfileData(CognitoUser cognitoUser) async {
+  getProfileData(BuildContext context, CognitoUser cognitoUser) async {
     if (!loading) {
       loading = true;
       notifyListeners();
     }
 
-    List<CognitoUserAttribute> userAttributes =
-        await CognitoService.getUserAttributes(cognitoUser);
-    if (userAttributes != null && userAttributes.length != 0) {
-      CognitoUserAttribute role =
-          userAttributes.singleWhere((att) => att.getName() == 'custom:role');
-      CognitoUserAttribute email =
-          userAttributes.singleWhere((att) => att.getName() == 'email');
+    CognitoUser cUser = cognitoUser;
+    if (cognitoUser == null) {
+      Map<String, dynamic> cognitoUserData = await CognitoService.getUserData();
+      cUser = cognitoUserData["user"];
+    }
 
-      bool isAcudier = role.getValue().toString() ==
-          USER_ROLES.ACUDIER.toString().split('.')[1];
+    try {
+      List<CognitoUserAttribute> userAttributes =
+          await CognitoService.getUserAttributes(cUser);
+      if (userAttributes != null && userAttributes.length != 0) {
+        CognitoUserAttribute role =
+            userAttributes.singleWhere((att) => att.getName() == 'custom:role');
+        CognitoUserAttribute email =
+            userAttributes.singleWhere((att) => att.getName() == 'email');
 
-      var result = await graphQLClient.value.query(
-        QueryOptions(
-            documentNode: gql(isAcudier
-                ? GRAPHQL_GET_ACUDIER_BY_ID
-                : GRAPHQL_GET_CLIENT_BY_ID),
-            variables: {
-              "email": email.getValue(),
-            }),
-      );
-      if (isAcudier) {
-        profile = Profile.fromJson(result.data['getAcudierByID']);
-      } else {
-        profile = Profile.fromJson(result.data['getClientByID']);
+        bool isAcudier = role.getValue().toString() ==
+            USER_ROLES.ACUDIER.toString().split('.')[1];
+
+        var result = await graphQLClient.value.query(
+          QueryOptions(
+              documentNode: gql(isAcudier
+                  ? GRAPHQL_GET_ACUDIER_BY_ID
+                  : GRAPHQL_GET_CLIENT_BY_ID),
+              variables: {
+                "email": email.getValue(),
+              }),
+        );
+        if (isAcudier) {
+          profile = Profile.fromJson(result.data['getAcudierByID']);
+        } else {
+          profile = Profile.fromJson(result.data['getClientByID']);
+        }
+
+        loading = false;
+        notifyListeners();
       }
-
+    } catch (error) {
       loading = false;
+      profile = null;
       notifyListeners();
     }
   }
