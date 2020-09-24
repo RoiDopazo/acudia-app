@@ -68,7 +68,7 @@
   "hospital_assignments_appbar_title": "Mis asignaciones",
   "hospital_assignments_conf_appbar_title": "Crear asignación",
   "hospital_assignments_new_label": "Nueva asignación",
-  "hospital_assignments_empty_content": "Sin asignaciones. Puede empezar creando asignaciones haciendo click en el botón '+ Nueva asignación' de la parte inferior.",
+  "hospital_assignments_empty_content": "Sin asignaciones. Puede empezar creando asignaciones haciendo click en el botón '+' de la parte inferior.",
   "hospital_assignments_save_label": "Guardar asignación",
   "error_unexpected_title": "Opps! Ha ocurrido un error inesperado",
   "error_unexpected_subtitle": "Intentelo de nuevo más tarde",

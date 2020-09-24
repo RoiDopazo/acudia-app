@@ -1,4 +1,6 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/components/expansion/expansion_tile.dart';
+import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
@@ -6,7 +8,6 @@ import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:load/load.dart';
 import 'package:provider/provider.dart';
 
 class HospitalAssignmentsPage extends StatelessWidget {
@@ -50,22 +51,26 @@ class HospitalAssignmentsPage extends StatelessWidget {
                     );
                   }
 
-                  print(result);
-                  return Text('sadsa');
-                  // it can be either Map or List
-                  // List repositories =
-                  //     result.data['viewer']['repositories']['nodes'];
+                  List<Assignment> assignmentList = Assignment.fromJsonList(
+                      result.data['getMyAssignments']['items']);
 
-                  // return ListView.builder(
-                  //     itemCount: repositories.length,
-                  //     itemBuilder: (context, index) {
-                  //       final repository = repositories[index];
-
-                  //       return Text(repository['name']);
-                  //     });
+                  if (assignmentList != null && assignmentList.length > 0) {
+                    return SingleChildScrollView(
+                        child: Column(children: [
+                      SizedBox(height: 16),
+                      for (Assignment assignment in assignmentList)
+                        AcudiaExpansionTile(
+                            title: assignment.hospName,
+                            subtitle:
+                                '${assignment.itemList.length} assignación'),
+                      SizedBox(height: 24)
+                    ]));
+                  } else {
+                    return emptyContent;
+                  }
                 },
               )),
-              floatingActionButton: FloatingActionButton.extended(
+              floatingActionButton: FloatingActionButton(
                   shape: StadiumBorder(
                       side: BorderSide(color: Theme.of(context).primaryColor)),
                   onPressed: () {
@@ -79,11 +84,9 @@ class HospitalAssignmentsPage extends StatelessWidget {
                       ),
                     );
                   },
-                  icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
-                  label: Text(
-                      translate(context, 'hospital_assignments_new_label'),
-                      style: TextStyle(color: Theme.of(context).primaryColor)),
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+                  child: Icon(Icons.add,
+                      color: Theme.of(context).scaffoldBackgroundColor),
+                  backgroundColor: Theme.of(context).primaryColor),
             ));
   }
 }
