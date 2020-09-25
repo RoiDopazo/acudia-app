@@ -1,10 +1,13 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/components/expansion/expansion_tile.dart';
+import 'package:acudia/components/list-items/date_range_item.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
 import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_add_page.dart';
+import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -37,8 +40,6 @@ class HospitalAssignmentsPage extends StatelessWidget {
                 options: QueryOptions(
                   documentNode: gql(GRAPHQL_GET_MY_ASSIGNMENTS_QUERY),
                 ),
-                // Just like in apollo refetch() could be used to manually trigger a refetch
-                // while fetchMore() can be used for pagination purpose
                 builder: (QueryResult result,
                     {VoidCallback refetch, FetchMore fetchMore}) {
                   if (result.hasException) {
@@ -61,8 +62,59 @@ class HospitalAssignmentsPage extends StatelessWidget {
                       for (Assignment assignment in assignmentList)
                         AcudiaExpansionTile(
                             title: assignment.hospName,
-                            subtitle:
-                                '${assignment.itemList.length} assignación'),
+                            subtitle: '${assignment.hospProvince}',
+                            children: [
+                              for (AssignmentItem assignmentItem
+                                  in assignment.itemList)
+                                AcudiaDateRangeItem(
+                                    from: assignmentItem.from,
+                                    to: assignmentItem.to,
+                                    children: [
+                                      Row(children: [
+                                        Icon(Icons.timer, size: 18),
+                                        SizedBox(width: 8),
+                                        Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.baseline,
+                                            textBaseline:
+                                                TextBaseline.alphabetic,
+                                            children: [
+                                              Text(
+                                                  '${normalizeTime(assignmentItem.startHour.hour)}:${normalizeTime(assignmentItem.startHour.minute)}',
+                                                  style:
+                                                      TextStyle(fontSize: 22)),
+                                              SizedBox(width: 4),
+                                              Text(translate(context, "to"),
+                                                  style:
+                                                      TextStyle(fontSize: 12)),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                  '${normalizeTime(assignmentItem.endHour.hour)}:${normalizeTime(assignmentItem.endHour.minute)}',
+                                                  style:
+                                                      TextStyle(fontSize: 22))
+                                            ]),
+                                      ]),
+                                      SizedBox(height: 16),
+                                      Row(children: [
+                                        Icon(Icons.attach_money, size: 18),
+                                        SizedBox(width: 8),
+                                        Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.baseline,
+                                            textBaseline:
+                                                TextBaseline.alphabetic,
+                                            children: [
+                                              Text('${assignmentItem.fare}',
+                                                  style:
+                                                      TextStyle(fontSize: 22)),
+                                              SizedBox(width: 4),
+                                              Text('€/h',
+                                                  style:
+                                                      TextStyle(fontSize: 12))
+                                            ]),
+                                      ]),
+                                    ])
+                            ]),
                       SizedBox(height: 24)
                     ]));
                   } else {

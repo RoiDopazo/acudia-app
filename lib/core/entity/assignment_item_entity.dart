@@ -18,10 +18,11 @@ class AssignmentItem {
       from: DateTime.parse(json["from"]),
       to: DateTime.parse(json["to"]),
       startHour: new TimeOfDay(
-          hour: (json["startHour"] / 60).truncate(), minute: json['startHour'] % 60),
+          hour: (json["startHour"] / 3600).truncate(),
+          minute: ((json['startHour'] % 3600) / 60).truncate()),
       endHour: new TimeOfDay(
-          hour: (json["endHour"] / 60).truncate(),
-          minute: json['endHour'] % 60),
+          hour: (json["endHour"] / 3600).truncate(),
+          minute: ((json['endHour'] % 3600) / 60).truncate()),
       fare: json['fare'],
       days: json['days'],
     );

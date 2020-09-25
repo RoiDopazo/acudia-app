@@ -1,4 +1,5 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 
@@ -6,15 +7,6 @@ class AcudiaTimePickerField extends StatelessWidget {
   final TimeOfDay time;
   final String label;
   final Function onChange;
-
-  String normalizeTime(time) {
-    String timeString = time.toString();
-
-    if (time < 10) {
-      timeString = '0$timeString';
-    }
-    return timeString;
-  }
 
   const AcudiaTimePickerField(
       {Key key, this.time, this.onChange, this.label = ''})

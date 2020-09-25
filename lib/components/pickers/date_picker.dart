@@ -59,7 +59,7 @@ class AcudiaDatePickerField extends StatelessWidget {
                               SizedBox(width: 8),
                               Text(
                                   date != null
-                                      ? DateFormat.yMMMd('en').format(date)
+                                      ? DateFormat.yMMMd('es').format(date)
                                       : translate(context, 'no_specified'),
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,

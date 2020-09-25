@@ -77,6 +77,8 @@
   "end_date": "Fecha de fin",
   "start_time": "Hora de comienzo",
   "end_time": "Hora de fin",
+  "schedule": "Horario",
+  "to": "a",
   "fare": "Tarifa",
   "euro_hour": "Euros/hora"
 }
