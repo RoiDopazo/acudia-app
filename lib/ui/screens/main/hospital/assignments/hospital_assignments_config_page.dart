@@ -4,6 +4,8 @@ import 'package:acudia/components/navigation/floating_action_button_full.dart';
 import 'package:acudia/components/pickers/date_picker.dart';
 import 'package:acudia/components/pickers/number_picker.dart';
 import 'package:acudia/components/pickers/time_picker.dart';
+import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
@@ -11,16 +13,77 @@ import 'package:acudia/core/services/assignments/assignments_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:load/load.dart';
 import 'package:provider/provider.dart';
 
 class HospitalAssignmentsConfigPage extends StatelessWidget {
   final Hospital hospital;
-  final Function refetch;
+  Assignment assignment;
+  final int index;
 
-  const HospitalAssignmentsConfigPage({Key key, this.hospital, this.refetch})
+  HospitalAssignmentsConfigPage(
+      {Key key, this.hospital, this.index, this.assignment})
       : super(key: key);
+
+  Widget floatingActionButton(
+      AssignmentsProvider assingmentsProvider, context) {
+    return Mutation(
+      options: MutationOptions(
+          documentNode: gql(assingmentsProvider.isEditting
+              ? GRAPHQL_UPDATE_ASSIGNMENT_MUTATION
+              : GRAPHQL_ADD_ASSIGNMENT_MUTATION),
+          onCompleted: (dynamic resultData) async {
+            if (resultData != null) {
+              hideLoadingDialog();
+              await assingmentsProvider.refetch();
+              Navigator.of(context).pop(true);
+            }
+          },
+          onError: (dynamic error) {
+            hideLoadingDialog();
+            showUnexpectedError(context);
+          }),
+      builder: (
+        RunMutation runMutation,
+        QueryResult result,
+      ) {
+        if (assingmentsProvider.assignmentItem.fare != null)
+          return AcudiaAnimationOpacity(
+              opacity:
+                  assingmentsProvider.assignmentItem.fare != null ? 1.0 : 0.0,
+              child: AcudiaFloatingActionButtonFull(
+                  onPressed: () {
+                    showLoadingDialog();
+                    if (assingmentsProvider.isEditting) {
+                      assignment.itemList[index] = new AssignmentItem(
+                          from: assingmentsProvider.assignmentItem.from,
+                          to: assingmentsProvider.assignmentItem.to,
+                          startHour:
+                              assingmentsProvider.assignmentItem.startHour,
+                          endHour: assingmentsProvider.assignmentItem.endHour,
+                          fare: assingmentsProvider.assignmentItem.fare);
+
+                      runMutation(assignment.toJson());
+                    } else {
+                      runMutation({
+                        "hospId": hospital.codCNH,
+                        "hospName": hospital.name,
+                        "hospProvince": hospital.province,
+                        "email": "roidopazo@gmail.com",
+                        "itemList": [
+                          assingmentsProvider.assignmentItem.toJson()
+                        ]
+                      });
+                    }
+                  },
+                  text: assingmentsProvider.isEditting
+                      ? '${translate(context, 'update')} ${translate(context, 'assignment').toLowerCase()}'
+                      : '${translate(context, 'save')} ${translate(context, 'assignment').toLowerCase()}',
+                  icon: Icon(Icons.save)));
+        return Container();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,72 +207,8 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                               TextStyle(color: Theme.of(context).errorColor))),
                 SizedBox(height: 100),
               ]))),
-              floatingActionButton: Mutation(
-                options: MutationOptions(
-                    documentNode: gql(GRAPHQL_ADD_ASSIGNMENT_MUTATION),
-                    onCompleted: (dynamic resultData) async {
-                      if (resultData != null) {
-                        hideLoadingDialog();
-                        print('aaaaaaaacabou');
-                        await refetch();
-                        Navigator.of(context).pop(true);
-                      }
-                    },
-                    onError: (dynamic error) {
-                      hideLoadingDialog();
-                      print('error');
-                      showUnexpectedError(context);
-                    }),
-                builder: (
-                  RunMutation runMutation,
-                  QueryResult result,
-                ) {
-                  if (assingmentsProvider.assignmentItem.fare != null)
-                    return AcudiaAnimationOpacity(
-                        opacity: assingmentsProvider.assignmentItem.fare != null
-                            ? 1.0
-                            : 0.0,
-                        child: AcudiaFloatingActionButtonFull(
-                            onPressed: () {
-                              showLoadingDialog();
-                              DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-                              runMutation({
-                                "hospId": hospital.codCNH,
-                                "hospName": hospital.name,
-                                "hospProvince": hospital.province,
-                                "email": "roidopazo@gmail.com",
-                                "itemList": [
-                                  {
-                                    "from": dateFormat.format(
-                                        assingmentsProvider
-                                            .assignmentItem.from),
-                                    "to": dateFormat.format(
-                                        assingmentsProvider.assignmentItem.to),
-                                    "startHour": assingmentsProvider
-                                                .assignmentItem.startHour.hour *
-                                            3600 +
-                                        assingmentsProvider.assignmentItem
-                                                .startHour.minute *
-                                            60,
-                                    "endHour": assingmentsProvider
-                                                .assignmentItem.endHour.hour *
-                                            3600 +
-                                        assingmentsProvider
-                                                .assignmentItem.endHour.minute *
-                                            60,
-                                    "fare":
-                                        assingmentsProvider.assignmentItem.fare
-                                  }
-                                ]
-                              });
-                            },
-                            text: assingmentsProvider.isEditting
-                                ? '${translate(context, 'update')} ${translate(context, 'assignment').toLowerCase()}'
-                                : '${translate(context, 'save')} ${translate(context, 'assignment').toLowerCase()}',
-                            icon: Icon(Icons.save)));
-                  return Container();
-                },
-              ),
+              floatingActionButton:
+                  floatingActionButton(assingmentsProvider, context),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerDocked,
             ));

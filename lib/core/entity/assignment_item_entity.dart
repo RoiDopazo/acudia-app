@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // ignore_for_file: non_constant_identifier_names
 
@@ -36,5 +37,17 @@ class AssignmentItem {
     });
 
     return assignmentItemList;
+  }
+
+  Map<String, dynamic> toJson() {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+
+    return {
+      "from": dateFormat.format(this.from),
+      "to": dateFormat.format(this.to),
+      "startHour": this.startHour.hour * 3600 + this.startHour.minute * 60,
+      "endHour": this.endHour.hour * 3600 + this.endHour.minute * 60,
+      "fare": this.fare
+    };
   }
 }

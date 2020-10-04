@@ -17,6 +17,11 @@ final String GRAPHQL_ADD_ASSIGNMENT_MUTATION = """
   }
 }""";
 
+final String GRAPHQL_UPDATE_ASSIGNMENT_MUTATION = """
+  mutation updateAssignment (\$hospId: String!, \$itemList: [CreateAssignmentItemInput]) {
+  updateAssignment(input: {hospId: \$hospId, itemList: \$itemList} )
+}""";
+
 final String GRAPHQL_GET_MY_ASSIGNMENTS_QUERY = """
   query getMyAssignments() {
     getMyAssignments {

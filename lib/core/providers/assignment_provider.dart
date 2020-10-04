@@ -1,3 +1,4 @@
+import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +6,7 @@ class AssignmentsProvider with ChangeNotifier {
   int selectedTab = 0;
   bool isEditting = false;
   AssignmentItem assignmentItem;
+  Function refetch;
 
   moveToConfig(isEdittingParam) {
     if (isEdittingParam) {
@@ -44,9 +46,13 @@ class AssignmentsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  setAssignmentItem(AssignmentItem assignmentItemParam) {
+  setAssignmentItem(AssignmentItem assignmentItemParam, Assignment assignment) {
     assignmentItem = assignmentItemParam;
     notifyListeners();
+  }
+
+  setRefetchFunc(Function refetchParam) {
+    refetch = refetchParam;
   }
 
   cleanup() {

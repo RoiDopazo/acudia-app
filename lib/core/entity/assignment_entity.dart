@@ -8,7 +8,7 @@ class Assignment {
   final String hospId;
   final String hospName;
   final String hospProvince;
-  final List<AssignmentItem> itemList;
+  List<AssignmentItem> itemList;
   final int createdAt;
 
   Assignment(
@@ -40,5 +40,19 @@ class Assignment {
     });
 
     return assignmentList;
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>> itemListJson = [];
+
+    this.itemList.forEach((element) {
+      itemListJson.add(element.toJson());
+    });
+    return {
+      "hospId": this.hospId,
+      "hospName": this.hospName,
+      "hospProvince": this.hospProvince,
+      "itemList": itemListJson
+    };
   }
 }

@@ -66,16 +66,21 @@ class HospitalAssignmentsPage extends StatelessWidget {
                             title: assignment.hospName,
                             subtitle: '${assignment.hospProvince}',
                             children: [
-                              for (AssignmentItem assignmentItem
-                                  in assignment.itemList)
+                              for (var i = 0;
+                                  i < assignment.itemList.length;
+                                  i++)
                                 AcudiaDateRangeItem(
-                                    from: assignmentItem.from,
-                                    to: assignmentItem.to,
+                                    from: assignment.itemList[i].from,
+                                    to: assignment.itemList[i].to,
                                     onTap: () {
                                       Provider.of<AssignmentsProvider>(context)
                                           .moveToConfig(true);
                                       Provider.of<AssignmentsProvider>(context)
-                                          .setAssignmentItem(assignmentItem);
+                                          .setRefetchFunc(refetch);
+                                      Provider.of<AssignmentsProvider>(context)
+                                          .setAssignmentItem(
+                                              assignment.itemList[i],
+                                              assignment);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -87,7 +92,8 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                                       name: assignment.hospName,
                                                       province: assignment
                                                           .hospProvince),
-                                                  refetch: refetch),
+                                                  assignment: assignment,
+                                                  index: i),
                                           fullscreenDialog: true,
                                         ),
                                       );
@@ -103,7 +109,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                                 TextBaseline.alphabetic,
                                             children: [
                                               Text(
-                                                  '${normalizeTime(assignmentItem.startHour.hour)}:${normalizeTime(assignmentItem.startHour.minute)}',
+                                                  '${normalizeTime(assignment.itemList[i].startHour.hour)}:${normalizeTime(assignment.itemList[i].startHour.minute)}',
                                                   style:
                                                       TextStyle(fontSize: 22)),
                                               SizedBox(width: 4),
@@ -112,7 +118,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                                       TextStyle(fontSize: 12)),
                                               SizedBox(width: 4),
                                               Text(
-                                                  '${normalizeTime(assignmentItem.endHour.hour)}:${normalizeTime(assignmentItem.endHour.minute)}',
+                                                  '${normalizeTime(assignment.itemList[i].endHour.hour)}:${normalizeTime(assignment.itemList[i].endHour.minute)}',
                                                   style:
                                                       TextStyle(fontSize: 22))
                                             ]),
@@ -127,7 +133,8 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                             textBaseline:
                                                 TextBaseline.alphabetic,
                                             children: [
-                                              Text('${assignmentItem.fare}',
+                                              Text(
+                                                  '${assignment.itemList[i].fare}',
                                                   style:
                                                       TextStyle(fontSize: 22)),
                                               SizedBox(width: 4),
