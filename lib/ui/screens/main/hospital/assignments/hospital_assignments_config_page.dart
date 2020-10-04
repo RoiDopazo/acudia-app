@@ -17,12 +17,14 @@ import 'package:provider/provider.dart';
 
 class HospitalAssignmentsConfigPage extends StatelessWidget {
   final Hospital hospital;
+  final Function refetch;
 
-  const HospitalAssignmentsConfigPage({Key key, this.hospital})
+  const HospitalAssignmentsConfigPage({Key key, this.hospital, this.refetch})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(hospital.name);
     return new Consumer<AssignmentsProvider>(
         builder: (context, assingmentsProvider, child) => Scaffold(
               appBar: AppBar(
@@ -53,7 +55,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                             style: Theme.of(context).textTheme.headline2,
                           ),
                           Text(
-                            hospital.municipallity,
+                            hospital.province,
                             style: Theme.of(context).textTheme.subtitle2,
                           )
                         ])),
@@ -64,18 +66,20 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 AcudiaDatePickerField(
-                  date: assingmentsProvider.fromDate,
+                  date: assingmentsProvider.assignmentItem.from,
                   label: translate(context, 'start_date'),
                   onChange: (value) =>
                       Provider.of<AssignmentsProvider>(context, listen: false)
                           .updateFromDate(value),
                 ),
-                if (assingmentsProvider.fromDate != null)
+                if (assingmentsProvider.assignmentItem.from != null)
                   AcudiaAnimationOpacity(
-                    opacity: assingmentsProvider.fromDate != null ? 1.0 : 0.0,
+                    opacity: assingmentsProvider.assignmentItem.from != null
+                        ? 1.0
+                        : 0.0,
                     child: AcudiaDatePickerField(
-                      date: assingmentsProvider.toDate,
-                      firstDate: assingmentsProvider.fromDate,
+                      date: assingmentsProvider.assignmentItem.to,
+                      firstDate: assingmentsProvider.assignmentItem.from,
                       label: translate(context, 'end_date'),
                       onChange: (value) => Provider.of<AssignmentsProvider>(
                               context,
@@ -83,11 +87,13 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                           .updateToDate(value),
                     ),
                   ),
-                if (assingmentsProvider.toDate != null)
+                if (assingmentsProvider.assignmentItem.to != null)
                   AcudiaAnimationOpacity(
-                    opacity: assingmentsProvider.toDate != null ? 1.0 : 0.0,
+                    opacity: assingmentsProvider.assignmentItem.to != null
+                        ? 1.0
+                        : 0.0,
                     child: AcudiaTimePickerField(
-                      time: assingmentsProvider.startHour,
+                      time: assingmentsProvider.assignmentItem.startHour,
                       label: translate(context, 'start_time'),
                       onChange: (value) => Provider.of<AssignmentsProvider>(
                               context,
@@ -95,11 +101,14 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                           .updateStartHour(value),
                     ),
                   ),
-                if (assingmentsProvider.startHour != null)
+                if (assingmentsProvider.assignmentItem.startHour != null)
                   AcudiaAnimationOpacity(
-                    opacity: assingmentsProvider.startHour != null ? 1.0 : 0.0,
+                    opacity:
+                        assingmentsProvider.assignmentItem.startHour != null
+                            ? 1.0
+                            : 0.0,
                     child: AcudiaTimePickerField(
-                      time: assingmentsProvider.endHour,
+                      time: assingmentsProvider.assignmentItem.endHour,
                       label: translate(context, 'end_time'),
                       onChange: (value) => Provider.of<AssignmentsProvider>(
                               context,
@@ -107,37 +116,59 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                           .updateEndHour(value),
                     ),
                   ),
-                if (assingmentsProvider.endHour != null)
+                if (assingmentsProvider.assignmentItem.endHour != null)
                   AcudiaAnimationOpacity(
-                      opacity: assingmentsProvider.endHour != null ? 1.0 : 0.0,
+                      opacity:
+                          assingmentsProvider.assignmentItem.endHour != null
+                              ? 1.0
+                              : 0.0,
                       child: AcudiaNumberPickerField(
                           label: translate(context, 'fare'),
-                          number: assingmentsProvider.fare,
+                          number: assingmentsProvider.assignmentItem.fare,
                           onChange: (value) => Provider.of<AssignmentsProvider>(
                                   context,
                                   listen: false)
                               .updateFare(value))),
+                if (assingmentsProvider.isEditting)
+                  FlatButton(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Theme.of(context).errorColor,
+                              width: 1,
+                              style: BorderStyle.solid),
+                          borderRadius: BorderRadius.circular(8)),
+                      onPressed: () {},
+                      child: Text(
+                          '${translate(context, 'remove')} ${translate(context, 'assignment').toLowerCase()}',
+                          style:
+                              TextStyle(color: Theme.of(context).errorColor))),
+                SizedBox(height: 100),
               ]))),
               floatingActionButton: Mutation(
                 options: MutationOptions(
                     documentNode: gql(GRAPHQL_ADD_ASSIGNMENT_MUTATION),
-                    onCompleted: (dynamic resultData) {
+                    onCompleted: (dynamic resultData) async {
                       if (resultData != null) {
                         hideLoadingDialog();
+                        print('aaaaaaaacabou');
+                        await refetch();
                         Navigator.of(context).pop(true);
                       }
                     },
                     onError: (dynamic error) {
                       hideLoadingDialog();
+                      print('error');
                       showUnexpectedError(context);
                     }),
                 builder: (
                   RunMutation runMutation,
                   QueryResult result,
                 ) {
-                  if (assingmentsProvider.fare != null)
+                  if (assingmentsProvider.assignmentItem.fare != null)
                     return AcudiaAnimationOpacity(
-                        opacity: assingmentsProvider.fare != null ? 1.0 : 0.0,
+                        opacity: assingmentsProvider.assignmentItem.fare != null
+                            ? 1.0
+                            : 0.0,
                         child: AcudiaFloatingActionButtonFull(
                             onPressed: () {
                               showLoadingDialog();
@@ -149,26 +180,32 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                                 "email": "roidopazo@gmail.com",
                                 "itemList": [
                                   {
-                                    "from": dateFormat
-                                        .format(assingmentsProvider.fromDate),
-                                    "to": dateFormat
-                                        .format(assingmentsProvider.toDate),
+                                    "from": dateFormat.format(
+                                        assingmentsProvider
+                                            .assignmentItem.from),
+                                    "to": dateFormat.format(
+                                        assingmentsProvider.assignmentItem.to),
                                     "startHour": assingmentsProvider
-                                                .startHour.hour *
+                                                .assignmentItem.startHour.hour *
                                             3600 +
-                                        assingmentsProvider.startHour.minute *
+                                        assingmentsProvider.assignmentItem
+                                                .startHour.minute *
                                             60,
                                     "endHour": assingmentsProvider
-                                                .endHour.hour *
+                                                .assignmentItem.endHour.hour *
                                             3600 +
-                                        assingmentsProvider.endHour.minute * 60,
-                                    "fare": assingmentsProvider.fare
+                                        assingmentsProvider
+                                                .assignmentItem.endHour.minute *
+                                            60,
+                                    "fare":
+                                        assingmentsProvider.assignmentItem.fare
                                   }
                                 ]
                               });
                             },
-                            text: translate(
-                                context, 'hospital_assignments_save_label'),
+                            text: assingmentsProvider.isEditting
+                                ? '${translate(context, 'update')} ${translate(context, 'assignment').toLowerCase()}'
+                                : '${translate(context, 'save')} ${translate(context, 'assignment').toLowerCase()}',
                             icon: Icon(Icons.save)));
                   return Container();
                 },

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 // ignore_for_file: non_constant_identifier_names
 
 class AssignmentItem {
-  final DateTime from;
-  final DateTime to;
-  final TimeOfDay startHour;
-  final TimeOfDay endHour;
-  final int fare;
-  final List<bool> days;
+  DateTime from;
+  DateTime to;
+  TimeOfDay startHour;
+  TimeOfDay endHour;
+  int fare;
+  List<bool> days;
 
   AssignmentItem(
       {this.from, this.to, this.startHour, this.endHour, this.fare, this.days});

@@ -74,7 +74,7 @@ class HospitalSearchPage extends StatelessWidget {
         return FloatingActionButton.extended(
             onPressed: () {
               Provider.of<AssignmentsProvider>(context, listen: false)
-                  .moveToConfig();
+                  .moveToConfig(false);
             },
             label: Row(children: [
               Text(translate(context, 'next'),

@@ -1,14 +1,15 @@
+import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:flutter/material.dart';
 
 class AssignmentsProvider with ChangeNotifier {
   int selectedTab = 0;
-  DateTime fromDate;
-  DateTime toDate;
-  TimeOfDay startHour;
-  TimeOfDay endHour;
-  int fare;
+  bool isEditting = false;
+  AssignmentItem assignmentItem;
 
-  moveToConfig() {
+  moveToConfig(isEdittingParam) {
+    if (isEdittingParam) {
+      isEditting = true;
+    }
     selectedTab = 1;
     notifyListeners();
   }
@@ -19,36 +20,38 @@ class AssignmentsProvider with ChangeNotifier {
   }
 
   updateFromDate(DateTime fromDateParam) {
-    fromDate = fromDateParam;
+    assignmentItem.from = fromDateParam;
     notifyListeners();
   }
 
   updateToDate(DateTime toDateParam) {
-    toDate = toDateParam;
+    assignmentItem.to = toDateParam;
     notifyListeners();
   }
 
   updateStartHour(TimeOfDay startDateParam) {
-    startHour = startDateParam;
+    assignmentItem.startHour = startDateParam;
     notifyListeners();
   }
 
   updateEndHour(TimeOfDay endHourParam) {
-    endHour = endHourParam;
+    assignmentItem.endHour = endHourParam;
     notifyListeners();
   }
 
   updateFare(int fareParam) {
-    fare = fareParam;
+    assignmentItem.fare = fareParam;
+    notifyListeners();
+  }
+
+  setAssignmentItem(AssignmentItem assignmentItemParam) {
+    assignmentItem = assignmentItemParam;
     notifyListeners();
   }
 
   cleanup() {
     selectedTab = 0;
-    fromDate = null;
-    toDate = null;
-    startHour = null;
-    endHour = null;
-    fare = null;
+    isEditting = false;
+    assignmentItem = new AssignmentItem();
   }
 }
