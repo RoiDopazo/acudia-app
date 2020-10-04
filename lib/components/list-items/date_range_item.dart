@@ -1,3 +1,4 @@
+import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -36,12 +37,12 @@ class AcudiaDateRangeItem extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                              Text('${from.day}',
+                              Text('${normalizeTime(from.day)}',
                                   style: TextStyle(fontSize: 28)),
                               Text('$fromMonth ${from.year}',
                                   style: TextStyle(fontSize: 12)),
                               Text('|'),
-                              Text('${to.day}', style: TextStyle(fontSize: 28)),
+                              Text('${normalizeTime(to.day)}', style: TextStyle(fontSize: 28)),
                               Text('$toMonth ${to.year}',
                                   style: TextStyle(fontSize: 12)),
                             ])),

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/components/animation/animation_opacity.dart';
 import 'package:acudia/components/navigation/floating_action_button_full.dart';
@@ -10,6 +11,7 @@ import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -25,6 +27,20 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
       {Key key, this.hospital, this.index, this.assignment})
       : super(key: key);
 
+  refetchData(assingmentsProvider) async {
+    try {
+      await assingmentsProvider.refetch();
+      print('works');
+    } catch (err) {
+      // FIXME!!!!
+      print(err);
+      if (err.message == 'Query is not refetch safe') {
+        sleep(const Duration(seconds: 1));
+        refetchData(assingmentsProvider);
+      }
+    }
+  }
+
   Widget floatingActionButton(
       AssignmentsProvider assingmentsProvider, context) {
     return Mutation(
@@ -35,7 +51,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
           onCompleted: (dynamic resultData) async {
             if (resultData != null) {
               hideLoadingDialog();
-              await assingmentsProvider.refetch();
+              await refetchData(assingmentsProvider);
               Navigator.of(context).pop(true);
             }
           },
@@ -81,6 +97,56 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                       : '${translate(context, 'save')} ${translate(context, 'assignment').toLowerCase()}',
                   icon: Icon(Icons.save)));
         return Container();
+      },
+    );
+  }
+
+  Widget removeAssignmentWidget(
+      AssignmentsProvider assingmentsProvider, context) {
+    return Mutation(
+      options: MutationOptions(
+          documentNode: gql(GRAPHQL_UPDATE_ASSIGNMENT_MUTATION),
+          onCompleted: (dynamic resultData) async {
+            if (resultData != null) {
+              hideLoadingDialog();
+              await refetchData(assingmentsProvider);
+              Navigator.of(context).pop(true);
+            }
+          },
+          onError: (dynamic error) {
+            hideLoadingDialog();
+            showUnexpectedError(context);
+          }),
+      builder: (
+        RunMutation runMutation,
+        QueryResult result,
+      ) {
+        return FlatButton(
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: Theme.of(context).errorColor,
+                    width: 1,
+                    style: BorderStyle.solid),
+                borderRadius: BorderRadius.circular(8)),
+            onPressed: () {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.WARNING,
+                animType: AnimType.SCALE,
+                title:
+                    translate(context, 'hospital_assignment_remove_question'),
+                desc: "",
+                btnCancelOnPress: () {},
+                btnOkOnPress: () async {
+                  showLoadingDialog();
+                  assignment.itemList.removeAt(index);
+                  runMutation(assignment.toJson());
+                },
+              )..show();
+            },
+            child: Text(
+                '${translate(context, 'remove')} ${translate(context, 'assignment').toLowerCase()}',
+                style: TextStyle(color: Theme.of(context).errorColor)));
       },
     );
   }
@@ -193,18 +259,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                                   listen: false)
                               .updateFare(value))),
                 if (assingmentsProvider.isEditting)
-                  FlatButton(
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: Theme.of(context).errorColor,
-                              width: 1,
-                              style: BorderStyle.solid),
-                          borderRadius: BorderRadius.circular(8)),
-                      onPressed: () {},
-                      child: Text(
-                          '${translate(context, 'remove')} ${translate(context, 'assignment').toLowerCase()}',
-                          style:
-                              TextStyle(color: Theme.of(context).errorColor))),
+                  removeAssignmentWidget(assingmentsProvider, context),
                 SizedBox(height: 100),
               ]))),
               floatingActionButton:

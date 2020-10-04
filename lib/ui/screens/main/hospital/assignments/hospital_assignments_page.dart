@@ -2,7 +2,6 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/components/expansion/expansion_tile.dart';
 import 'package:acudia/components/list-items/date_range_item.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
-import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
@@ -54,9 +53,11 @@ class HospitalAssignmentsPage extends StatelessWidget {
                     );
                   }
 
+                  Provider.of<AssignmentsProvider>(context)
+                      .setRefetchFunc(refetch);
+
                   List<Assignment> assignmentList = Assignment.fromJsonList(
                       result.data['getMyAssignments']['items']);
-
                   if (assignmentList != null && assignmentList.length > 0) {
                     return SingleChildScrollView(
                         child: Column(children: [
@@ -75,8 +76,6 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                     onTap: () {
                                       Provider.of<AssignmentsProvider>(context)
                                           .moveToConfig(true);
-                                      Provider.of<AssignmentsProvider>(context)
-                                          .setRefetchFunc(refetch);
                                       Provider.of<AssignmentsProvider>(context)
                                           .setAssignmentItem(
                                               assignment.itemList[i],
