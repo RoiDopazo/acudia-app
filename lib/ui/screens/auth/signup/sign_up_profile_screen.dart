@@ -18,8 +18,7 @@ class SignUpProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     void getImage() async {
       var _image = await _picker.getImage(source: ImageSource.gallery);
-      Provider.of<SignUpProvider>(context, listen: false)
-          .updateValue(FIELD_IMAGE, _image.path);
+      Provider.of<SignUpProvider>(context, listen: false).updateValue(FIELD_IMAGE, _image.path);
     }
 
     String image = Provider.of<SignUpProvider>(context).values[FIELD_IMAGE];
@@ -34,10 +33,7 @@ class SignUpProfile extends StatelessWidget {
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Text(
                       translate(context, signup.errors[key]),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(color: Theme.of(context).errorColor),
+                      style: Theme.of(context).textTheme.headline5.copyWith(color: Theme.of(context).errorColor),
                     )
                   ])
                 ]
@@ -48,42 +44,35 @@ class SignUpProfile extends StatelessWidget {
         builder: (context, signup, child) => Column(children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
-                child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        translate(context, 'field_role_label'),
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      SizedBox(height: 32),
-                    ]),
+                child: new Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                  Text(
+                    translate(context, 'field_role_label'),
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  SizedBox(height: 32),
+                ]),
               ),
               ToggleButtons(
                   onPressed: (int index) {
                     List<bool> roleValues = [false, false];
                     roleValues[index] = true;
-                    Provider.of<SignUpProvider>(context, listen: false)
-                        .updateValue(FIELD_ROLE, roleValues);
+                    Provider.of<SignUpProvider>(context, listen: false).updateValue(FIELD_ROLE, roleValues);
                   },
                   isSelected: signup.values[FIELD_ROLE],
                   children: <Widget>[
                     Container(
                       width: (MediaQuery.of(context).size.width - 52) / 3,
                       height: 80,
-                      child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(translate(context, 'field_role_client')),
-                          ]),
+                      child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                        Text(translate(context, 'field_role_client')),
+                      ]),
                     ),
                     Container(
                       width: (MediaQuery.of(context).size.width - 52) / 3,
                       height: 80,
-                      child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(translate(context, 'field_role_acudier')),
-                          ]),
+                      child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                        Text(translate(context, 'field_role_acudier')),
+                      ]),
                     )
                   ]),
               errorComponent(signup, FIELD_ROLE),
@@ -93,59 +82,38 @@ class SignUpProfile extends StatelessWidget {
                       ? ([
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                      "${translate(context, 'field_gender_label')}:",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline4),
-                                  SizedBox(height: 32),
-                                ]),
+                            child: new Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                              Text("${translate(context, 'field_gender_label')}:",
+                                  style: Theme.of(context).textTheme.headline4),
+                              SizedBox(height: 32),
+                            ]),
                           ),
                           ToggleButtons(
                             isSelected: signup.values[FIELD_GENDER],
                             onPressed: (int index) {
                               List<bool> genderValues = [false, false, false];
                               genderValues[index] = true;
-                              Provider.of<SignUpProvider>(context,
-                                      listen: false)
+                              Provider.of<SignUpProvider>(context, listen: false)
                                   .updateValue(FIELD_GENDER, genderValues);
                             },
                             children: <Widget>[
                               Container(
-                                width:
-                                    (MediaQuery.of(context).size.width - 52) /
-                                        3,
-                                child: new Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(translate(
-                                          context, 'field_gender_male')),
-                                    ]),
+                                width: (MediaQuery.of(context).size.width - 52) / 3,
+                                child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                                  Text(translate(context, 'field_gender_male')),
+                                ]),
                               ),
                               Container(
-                                width:
-                                    (MediaQuery.of(context).size.width - 52) /
-                                        3,
-                                child: new Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(translate(
-                                          context, 'field_gender_female')),
-                                    ]),
+                                width: (MediaQuery.of(context).size.width - 52) / 3,
+                                child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                                  Text(translate(context, 'field_gender_female')),
+                                ]),
                               ),
                               Container(
-                                width:
-                                    (MediaQuery.of(context).size.width - 52) /
-                                        3,
-                                child: new Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(translate(
-                                          context, 'field_gender_other')),
-                                    ]),
+                                width: (MediaQuery.of(context).size.width - 52) / 3,
+                                child: new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                                  Text(translate(context, 'field_gender_other')),
+                                ]),
                               )
                             ],
                           ),
@@ -153,17 +121,11 @@ class SignUpProfile extends StatelessWidget {
                           SizedBox(height: 16),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                      translate(
-                                          context, 'field_birthdate_label'),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline4),
-                                  SizedBox(height: 32),
-                                ]),
+                            child: new Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                              Text(translate(context, 'field_birthdate_label'),
+                                  style: Theme.of(context).textTheme.headline4),
+                              SizedBox(height: 32),
+                            ]),
                           ),
                           Row(
                             children: <Widget>[
@@ -171,8 +133,7 @@ class SignUpProfile extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width / 2,
                                 child: Text(
                                   signup.values[FIELD_BIRTHDATE] != null
-                                      ? DateFormat.yMMMd().format(
-                                          signup.values[FIELD_BIRTHDATE])
+                                      ? DateFormat.yMMMd().format(signup.values[FIELD_BIRTHDATE])
                                       : translate(context, 'no_specified'),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(fontWeight: FontWeight.w500),
@@ -182,9 +143,7 @@ class SignUpProfile extends StatelessWidget {
                                 child: FlatButton(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(4.0),
-                                      side: BorderSide(
-                                          color:
-                                              Theme.of(context).primaryColor)),
+                                      side: BorderSide(color: Theme.of(context).primaryColor)),
                                   child: signup.values[FIELD_BIRTHDATE] == null
                                       ? Text(translate(context, 'select'))
                                       : Text(translate(context, 'modify')),
@@ -192,15 +151,11 @@ class SignUpProfile extends StatelessWidget {
                                       context: context,
                                       firstDate: new DateTime(1900),
                                       lastDate: new DateTime.now(),
-                                      selectedDate:
-                                          signup.values[FIELD_BIRTHDATE] != null
-                                              ? signup.values[FIELD_BIRTHDATE]
-                                              : new DateTime.now(),
-                                      onChanged: (value) =>
-                                          Provider.of<SignUpProvider>(context,
-                                                  listen: false)
-                                              .updateValue(
-                                                  FIELD_BIRTHDATE, value)),
+                                      selectedDate: signup.values[FIELD_BIRTHDATE] != null
+                                          ? signup.values[FIELD_BIRTHDATE]
+                                          : new DateTime.now(),
+                                      onChanged: (value) => Provider.of<SignUpProvider>(context, listen: false)
+                                          .updateValue(FIELD_BIRTHDATE, value)),
                                 ),
                               ),
                             ],
@@ -211,18 +166,13 @@ class SignUpProfile extends StatelessWidget {
               SizedBox(height: 16),
               Container(
                 width: MediaQuery.of(context).size.width,
-                child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(translate(context, 'field_picture_label'),
-                          style: Theme.of(context).textTheme.headline4),
-                      Text(' ('),
-                      !isAcudier
-                          ? Text(translate(context, 'optional'))
-                          : Text(translate(context, 'recommendable')),
-                      Text(')'),
-                      SizedBox(height: 32),
-                    ]),
+                child: new Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                  Text(translate(context, 'field_picture_label'), style: Theme.of(context).textTheme.headline4),
+                  Text(' ('),
+                  !isAcudier ? Text(translate(context, 'optional')) : Text(translate(context, 'recommendable')),
+                  Text(')'),
+                  SizedBox(height: 32),
+                ]),
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
@@ -233,10 +183,7 @@ class SignUpProfile extends StatelessWidget {
                             onPressed: () => getImage(),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(Icons.add_a_photo),
-                                Text(translate(context, 'add_image'))
-                              ],
+                              children: <Widget>[Icon(Icons.add_a_photo), Text(translate(context, 'add_image'))],
                             ),
                           )
                         : _previewImage(image, getImage),

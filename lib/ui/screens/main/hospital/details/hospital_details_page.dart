@@ -26,9 +26,7 @@ class HospitalDetailsPage extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 title: LayoutBuilder(builder: (context, size) {
                   var span = TextSpan(
-                      text: args.hospital.name,
-                      style: TextStyle(
-                          color: Theme.of(context).scaffoldBackgroundColor));
+                      text: args.hospital.name, style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor));
 
                   return Text.rich(
                     span,

@@ -5,10 +5,7 @@ import 'package:provider/provider.dart';
 enum ERROR_VISUALIZATIONS_TYPE { snackbar, dialog }
 
 void showUnexpectedError(context) {
-  showError(
-      context,
-      translate(context, 'error_unexpected'),
-      translate(context, 'error_try_again_later'),
+  showError(context, translate(context, 'error_unexpected'), translate(context, 'error_try_again_later'),
       ERROR_VISUALIZATIONS_TYPE.dialog);
 }
 
@@ -26,8 +23,7 @@ class ErrorNotifierProvider with ChangeNotifier {
   String get errorTitle => _errorTitle;
   ERROR_VISUALIZATIONS_TYPE get vtype => _vtype;
 
-  void notifyError(
-      {dynamic error, dynamic errorTitle, ERROR_VISUALIZATIONS_TYPE vtype}) {
+  void notifyError({dynamic error, dynamic errorTitle, ERROR_VISUALIZATIONS_TYPE vtype}) {
     _error = error.toString();
     _errorTitle = errorTitle.toString();
     _vtype = vtype;

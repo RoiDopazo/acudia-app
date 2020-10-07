@@ -11,19 +11,14 @@ const MAX_HOSP_VALUES = 200;
 parseResponse(response, currentLocation) async {
   var data = json.decode(response.body);
   List<dynamic> items = data["features"];
-  List<dynamic> limitedItems = items.length > MAX_HOSP_VALUES
-      ? items.sublist(0, MAX_HOSP_VALUES)
-      : items;
+  List<dynamic> limitedItems = items.length > MAX_HOSP_VALUES ? items.sublist(0, MAX_HOSP_VALUES) : items;
   List<Hospital> hospList = [];
 
   for (Map<String, dynamic> item in limitedItems) {
     Hospital hosp = Hospital.fromJson(item["attributes"]);
     if (currentLocation != null) {
-      hosp.setDistance(await Geolocator().distanceBetween(
-          currentLocation["lat"],
-          currentLocation["lng"],
-          hosp.coords["lat"],
-          hosp.coords["lng"]));
+      hosp.setDistance(await Geolocator()
+          .distanceBetween(currentLocation["lat"], currentLocation["lng"], hosp.coords["lat"], hosp.coords["lng"]));
     }
     hospList.add(hosp);
   }
@@ -57,8 +52,7 @@ buildWhereStatement({String search, bool hideComplex, List<String> filters}) {
           }
         case FILTER_PRIVATE:
           {
-            value =
-                "$value AND (DEPENDENCIA_PATRIMONIAL LIKE '%PRIVADO%' OR DEPENDENCIA_FUNCIONAL LIKE '%PRIVADO%')";
+            value = "$value AND (DEPENDENCIA_PATRIMONIAL LIKE '%PRIVADO%' OR DEPENDENCIA_FUNCIONAL LIKE '%PRIVADO%')";
             break;
           }
       }
@@ -74,24 +68,14 @@ buildGeometryStatement({double lat, double lng}) {
 }
 
 class HospitalService {
-  static Future<List<Hospital>> find(
-      {String search,
-      List<String> filters,
-      Map<String, double> currentLocation}) async {
-    final bool useCurrentLocation =
-        (filters != null && filters.indexOf(FILTER_IS_NEAR) != -1);
+  static Future<List<Hospital>> find({String search, List<String> filters, Map<String, double> currentLocation}) async {
+    final bool useCurrentLocation = (filters != null && filters.indexOf(FILTER_IS_NEAR) != -1);
     URLQueryParams queryParams = new URLQueryParams();
 
-    queryParams.append(
-        'where',
-        buildWhereStatement(
-            search: search, hideComplex: true, filters: filters));
+    queryParams.append('where', buildWhereStatement(search: search, hideComplex: true, filters: filters));
     queryParams.append('outFields', '*');
     if (filters != null && useCurrentLocation) {
-      queryParams.append(
-          'geometry',
-          buildGeometryStatement(
-              lat: currentLocation["lat"], lng: currentLocation["lng"]));
+      queryParams.append('geometry', buildGeometryStatement(lat: currentLocation["lat"], lng: currentLocation["lng"]));
       queryParams.append('geometryType', 'esriGeometryEnvelope');
       queryParams.append('inSR', '4326');
       queryParams.append('spatialRel', 'esriSpatialRelIntersects');
@@ -101,8 +85,7 @@ class HospitalService {
     }
     queryParams.append('f', 'json');
 
-    final response =
-        await http.get("$OPENDATA_HOSPITAL_API?${queryParams.toString()}");
+    final response = await http.get("$OPENDATA_HOSPITAL_API?${queryParams.toString()}");
 
     if (response.statusCode == 200) {
       return await parseResponse(response, currentLocation);

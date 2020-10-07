@@ -30,19 +30,14 @@ class HospitalAssignmentsPage extends StatelessWidget {
     return Consumer<HospitalProvider>(
         builder: (context, hospProvider, child) => Scaffold(
               appBar: AppBar(
-                  title: Text(
-                      translate(context, 'hospital_assignments_appbar_title'),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline2
-                          .copyWith(color: Colors.white))),
+                  title: Text(translate(context, 'hospital_assignments_appbar_title'),
+                      style: Theme.of(context).textTheme.headline2.copyWith(color: Colors.white))),
               body: SafeArea(
                   child: Query(
                 options: QueryOptions(
                   documentNode: gql(GRAPHQL_GET_MY_ASSIGNMENTS_QUERY),
                 ),
-                builder: (QueryResult result,
-                    {VoidCallback refetch, FetchMore fetchMore}) {
+                builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
                   if (result.hasException) {
                     return Text(result.exception.toString());
                   }
@@ -53,11 +48,9 @@ class HospitalAssignmentsPage extends StatelessWidget {
                     );
                   }
 
-                  Provider.of<AssignmentsProvider>(context)
-                      .setRefetchFunc(refetch);
+                  Provider.of<AssignmentsProvider>(context).setRefetchFunc(refetch);
 
-                  List<Assignment> assignmentList = Assignment.fromJsonList(
-                      result.data['getMyAssignments']['items']);
+                  List<Assignment> assignmentList = Assignment.fromJsonList(result.data['getMyAssignments']['items']);
                   if (assignmentList != null && assignmentList.length > 0) {
                     return SingleChildScrollView(
                         child: Column(children: [
@@ -67,32 +60,24 @@ class HospitalAssignmentsPage extends StatelessWidget {
                             title: assignment.hospName,
                             subtitle: '${assignment.hospProvince}',
                             children: [
-                              for (var i = 0;
-                                  i < assignment.itemList.length;
-                                  i++)
+                              for (var i = 0; i < assignment.itemList.length; i++)
                                 AcudiaDateRangeItem(
                                     from: assignment.itemList[i].from,
                                     to: assignment.itemList[i].to,
                                     onTap: () {
+                                      Provider.of<AssignmentsProvider>(context).moveToConfig(true);
                                       Provider.of<AssignmentsProvider>(context)
-                                          .moveToConfig(true);
-                                      Provider.of<AssignmentsProvider>(context)
-                                          .setAssignmentItem(
-                                              assignment.itemList[i],
-                                              assignment);
+                                          .setAssignmentItem(assignment.itemList[i], assignment);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              HospitalAssignmentsConfigPage(
-                                                  hospital: new Hospital(
-                                                      codCNH: int.tryParse(
-                                                          assignment.hospId),
-                                                      name: assignment.hospName,
-                                                      province: assignment
-                                                          .hospProvince),
-                                                  assignment: assignment,
-                                                  index: i),
+                                          builder: (context) => HospitalAssignmentsConfigPage(
+                                              hospital: new Hospital(
+                                                  codCNH: int.tryParse(assignment.hospId),
+                                                  name: assignment.hospName,
+                                                  province: assignment.hospProvince),
+                                              assignment: assignment,
+                                              index: i),
                                           fullscreenDialog: true,
                                         ),
                                       );
@@ -102,24 +87,18 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                         Icon(Icons.timer, size: 18),
                                         SizedBox(width: 8),
                                         Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.baseline,
-                                            textBaseline:
-                                                TextBaseline.alphabetic,
+                                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                                            textBaseline: TextBaseline.alphabetic,
                                             children: [
                                               Text(
                                                   '${normalizeTime(assignment.itemList[i].startHour.hour)}:${normalizeTime(assignment.itemList[i].startHour.minute)}',
-                                                  style:
-                                                      TextStyle(fontSize: 22)),
+                                                  style: TextStyle(fontSize: 22)),
                                               SizedBox(width: 4),
-                                              Text(translate(context, "to"),
-                                                  style:
-                                                      TextStyle(fontSize: 12)),
+                                              Text(translate(context, "to"), style: TextStyle(fontSize: 12)),
                                               SizedBox(width: 4),
                                               Text(
                                                   '${normalizeTime(assignment.itemList[i].endHour.hour)}:${normalizeTime(assignment.itemList[i].endHour.minute)}',
-                                                  style:
-                                                      TextStyle(fontSize: 22))
+                                                  style: TextStyle(fontSize: 22))
                                             ]),
                                       ]),
                                       SizedBox(height: 16),
@@ -127,19 +106,12 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                         Icon(Icons.attach_money, size: 18),
                                         SizedBox(width: 8),
                                         Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.baseline,
-                                            textBaseline:
-                                                TextBaseline.alphabetic,
+                                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                                            textBaseline: TextBaseline.alphabetic,
                                             children: [
-                                              Text(
-                                                  '${assignment.itemList[i].fare}',
-                                                  style:
-                                                      TextStyle(fontSize: 22)),
+                                              Text('${assignment.itemList[i].fare}', style: TextStyle(fontSize: 22)),
                                               SizedBox(width: 4),
-                                              Text('€/h',
-                                                  style:
-                                                      TextStyle(fontSize: 12))
+                                              Text('€/h', style: TextStyle(fontSize: 12))
                                             ]),
                                       ]),
                                     ])
@@ -152,8 +124,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
                 },
               )),
               floatingActionButton: FloatingActionButton(
-                  shape: StadiumBorder(
-                      side: BorderSide(color: Theme.of(context).primaryColor)),
+                  shape: StadiumBorder(side: BorderSide(color: Theme.of(context).primaryColor)),
                   onPressed: () {
                     Provider.of<HospitalProvider>(context).cleanup();
                     Provider.of<AssignmentsProvider>(context).cleanup();
@@ -165,8 +136,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Icon(Icons.add,
-                      color: Theme.of(context).scaffoldBackgroundColor),
+                  child: Icon(Icons.add, color: Theme.of(context).scaffoldBackgroundColor),
                   backgroundColor: Theme.of(context).primaryColor),
             ));
   }

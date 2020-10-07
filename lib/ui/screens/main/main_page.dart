@@ -60,14 +60,11 @@ class MainPage extends StatelessWidget {
                           BottomNavigationBarItem(
                             icon: app.selectedTab == 1
                                 ? Image(
-                                    image: AssetImage(
-                                        'assets/media/icon_agreement.png'),
+                                    image: AssetImage('assets/media/icon_agreement.png'),
                                     height: 32,
                                   )
-                                : SvgPicture.asset(
-                                    'assets/media/icon_agreement_outlined.svg',
-                                    height: 32,
-                                    color: Theme.of(context).primaryColor),
+                                : SvgPicture.asset('assets/media/icon_agreement_outlined.svg',
+                                    height: 32, color: Theme.of(context).primaryColor),
                             title: Text(''),
                           ),
                           BottomNavigationBarItem(
@@ -85,8 +82,7 @@ class MainPage extends StatelessWidget {
                         backgroundColor: Theme.of(context).backgroundColor,
                         selectedItemColor: Theme.of(context).primaryColor,
                         onTap: (index) {
-                          Provider.of<AppProvider>(context, listen: false)
-                              .setSelectedTab(context, index);
+                          Provider.of<AppProvider>(context, listen: false).setSelectedTab(context, index);
                         }))
                 : Scaffold(
                     body: Container(
@@ -96,12 +92,9 @@ class MainPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                              Text(
-                                  translate(context, 'error_unexpected_label')),
+                              Text(translate(context, 'error_unexpected_label')),
                               FlatButton(
-                                onPressed: () =>
-                                    Provider.of<ProfileProvider>(context)
-                                        .getProfileData(context, null),
+                                onPressed: () => Provider.of<ProfileProvider>(context).getProfileData(context, null),
                                 child: Text(translate(context, 'refresh')),
                               )
                             ])))));

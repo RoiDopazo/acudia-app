@@ -5,8 +5,7 @@ class AcudiaExpansionTile extends StatelessWidget {
   final String subtitle;
   final List<Widget> children;
 
-  const AcudiaExpansionTile({Key key, this.title, this.subtitle, this.children})
-      : super(key: key);
+  const AcudiaExpansionTile({Key key, this.title, this.subtitle, this.children}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

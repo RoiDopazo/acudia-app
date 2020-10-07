@@ -15,8 +15,7 @@ class HospitalAssignmentsAddPage extends StatelessWidget {
         case 0:
           return HospitalSearchPage(isAssignment: true);
         case 1:
-          return HospitalAssignmentsConfigPage(
-              hospital: hospitalProvider.selected);
+          return HospitalAssignmentsConfigPage(hospital: hospitalProvider.selected);
         default:
           return null;
       }

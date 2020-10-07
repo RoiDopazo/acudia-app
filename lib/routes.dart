@@ -11,8 +11,7 @@ import 'package:provider/provider.dart';
 
 Widget buildRoute(widget) {
   return Consumer<ErrorNotifierProvider>(
-      builder: (context, error, child) =>
-          new Stack(children: [widget, GenericError(errorProvider: error)]));
+      builder: (context, error, child) => new Stack(children: [widget, GenericError(errorProvider: error)]));
 }
 
 class Routes {
@@ -32,8 +31,7 @@ class Routes {
       Routes.SPLASH: (context) => buildRoute(SplashScreen()),
       Routes.SEARCH_HOSP: (context) => buildRoute(HospitalSearchPage()),
       Routes.HOSP_DETAILS: (context) => buildRoute(HospitalDetailsPage()),
-      Routes.HOSP_ASSIGNMENTS: (context) =>
-          buildRoute(HospitalAssignmentsConfigPage())
+      Routes.HOSP_ASSIGNMENTS: (context) => buildRoute(HospitalAssignmentsConfigPage())
     };
   }
 }

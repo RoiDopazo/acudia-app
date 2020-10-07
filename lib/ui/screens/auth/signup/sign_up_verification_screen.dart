@@ -21,18 +21,14 @@ class SignUpVerification extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: RichText(
                   text: TextSpan(
                       text: translate(context, 'email_verification_sub'),
                       children: [
                         TextSpan(
                             text: signup.values[FIELD_EMAIL],
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15)),
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15)),
                       ],
                       style: TextStyle(color: Colors.black54, fontSize: 15)),
                   textAlign: TextAlign.center,
@@ -57,13 +53,9 @@ class SignUpVerification extends StatelessWidget {
                   selectedColor: Theme.of(context).primaryColor,
                 ),
                 onChanged: (value) {
-                  Provider.of<SignUpProvider>(context, listen: false)
-                      .setVerificationCode(value);
+                  Provider.of<SignUpProvider>(context, listen: false).setVerificationCode(value);
                 },
-                textStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+                textStyle: TextStyle(color: Theme.of(context).primaryColor, fontSize: 20, fontWeight: FontWeight.bold),
                 animationDuration: Duration(milliseconds: 300),
                 enableActiveFill: true,
                 beforeTextPaste: (text) {
@@ -82,14 +74,10 @@ class SignUpVerification extends StatelessWidget {
                       TextSpan(
                           text: translate(context, 'resend'),
                           recognizer: new TapGestureRecognizer()
-                            ..onTap = () => Provider.of<SignUpProvider>(context,
-                                    listen: false)
-                                .resendVerificationCode(
-                                    context, signup.values[FIELD_EMAIL]),
+                            ..onTap = () => Provider.of<SignUpProvider>(context, listen: false)
+                                .resendVerificationCode(context, signup.values[FIELD_EMAIL]),
                           style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16))
+                              color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 16))
                     ]),
               ),
               SizedBox(

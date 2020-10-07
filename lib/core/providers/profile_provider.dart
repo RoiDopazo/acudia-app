@@ -1,8 +1,7 @@
 import 'package:acudia/core/aws/cognito_service.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
-import 'package:acudia/core/services/acudiers/acudiers_service.dart';
-import 'package:acudia/core/services/clients/clients_service.dart';
 import 'package:acudia/core/services/graphql_client.dart';
+import 'package:acudia/core/services/profile/profile_service.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
@@ -25,31 +24,19 @@ class ProfileProvider with ChangeNotifier {
     }
 
     try {
-      List<CognitoUserAttribute> userAttributes =
-          await CognitoService.getUserAttributes(cUser);
+      List<CognitoUserAttribute> userAttributes = await CognitoService.getUserAttributes(cUser);
       if (userAttributes != null && userAttributes.length != 0) {
-        CognitoUserAttribute role =
-            userAttributes.singleWhere((att) => att.getName() == 'custom:role');
-        CognitoUserAttribute email =
-            userAttributes.singleWhere((att) => att.getName() == 'email');
+        CognitoUserAttribute role = userAttributes.singleWhere((att) => att.getName() == 'custom:role');
 
-        bool isAcudier = role.getValue().toString() ==
-            USER_ROLES.ACUDIER.toString().split('.')[1];
+        bool isAcudier = role.getValue().toString() == USER_ROLES.ACUDIER.toString().split('.')[1];
 
         var result = await graphQLClient.value.query(
-          QueryOptions(
-              documentNode: gql(isAcudier
-                  ? GRAPHQL_GET_ACUDIER_BY_ID
-                  : GRAPHQL_GET_CLIENT_BY_ID),
-              variables: {
-                "email": email.getValue(),
-              }),
+          QueryOptions(documentNode: gql(GRAPHQL_GET_PROFILE_QUERY), variables: {
+            "role":
+                isAcudier ? USER_ROLES.ACUDIER.toString().split('.')[1] : USER_ROLES.CLIENT.toString().split('.')[1],
+          }),
         );
-        if (isAcudier) {
-          profile = Profile.fromJson(result.data['getAcudierByID']);
-        } else {
-          profile = Profile.fromJson(result.data['getClientByID']);
-        }
+        profile = Profile.fromJson(result.data['getProfile']);
 
         loading = false;
         notifyListeners();

@@ -18,9 +18,7 @@ class AcudiaNumberPickerField extends StatelessWidget {
     return timeString;
   }
 
-  const AcudiaNumberPickerField(
-      {Key key, this.number, this.onChange, this.label = ''})
-      : super(key: key);
+  const AcudiaNumberPickerField({Key key, this.number, this.onChange, this.label = ''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +34,7 @@ class AcudiaNumberPickerField extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: label != null ? Text(label) : Text('')),
             FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
               onPressed: () {
                 showMaterialNumberPicker(
                     context: context,
@@ -60,9 +57,8 @@ class AcudiaNumberPickerField extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                           Text(number != null ? '$number,00 ' : '-- , -- ',
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: number != null ? 28 : 16)),
+                              style:
+                                  TextStyle(color: Theme.of(context).primaryColor, fontSize: number != null ? 28 : 16)),
                           Text('€/h')
                         ]))
                   ],

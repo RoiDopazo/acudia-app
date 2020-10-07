@@ -14,9 +14,7 @@ class SplashScreen extends StatelessWidget {
     bool showLogin = Provider.of<SignUpProvider>(context).showLogin;
 
     final Widget svgIcon = SvgPicture.asset('assets/media/logo.svg',
-        height: 200,
-        color: Theme.of(context).scaffoldBackgroundColor,
-        semanticsLabel: 'Acudia Logo');
+        height: 200, color: Theme.of(context).scaffoldBackgroundColor, semanticsLabel: 'Acudia Logo');
 
     final logo = ConstrainedBox(
         constraints: BoxConstraints(
@@ -31,8 +29,7 @@ class SplashScreen extends StatelessWidget {
             ),
           ),
           Container(
-            padding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: Text("ACUDIA",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -46,17 +43,14 @@ class SplashScreen extends StatelessWidget {
       minWidth: MediaQuery.of(context).size.width,
       height: 50.0,
       child: RaisedButton(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
         padding: const EdgeInsets.all(16.0),
         textColor: Theme.of(context).backgroundColor,
         color: Theme.of(context).primaryColor,
         onPressed: () {
           Provider.of<SignUpProvider>(context).showLogin
-              ? Provider.of<SignUpProvider>(context, listen: false)
-                  .login(context)
-              : Provider.of<SignUpProvider>(context, listen: false)
-                  .setToggleLogin();
+              ? Provider.of<SignUpProvider>(context, listen: false).login(context)
+              : Provider.of<SignUpProvider>(context, listen: false).setToggleLogin();
         },
         child: new Text(translate(context, 'auth_login')),
       ),
@@ -68,8 +62,7 @@ class SplashScreen extends StatelessWidget {
       child: FlatButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
-            side:
-                BorderSide(color: Theme.of(context).textTheme.bodyText1.color)),
+            side: BorderSide(color: Theme.of(context).textTheme.bodyText1.color)),
         padding: const EdgeInsets.all(16.0),
         textColor: Theme.of(context).textTheme.bodyText1.color,
         color: Theme.of(context).backgroundColor,
@@ -87,15 +80,13 @@ class SplashScreen extends StatelessWidget {
         autocorrect: false,
         maxLines: 1,
         onChanged: (text) {
-          Provider.of<SignUpProvider>(context, listen: false)
-              .updateValue(FIELD_EMAIL, text);
+          Provider.of<SignUpProvider>(context, listen: false).updateValue(FIELD_EMAIL, text);
         },
         decoration: new InputDecoration(
             labelText: translate(context, 'field_email_label'),
             hintText: translate(context, 'field_email_hint'),
             icon: const Icon(Icons.mail),
-            labelStyle:
-                new TextStyle(decorationStyle: TextDecorationStyle.solid)),
+            labelStyle: new TextStyle(decorationStyle: TextDecorationStyle.solid)),
       ),
       TextFormField(
         keyboardType: TextInputType.text,
@@ -103,15 +94,13 @@ class SplashScreen extends StatelessWidget {
         maxLines: 1,
         obscureText: true,
         onChanged: (text) {
-          Provider.of<SignUpProvider>(context, listen: false)
-              .updateValue(FIELD_PASSWORD, text);
+          Provider.of<SignUpProvider>(context, listen: false).updateValue(FIELD_PASSWORD, text);
         },
         decoration: new InputDecoration(
             labelText: translate(context, 'field_password_label'),
             hintText: translate(context, 'field_password_hint'),
             icon: const Icon(Icons.lock),
-            labelStyle:
-                new TextStyle(decorationStyle: TextDecorationStyle.solid)),
+            labelStyle: new TextStyle(decorationStyle: TextDecorationStyle.solid)),
       ),
     ]);
 
@@ -119,22 +108,18 @@ class SplashScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         body: SingleChildScrollView(
             child: Column(children: <Widget>[
-          Container(
-              width: MediaQuery.of(context).size.width,
-              child: CustomPaint(child: logo, painter: CurvePainter())),
+          Container(width: MediaQuery.of(context).size.width, child: CustomPaint(child: logo, painter: CurvePainter())),
           SizedBox(height: MediaQuery.of(context).size.height / 20),
           Container(
               child: Column(children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: showLogin ? loginForm : signUpButton,
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: loginButton,
             ),
             SizedBox(height: 16),
@@ -143,25 +128,18 @@ class SplashScreen extends StatelessWidget {
                     ? RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                            text: translate(
-                                context, 'auth_dont_have_acc_question'),
-                            style:
-                                TextStyle(color: Colors.black54, fontSize: 15),
+                            text: translate(context, 'auth_dont_have_acc_question'),
+                            style: TextStyle(color: Colors.black54, fontSize: 15),
                             children: [
                               TextSpan(
                                   text: translate(context, 'auth_register'),
                                   recognizer: new TapGestureRecognizer()
                                     ..onTap = () {
-                                      Provider.of<SignUpProvider>(context,
-                                              listen: false)
-                                          .resetValues();
-                                      Navigator.pushNamed(
-                                          context, Routes.SIGNUP);
+                                      Provider.of<SignUpProvider>(context, listen: false).resetValues();
+                                      Navigator.pushNamed(context, Routes.SIGNUP);
                                     },
                                   style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16))
+                                      color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 16))
                             ]),
                       )
                     : null),
@@ -180,8 +158,7 @@ class CurvePainter extends CustomPainter {
     var path = Path();
 
     path.moveTo(0, size.height * 0.8);
-    path.quadraticBezierTo(
-        size.width / 2, size.height / 1, size.width, size.height * 0.8);
+    path.quadraticBezierTo(size.width / 2, size.height / 1, size.width, size.height * 0.8);
     path.lineTo(size.width, 0);
     path.lineTo(0, 0);
 

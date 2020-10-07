@@ -11,14 +11,7 @@ class Assignment {
   List<AssignmentItem> itemList;
   final int createdAt;
 
-  Assignment(
-      {this.PK,
-      this.SK,
-      this.hospId,
-      this.hospName,
-      this.hospProvince,
-      this.itemList,
-      this.createdAt});
+  Assignment({this.PK, this.SK, this.hospId, this.hospName, this.hospProvince, this.itemList, this.createdAt});
 
   factory Assignment.fromJson(Map<String, dynamic> json) {
     return Assignment(

@@ -11,19 +11,16 @@ class AssignmentItem {
   int fare;
   List<bool> days;
 
-  AssignmentItem(
-      {this.from, this.to, this.startHour, this.endHour, this.fare, this.days});
+  AssignmentItem({this.from, this.to, this.startHour, this.endHour, this.fare, this.days});
 
   factory AssignmentItem.fromJson(Map<String, dynamic> json) {
     return AssignmentItem(
       from: DateTime.parse(json["from"]),
       to: DateTime.parse(json["to"]),
       startHour: new TimeOfDay(
-          hour: (json["startHour"] / 3600).truncate(),
-          minute: ((json['startHour'] % 3600) / 60).truncate()),
-      endHour: new TimeOfDay(
-          hour: (json["endHour"] / 3600).truncate(),
-          minute: ((json['endHour'] % 3600) / 60).truncate()),
+          hour: (json["startHour"] / 3600).truncate(), minute: ((json['startHour'] % 3600) / 60).truncate()),
+      endHour:
+          new TimeOfDay(hour: (json["endHour"] / 3600).truncate(), minute: ((json['endHour'] % 3600) / 60).truncate()),
       fare: json['fare'],
       days: json['days'],
     );

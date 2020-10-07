@@ -5,8 +5,7 @@ class AcudiaAnimationOpacity extends StatelessWidget {
   final Widget child;
   final double opacity;
 
-  const AcudiaAnimationOpacity({Key key, this.child, this.opacity})
-      : super(key: key);
+  const AcudiaAnimationOpacity({Key key, this.child, this.opacity}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
