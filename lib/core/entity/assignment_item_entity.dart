@@ -8,7 +8,7 @@ class AssignmentItem {
   DateTime to;
   TimeOfDay startHour;
   TimeOfDay endHour;
-  int fare;
+  double fare;
   List<bool> days;
 
   AssignmentItem({this.from, this.to, this.startHour, this.endHour, this.fare, this.days});
@@ -21,7 +21,7 @@ class AssignmentItem {
           hour: (json["startHour"] / 3600).truncate(), minute: ((json['startHour'] % 3600) / 60).truncate()),
       endHour:
           new TimeOfDay(hour: (json["endHour"] / 3600).truncate(), minute: ((json['endHour'] % 3600) / 60).truncate()),
-      fare: json['fare'],
+      fare: json['fare'] != null ? json['fare'].toDouble() : 0.0,
       days: json['days'],
     );
   }

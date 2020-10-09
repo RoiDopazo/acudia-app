@@ -7,8 +7,10 @@ class AcudiaDateRangeItem extends StatelessWidget {
   final DateTime to;
   final Function onTap;
   final List<Widget> children;
+  final Color backgroundColor;
 
-  const AcudiaDateRangeItem({Key key, this.onTap, this.from, this.to, this.children}) : super(key: key);
+  const AcudiaDateRangeItem({Key key, this.onTap, this.from, this.to, this.children, this.backgroundColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,9 @@ class AcudiaDateRangeItem extends StatelessWidget {
           onTap();
         },
         child: Container(
-            color: Theme.of(context).backgroundColor,
+            color: backgroundColor,
             child: Padding(
-                padding: EdgeInsets.fromLTRB(24, 16, 16, 16),
+                padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
                 child: Container(
                   child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                     Container(
@@ -39,12 +41,7 @@ class AcudiaDateRangeItem extends StatelessWidget {
                           Text('$toMonth ${to.year}', style: TextStyle(fontSize: 12)),
                         ])),
                     SizedBox(width: 18),
-                    Container(
-                      width: 1,
-                      height: 100,
-                      color: Colors.grey,
-                    ),
-                    VerticalDivider(width: 1, thickness: 10, color: Colors.red),
+                    VerticalDivider(width: 1, thickness: 1, color: Theme.of(context).accentColor),
                     SizedBox(width: 18),
                     Expanded(
                         flex: 1,
@@ -52,7 +49,6 @@ class AcudiaDateRangeItem extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: children)),
-                    Icon(Icons.arrow_forward_ios)
                   ]),
                 ))));
   }

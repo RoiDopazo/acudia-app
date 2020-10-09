@@ -139,7 +139,6 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(hospital.name);
     return new Consumer<AssignmentsProvider>(
         builder: (context, assingmentsProvider, child) => Scaffold(
               appBar: AppBar(

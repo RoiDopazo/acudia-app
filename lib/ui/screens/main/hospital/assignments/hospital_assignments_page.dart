@@ -1,5 +1,6 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/components/expansion/expansion_tile.dart';
+import 'package:acudia/components/folding_card/folding_card.dart';
 import 'package:acudia/components/list-items/date_range_item.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
@@ -13,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
+
+import 'hospita_assignment_item.dart';
 
 class HospitalAssignmentsPage extends StatelessWidget {
   @override
@@ -56,66 +59,10 @@ class HospitalAssignmentsPage extends StatelessWidget {
                         child: Column(children: [
                       SizedBox(height: 16),
                       for (Assignment assignment in assignmentList)
-                        AcudiaExpansionTile(
+                        HospitalAssignmentItem(
                             title: assignment.hospName,
                             subtitle: '${assignment.hospProvince}',
-                            children: [
-                              for (var i = 0; i < assignment.itemList.length; i++)
-                                AcudiaDateRangeItem(
-                                    from: assignment.itemList[i].from,
-                                    to: assignment.itemList[i].to,
-                                    onTap: () {
-                                      Provider.of<AssignmentsProvider>(context).moveToConfig(true);
-                                      Provider.of<AssignmentsProvider>(context)
-                                          .setAssignmentItem(assignment.itemList[i], assignment);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HospitalAssignmentsConfigPage(
-                                              hospital: new Hospital(
-                                                  codCNH: int.tryParse(assignment.hospId),
-                                                  name: assignment.hospName,
-                                                  province: assignment.hospProvince),
-                                              assignment: assignment,
-                                              index: i),
-                                          fullscreenDialog: true,
-                                        ),
-                                      );
-                                    },
-                                    children: [
-                                      Row(children: [
-                                        Icon(Icons.timer, size: 18),
-                                        SizedBox(width: 8),
-                                        Row(
-                                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                                            textBaseline: TextBaseline.alphabetic,
-                                            children: [
-                                              Text(
-                                                  '${normalizeTime(assignment.itemList[i].startHour.hour)}:${normalizeTime(assignment.itemList[i].startHour.minute)}',
-                                                  style: TextStyle(fontSize: 22)),
-                                              SizedBox(width: 4),
-                                              Text(translate(context, "to"), style: TextStyle(fontSize: 12)),
-                                              SizedBox(width: 4),
-                                              Text(
-                                                  '${normalizeTime(assignment.itemList[i].endHour.hour)}:${normalizeTime(assignment.itemList[i].endHour.minute)}',
-                                                  style: TextStyle(fontSize: 22))
-                                            ]),
-                                      ]),
-                                      SizedBox(height: 16),
-                                      Row(children: [
-                                        Icon(Icons.attach_money, size: 18),
-                                        SizedBox(width: 8),
-                                        Row(
-                                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                                            textBaseline: TextBaseline.alphabetic,
-                                            children: [
-                                              Text('${assignment.itemList[i].fare}', style: TextStyle(fontSize: 22)),
-                                              SizedBox(width: 4),
-                                              Text('€/h', style: TextStyle(fontSize: 12))
-                                            ]),
-                                      ]),
-                                    ])
-                            ]),
+                            items: assignment.itemList),
                       SizedBox(height: 24)
                     ]));
                   } else {

@@ -41,7 +41,7 @@ class AssignmentsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  updateFare(int fareParam) {
+  updateFare(double fareParam) {
     assignmentItem.fare = fareParam;
     notifyListeners();
   }

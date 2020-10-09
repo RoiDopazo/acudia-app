@@ -47,8 +47,8 @@ class Profile {
           : null,
       birthDate: json["birthDate"] != null && json["birthDate"] != '' ? DateTime.parse(json["birthDate"]) : null,
       photoUrl: json["photoUrl"] != null && json["photoUrl"] != '' ? json["photoUrl"] : null,
-      createdAt: json["createdAt"] != null && json["createdAt"] != '' ? json["createdAt"] : null,
-      updatedAt: json["updatedAt"] != null && json["updatedAt"] != '' ? json["updatedAt"] : null,
+      createdAt: json["createdAt"] != null && json["createdAt"] != '' ? json["createdAt"].toInt() : null,
+      updatedAt: json["updatedAt"] != null && json["updatedAt"] != '' ? json["updatedAt"].toInt() : null,
     );
   }
 }

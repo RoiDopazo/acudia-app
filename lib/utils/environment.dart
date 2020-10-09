@@ -19,7 +19,7 @@ class Environment {
     const IS_DEV = String.fromEnvironment('DEV', defaultValue: 'false');
     const IS_PROD = String.fromEnvironment('PROD', defaultValue: 'false');
 
-    if (IS_PROD == 'true') return await DotEnv().load(ENV_DEV_FILE_NAME);
+    if (IS_PROD == 'true') return await DotEnv().load(ENV_PROD_FILE_NAME);
     if (IS_DEV == 'true') return await DotEnv().load(ENV_DEV_FILE_NAME);
     return await DotEnv().load(ENV_LOCAL_FILE_NAME);
   }

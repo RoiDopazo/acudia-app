@@ -5,7 +5,7 @@ import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 const DEFAULT_NUMBER = 10;
 
 class AcudiaNumberPickerField extends StatelessWidget {
-  final int number;
+  final double number;
   final String label;
   final Function onChange;
 
@@ -35,16 +35,7 @@ class AcudiaNumberPickerField extends StatelessWidget {
                 child: label != null ? Text(label) : Text('')),
             FlatButton(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-              onPressed: () {
-                showMaterialNumberPicker(
-                    context: context,
-                    minNumber: 1,
-                    title: '$label (${translate(context, 'euro_hour')})',
-                    maxNumber: 50,
-                    headerTextColor: Colors.white,
-                    selectedNumber: number == null ? DEFAULT_NUMBER : number,
-                    onChanged: (value) => onChange(value));
-              },
+              onPressed: () {},
               child: Container(
                 alignment: Alignment.center,
                 height: 50.0,
@@ -53,10 +44,11 @@ class AcudiaNumberPickerField extends StatelessWidget {
                   children: <Widget>[
                     Container(
                         child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                          Text(number != null ? '$number,00 ' : '-- , -- ',
+                          Text(number != null ? number.toStringAsFixed(2) : '-- , -- ',
                               style:
                                   TextStyle(color: Theme.of(context).primaryColor, fontSize: number != null ? 28 : 16)),
                           Text('€/h')
@@ -66,6 +58,16 @@ class AcudiaNumberPickerField extends StatelessWidget {
               ),
               color: Colors.white,
             ),
+            Slider(
+              value: number,
+              min: 4.0,
+              max: 20.0,
+              divisions: 80,
+              label: number.toStringAsFixed(2),
+              onChanged: (double value) {
+                onChange(value);
+              },
+            )
           ],
         ),
       ),
