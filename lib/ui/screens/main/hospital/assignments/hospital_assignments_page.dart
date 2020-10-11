@@ -3,6 +3,7 @@ import 'package:acudia/components/expansion/expansion_tile.dart';
 import 'package:acudia/components/folding_card/folding_card.dart';
 import 'package:acudia/components/list-items/date_range_item.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
@@ -12,6 +13,7 @@ import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments
 import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -62,7 +64,24 @@ class HospitalAssignmentsPage extends StatelessWidget {
                         HospitalAssignmentItem(
                             title: assignment.hospName,
                             subtitle: '${assignment.hospProvince}',
-                            items: assignment.itemList),
+                            items: assignment.itemList,
+                            onTap: (AssignmentItem item, int index) {
+                              Provider.of<AssignmentsProvider>(context).moveToConfig(true);
+                              Provider.of<AssignmentsProvider>(context).setAssignmentItem(item, assignment);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HospitalAssignmentsConfigPage(
+                                      hospital: new Hospital(
+                                          codCNH: int.tryParse(assignment.hospId),
+                                          name: assignment.hospName,
+                                          province: assignment.hospProvince),
+                                      assignment: assignment,
+                                      index: index),
+                                  fullscreenDialog: true,
+                                ),
+                              );
+                            }),
                       SizedBox(height: 24)
                     ]));
                   } else {

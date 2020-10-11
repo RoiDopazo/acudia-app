@@ -9,15 +9,34 @@ class AcudiaExpansionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      backgroundColor: Theme.of(context).primaryColor.withAlpha(10),
-      title: Text(
-        title,
-        maxLines: 2,
-        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
-      ),
-      subtitle: Text(subtitle, style: Theme.of(context).textTheme.subtitle2),
-      children: children,
+    return ExpansionPanelList(
+      expansionCallback: (int index, bool isExpanded) {},
+      children: [
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+              title: Text('Item 1'),
+            );
+          },
+          body: ListTile(
+            title: Text('Item 1 child'),
+            subtitle: Text('Details goes here'),
+          ),
+          isExpanded: true,
+        ),
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+              title: Text('Item 2'),
+            );
+          },
+          body: ListTile(
+            title: Text('Item 2 child'),
+            subtitle: Text('Details goes here'),
+          ),
+          isExpanded: false,
+        ),
+      ],
     );
   }
 }

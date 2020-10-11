@@ -10,12 +10,12 @@ import 'package:folding_cell/folding_cell.dart';
 class HospitalAssignmentItem extends StatefulWidget {
   final String title;
   final String subtitle;
-  final List<Widget> children;
+  final Function onTap;
   final List<AssignmentItem> items;
   int _current = 0;
 
   final _foldingCellKey = GlobalKey<SimpleFoldingCellState>();
-  HospitalAssignmentItem({Key key, this.title, this.subtitle, this.children, this.items}) : super(key: key);
+  HospitalAssignmentItem({Key key, this.title, this.subtitle, this.items, this.onTap}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -111,40 +111,46 @@ class HospitalAssignmentItemState extends State<HospitalAssignmentItem> {
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(color: aCPalette.shade100),
-                        child:
-                            AcudiaDateRangeItem(backgroundColor: aCPalette.shade50, from: i.from, to: i.to, children: [
-                          Row(children: [
-                            Icon(Icons.timer, size: 18),
-                            SizedBox(width: 16),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: [
-                                  Column(children: [
-                                    Text('${normalizeTime(i.startHour.hour)}:${normalizeTime(i.startHour.minute)}',
-                                        style: TextStyle(fontSize: 18)),
-                                    SizedBox(width: 4),
-                                    Text(translate(context, "to"), style: TextStyle(fontSize: 12)),
-                                    SizedBox(width: 4),
-                                    Text('${normalizeTime(i.endHour.hour)}:${normalizeTime(i.endHour.minute)}',
-                                        style: TextStyle(fontSize: 18))
-                                  ])
-                                ]),
-                          ]),
-                          SizedBox(height: 16),
-                          Row(children: [
-                            Icon(Icons.attach_money, size: 18),
-                            SizedBox(width: 16),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: [
-                                  Text('${i.fare}', style: TextStyle(fontSize: 22)),
-                                  SizedBox(width: 4),
-                                  Text('€/h', style: TextStyle(fontSize: 12))
-                                ]),
-                          ]),
-                        ]));
+                        child: AcudiaDateRangeItem(
+                            backgroundColor: aCPalette.shade50,
+                            from: i.from,
+                            to: i.to,
+                            onTap: () {
+                              widget.onTap(i, widget.items.indexOf(i));
+                            },
+                            children: [
+                              Row(children: [
+                                Icon(Icons.timer, size: 18),
+                                SizedBox(width: 16),
+                                Row(
+                                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                                    textBaseline: TextBaseline.alphabetic,
+                                    children: [
+                                      Column(children: [
+                                        Text('${normalizeTime(i.startHour.hour)}:${normalizeTime(i.startHour.minute)}',
+                                            style: TextStyle(fontSize: 18)),
+                                        SizedBox(width: 4),
+                                        Text(translate(context, "to"), style: TextStyle(fontSize: 12)),
+                                        SizedBox(width: 4),
+                                        Text('${normalizeTime(i.endHour.hour)}:${normalizeTime(i.endHour.minute)}',
+                                            style: TextStyle(fontSize: 18))
+                                      ])
+                                    ]),
+                              ]),
+                              SizedBox(height: 16),
+                              Row(children: [
+                                Icon(Icons.attach_money, size: 18),
+                                SizedBox(width: 16),
+                                Row(
+                                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                                    textBaseline: TextBaseline.alphabetic,
+                                    children: [
+                                      Text('${i.fare}', style: TextStyle(fontSize: 22)),
+                                      SizedBox(width: 4),
+                                      Text('€/h', style: TextStyle(fontSize: 12))
+                                    ]),
+                              ]),
+                            ]));
                   },
                 );
               }).toList(),
