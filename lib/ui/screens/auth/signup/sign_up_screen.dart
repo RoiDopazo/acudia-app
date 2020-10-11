@@ -18,28 +18,19 @@ class SignUpScreen extends StatelessWidget {
       return [
         Step(
             title: Text(translate(context, 'auth_step1'),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .copyWith(fontWeight: FontWeight.w500)),
+                style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
             isActive: selectedTab >= 0,
             state: selectedTab == 2 ? StepState.complete : StepState.indexed,
             content: SignUpBasicInfo()),
         Step(
             title: Text(translate(context, 'auth_step2'),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .copyWith(fontWeight: FontWeight.w500)),
+                style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
             isActive: selectedTab >= 1,
             state: selectedTab == 2 ? StepState.complete : StepState.indexed,
             content: SignUpProfile()),
         Step(
             title: Text(translate(context, 'auth_step3'),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .copyWith(fontWeight: FontWeight.w500)),
+                style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
             isActive: selectedTab >= 2,
             state: StepState.indexed,
             content: SignUpVerification()),
@@ -51,28 +42,23 @@ class SignUpScreen extends StatelessWidget {
               resizeToAvoidBottomPadding: false,
               body: SafeArea(
                   child: ConstrainedBox(
-                constraints:
-                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
                 child: new Stack(children: <Widget>[
                   new Form(
                       key: _formKey,
                       child: Theme(
-                          data: Theme.of(context).copyWith(
-                              primaryColor: Theme.of(context).primaryColor),
+                          data: Theme.of(context).copyWith(primaryColor: Theme.of(context).primaryColor),
                           child: Stepper(
                             steps: buildSteps(signup.selectedTab),
                             type: StepperType.horizontal,
                             currentStep: signup.selectedTab,
                             controlsBuilder: (BuildContext context,
-                                    {VoidCallback onStepContinue,
-                                    VoidCallback onStepCancel}) =>
+                                    {VoidCallback onStepContinue, VoidCallback onStepCancel}) =>
                                 Container(),
                             onStepTapped: (index) {
                               if (signup.selectedTab != 2) {
                                 if (_formKey.currentState.validate()) {
-                                  Provider.of<SignUpProvider>(context,
-                                          listen: false)
-                                      .setSelectedTab(index);
+                                  Provider.of<SignUpProvider>(context, listen: false).setSelectedTab(index);
                                 }
                               }
                             },
@@ -83,27 +69,21 @@ class SignUpScreen extends StatelessWidget {
                 onPressed: () {
                   if (signup.selectedTab == 0) {
                     if (_formKey.currentState.validate()) {
-                      Provider.of<SignUpProvider>(context, listen: false)
-                          .setSelectedTab(signup.selectedTab + 1);
+                      Provider.of<SignUpProvider>(context, listen: false).setSelectedTab(signup.selectedTab + 1);
                     }
                   } else if (signup.selectedTab == 1) {
-                    if (!Provider.of<SignUpProvider>(context, listen: false)
-                        .validate()) {
-                      Provider.of<SignUpProvider>(context, listen: false)
-                          .signUp(context);
+                    if (!Provider.of<SignUpProvider>(context, listen: false).validate()) {
+                      Provider.of<SignUpProvider>(context, listen: false).signUp(context);
                     }
                   } else if (signup.selectedTab == 2) {
                     Provider.of<SignUpProvider>(context, listen: false)
-                        .verifyEmail(context, signup.values[FIELD_EMAIL],
-                            signup.verificationCode);
+                        .verifyEmail(context, signup.values[FIELD_EMAIL], signup.verificationCode);
                   }
                 },
-                text: translate(
-                    context, signup.selectedTab == 2 ? 'verify' : 'next'),
+                text: translate(context, signup.selectedTab == 2 ? 'verify' : 'next'),
                 icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             ));
   }
 }

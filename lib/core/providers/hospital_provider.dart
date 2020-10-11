@@ -24,9 +24,7 @@ class HospitalProvider with ChangeNotifier {
     if (hospList.length == 0) {
       currentPage = 1;
       hospList = await HospitalService.find();
-      int maxValue = currentPage * offset < hospList.length
-          ? currentPage * offset
-          : hospList.length;
+      int maxValue = currentPage * offset < hospList.length ? currentPage * offset : hospList.length;
       paginatedList = hospList.sublist(0, maxValue);
       isLoading = false;
       notifyListeners();
@@ -41,18 +39,13 @@ class HospitalProvider with ChangeNotifier {
       currentPage = 1;
       Position position;
       if (useCurrentLocation) {
-        position = await Geolocator()
-            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       }
       hospList = await HospitalService.find(
           search: searchValue,
           filters: filters,
-          currentLocation: useCurrentLocation
-              ? {"lat": position.latitude, "lng": position.longitude}
-              : null);
-      int maxValue = currentPage * offset < hospList.length
-          ? currentPage * offset
-          : hospList.length;
+          currentLocation: useCurrentLocation ? {"lat": position.latitude, "lng": position.longitude} : null);
+      int maxValue = currentPage * offset < hospList.length ? currentPage * offset : hospList.length;
       paginatedList = hospList.sublist(0, maxValue);
       isLoading = false;
     } catch (error) {
@@ -64,9 +57,7 @@ class HospitalProvider with ChangeNotifier {
   getMoreItems() {
     if ((currentPage + 1) * offset < hospList.length) {
       currentPage++;
-      int maxValue = currentPage * offset < hospList.length
-          ? currentPage * offset
-          : hospList.length;
+      int maxValue = currentPage * offset < hospList.length ? currentPage * offset : hospList.length;
       paginatedList = hospList.sublist(0, maxValue);
       notifyListeners();
     }

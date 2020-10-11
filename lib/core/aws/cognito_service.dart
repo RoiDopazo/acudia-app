@@ -8,8 +8,7 @@ class Credentials {
   factory Credentials() => _instance ??= new Credentials._();
   Credentials._();
 
-  final CognitoUserPool _cognitoUserPool =
-      new CognitoUserPool(USER_POOL_ID, USER_POOL_CLIENT_ID);
+  final CognitoUserPool _cognitoUserPool = new CognitoUserPool(USER_POOL_ID, USER_POOL_CLIENT_ID);
 
   Storage _storage;
 
@@ -35,15 +34,8 @@ class CognitoService {
     return null;
   }
 
-  static Future<CognitoUserPoolData> signUp(
-      String name,
-      String secondName,
-      String email,
-      String password,
-      String role,
-      String gender,
-      String birthDate,
-      String photoUrl) async {
+  static Future<CognitoUserPoolData> signUp(String name, String secondName, String email, String password, String role,
+      String gender, String birthDate, String photoUrl) async {
     CognitoUserPool userPool = Credentials().getUserPool();
     final userAttributes = [
       new AttributeArg(name: 'name', value: name),
@@ -53,13 +45,11 @@ class CognitoService {
     ];
 
     if (gender != null) {
-      userAttributes
-          .add(new AttributeArg(name: 'custom:gender', value: gender));
+      userAttributes.add(new AttributeArg(name: 'custom:gender', value: gender));
     }
 
     if (birthDate != null) {
-      userAttributes
-          .add(new AttributeArg(name: 'custom:birthDate', value: birthDate));
+      userAttributes.add(new AttributeArg(name: 'custom:birthDate', value: birthDate));
     }
 
     if (photoUrl != null) {
@@ -69,8 +59,7 @@ class CognitoService {
     }
 
     try {
-      CognitoUserPoolData user = await userPool.signUp(email, password,
-          userAttributes: userAttributes);
+      CognitoUserPoolData user = await userPool.signUp(email, password, userAttributes: userAttributes);
       return user;
     } on CognitoClientException catch (error) {
       if (error.code == "UsernameExistsException") {
@@ -84,10 +73,8 @@ class CognitoService {
 
   static Future<CognitoUser> login(String email, String password) async {
     CognitoUserPool userPool = Credentials().getUserPool();
-    final CognitoUser cognitoUser =
-        new CognitoUser(email, userPool, storage: userPool.storage);
-    final authDetails =
-        new AuthenticationDetails(username: email, password: password);
+    final CognitoUser cognitoUser = new CognitoUser(email, userPool, storage: userPool.storage);
+    final authDetails = new AuthenticationDetails(username: email, password: password);
     try {
       await cognitoUser.authenticateUser(authDetails);
       return cognitoUser;
@@ -97,8 +84,7 @@ class CognitoService {
     }
   }
 
-  static Future<List<CognitoUserAttribute>> getUserAttributes(
-      CognitoUser cognitoUser) async {
+  static Future<List<CognitoUserAttribute>> getUserAttributes(CognitoUser cognitoUser) async {
     List<CognitoUserAttribute> attributes;
     try {
       attributes = await cognitoUser.getUserAttributes();
@@ -112,8 +98,7 @@ class CognitoService {
   static verifyEmail(String email, String code) async {
     CognitoUserPool userPool = Credentials().getUserPool();
 
-    final cognitoUser =
-        new CognitoUser(email, userPool, storage: userPool.storage);
+    final cognitoUser = new CognitoUser(email, userPool, storage: userPool.storage);
 
     try {
       await cognitoUser.confirmRegistration(code);

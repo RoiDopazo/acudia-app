@@ -6,9 +6,7 @@ class AcudiaFloatingActionButtonFull extends StatelessWidget {
   final String text;
   final Widget icon;
 
-  const AcudiaFloatingActionButtonFull(
-      {Key key, this.onPressed, this.text, this.icon})
-      : super(key: key);
+  const AcudiaFloatingActionButtonFull({Key key, this.onPressed, this.text, this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +23,10 @@ class AcudiaFloatingActionButtonFull extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(text,
-                      style: Theme.of(context).textTheme.headline4.copyWith(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white)),
                   SizedBox(width: 8),
                   icon != null ? icon : null,
                 ])));

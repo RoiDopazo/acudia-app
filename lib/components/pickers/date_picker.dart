@@ -9,9 +9,7 @@ class AcudiaDatePickerField extends StatelessWidget {
   final String label;
   final Function onChange;
 
-  const AcudiaDatePickerField(
-      {Key key, this.date, this.onChange, this.label = '', this.firstDate})
-      : super(key: key);
+  const AcudiaDatePickerField({Key key, this.date, this.onChange, this.label = '', this.firstDate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +27,7 @@ class AcudiaDatePickerField extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: label != null ? Text(label) : Text('')),
             RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
               elevation: 2.0,
               onPressed: () {
                 showMaterialDatePicker(
@@ -59,11 +56,9 @@ class AcudiaDatePickerField extends StatelessWidget {
                               SizedBox(width: 8),
                               Text(
                                   date != null
-                                      ? DateFormat.yMMMd('en').format(date)
+                                      ? DateFormat.yMMMd('es').format(date)
                                       : translate(context, 'no_specified'),
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 16))
+                                  style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16))
                             ],
                           ),
                         )
@@ -71,9 +66,7 @@ class AcudiaDatePickerField extends StatelessWidget {
                     ),
                     date == null
                         ? Text(translate(context, 'select'),
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 16))
+                            style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16))
                         : Icon(
                             Icons.edit,
                             size: 18.0,

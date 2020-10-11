@@ -32,8 +32,7 @@ class Profile {
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
-    String role =
-        json["PK"].toString().substring(0, json["PK"].toString().indexOf('#'));
+    String role = json["PK"].toString().substring(0, json["PK"].toString().indexOf('#'));
 
     return Profile(
       PK: json["PK"],
@@ -41,27 +40,15 @@ class Profile {
       name: json["name"],
       secondName: json["secondName"],
       email: json["email"],
-      role: USER_ROLES.values
-          .firstWhere((e) => e.toString() == 'USER_ROLES.' + role),
-      isAcudier: USER_ROLES.values
-              .firstWhere((e) => e.toString() == 'USER_ROLES.' + role) ==
-          USER_ROLES.ACUDIER,
+      role: USER_ROLES.values.firstWhere((e) => e.toString() == 'USER_ROLES.' + role),
+      isAcudier: USER_ROLES.values.firstWhere((e) => e.toString() == 'USER_ROLES.' + role) == USER_ROLES.ACUDIER,
       gender: json["genre"] != null && json["genre"] != ''
-          ? USER_GENDER.values
-              .firstWhere((e) => e.toString() == 'USER_GENDER.' + json["genre"])
+          ? USER_GENDER.values.firstWhere((e) => e.toString() == 'USER_GENDER.' + json["genre"])
           : null,
-      birthDate: json["birthDate"] != null && json["birthDate"] != ''
-          ? DateTime.parse(json["birthDate"])
-          : null,
-      photoUrl: json["photoUrl"] != null && json["photoUrl"] != ''
-          ? json["photoUrl"]
-          : null,
-      createdAt: json["createdAt"] != null && json["createdAt"] != ''
-          ? json["createdAt"]
-          : null,
-      updatedAt: json["updatedAt"] != null && json["updatedAt"] != ''
-          ? json["updatedAt"]
-          : null,
+      birthDate: json["birthDate"] != null && json["birthDate"] != '' ? DateTime.parse(json["birthDate"]) : null,
+      photoUrl: json["photoUrl"] != null && json["photoUrl"] != '' ? json["photoUrl"] : null,
+      createdAt: json["createdAt"] != null && json["createdAt"] != '' ? json["createdAt"].toInt() : null,
+      updatedAt: json["updatedAt"] != null && json["updatedAt"] != '' ? json["updatedAt"].toInt() : null,
     );
   }
 }

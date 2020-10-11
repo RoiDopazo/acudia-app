@@ -19,8 +19,7 @@ Map<int, Color> color = {
   900: Color.fromRGBO(136, 14, 79, 1),
 };
 
-const MaterialColor aCPalette =
-    MaterialColor(_aCPalettePrimaryValue, <int, Color>{
+const MaterialColor aCPalette = MaterialColor(_aCPalettePrimaryValue, <int, Color>{
   50: Color(0xFFE0F2F1),
   100: Color(0xFFB3E0DB),
   200: Color(0xFF80CBC4),
@@ -34,8 +33,7 @@ const MaterialColor aCPalette =
 });
 const int _aCPalettePrimaryValue = 0xFF009688;
 
-const MaterialColor aCPaletteAccent =
-    MaterialColor(_aCPaletteAccentValue, <int, Color>{
+const MaterialColor aCPaletteAccent = MaterialColor(_aCPaletteAccentValue, <int, Color>{
   100: Color(0xFF425C5E),
   200: Color(_aCPaletteAccentValue),
   400: Color(0xFF1D393C),

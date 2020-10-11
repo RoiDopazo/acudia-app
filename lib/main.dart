@@ -45,19 +45,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (userData != null && userData["user"] != null) {
-      Provider.of<ProfileProvider>(context, listen: false)
-          .getProfileData(context, userData["user"]);
+      Provider.of<ProfileProvider>(context, listen: false).getProfileData(context, userData["user"]);
     }
 
     return LoadingProvider(
-        themeData: LoadingThemeData(
-            tapDismiss: false, loadingBackgroundColor: Colors.transparent),
+        themeData: LoadingThemeData(tapDismiss: false, loadingBackgroundColor: Colors.transparent),
         loadingWidgetBuilder: (ctx, data) {
           return Center(
             child: SizedBox(
                 child: new Theme(
-              data:
-                  Theme.of(context).copyWith(accentColor: _aCTheme.accentColor),
+              data: Theme.of(context).copyWith(accentColor: _aCTheme.accentColor),
               child: new CircularProgressIndicator(),
             )),
           );
@@ -75,9 +72,7 @@ class MyApp extends StatelessWidget {
                 GlobalWidgetsLocalizations.delegate,
               ],
               theme: _aCTheme,
-              initialRoute: userData != null && userData['session'].isValid()
-                  ? Routes.MAIN
-                  : Routes.SPLASH,
+              initialRoute: userData != null && userData['session'].isValid() ? Routes.MAIN : Routes.SPLASH,
               routes: Routes.getRoutes(),
             )));
   }
@@ -104,8 +99,7 @@ ThemeData _buildTheme() {
         buttonColor: aCPalette,
         disabledColor: aCPalette,
       ),
-      appBarTheme: base.appBarTheme.copyWith(
-          color: aCPaletteAccent, iconTheme: IconThemeData(color: aCWhite)),
+      appBarTheme: base.appBarTheme.copyWith(color: aCPaletteAccent, iconTheme: IconThemeData(color: aCWhite)),
       dialogBackgroundColor: aCWhite,
       primaryIconTheme: base.iconTheme.copyWith(color: aCTextColor),
       inputDecorationTheme: InputDecorationTheme(),
@@ -130,8 +124,7 @@ TextTheme _buildTextTheme(TextTheme base) {
           headline1: base.headline1.copyWith(
             fontSize: 48,
           ),
-          headline2: base.headline2
-              .copyWith(fontSize: 20, fontWeight: FontWeight.w500),
+          headline2: base.headline2.copyWith(fontSize: 20, fontWeight: FontWeight.w500),
           headline3: base.headline3.copyWith(
             fontSize: 18,
           ),

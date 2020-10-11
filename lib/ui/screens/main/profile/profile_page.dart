@@ -13,15 +13,13 @@ class ProfilePage extends StatelessWidget {
       child: FlatButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
-            side:
-                BorderSide(color: Theme.of(context).textTheme.bodyText1.color)),
+            side: BorderSide(color: Theme.of(context).textTheme.bodyText1.color)),
         padding: const EdgeInsets.all(16.0),
         textColor: Theme.of(context).textTheme.bodyText1.color,
         color: Theme.of(context).backgroundColor,
         onPressed: () {
           CognitoService.logout();
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              Routes.SPLASH, (Route<dynamic> route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.SPLASH, (Route<dynamic> route) => false);
         },
         child: new Text(translate(context, 'auth_logout')),
       ),

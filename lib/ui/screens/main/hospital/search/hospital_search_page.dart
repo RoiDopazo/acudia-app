@@ -20,8 +20,7 @@ class HospitalSearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _scrollListener() {
-      var triggerFetchMoreSize =
-          0.95 * _scrollController.position.maxScrollExtent;
+      var triggerFetchMoreSize = 0.95 * _scrollController.position.maxScrollExtent;
 
       if (_scrollController.position.pixels > triggerFetchMoreSize) {
         Provider.of<HospitalProvider>(context, listen: false).getMoreItems();
@@ -32,29 +31,18 @@ class HospitalSearchPage extends StatelessWidget {
 
     Provider.of<HospitalProvider>(context, listen: false).fetchHospitals();
 
-    filterButton(
-        {String title,
-        String filterKey,
-        List<String> filterList,
-        bool isLoading,
-        BuildContext context}) {
+    filterButton({String title, String filterKey, List<String> filterList, bool isLoading, BuildContext context}) {
       final bool isActive = filterList.indexOf(filterKey) != -1;
       return new ButtonTheme(
         height: 10.0,
         child: FlatButton(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              side: BorderSide(color: Theme.of(context).primaryColor)),
-          textColor: isActive == true
-              ? Theme.of(context).scaffoldBackgroundColor
-              : Theme.of(context).primaryColor,
-          color: isActive == true
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.circular(8.0), side: BorderSide(color: Theme.of(context).primaryColor)),
+          textColor: isActive == true ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).primaryColor,
+          color: isActive == true ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
           onPressed: () {
             if (!isLoading) {
-              Provider.of<HospitalProvider>(context, listen: false)
-                  .toggleFilter(filterKey);
+              Provider.of<HospitalProvider>(context, listen: false).toggleFilter(filterKey);
             }
           },
           child: new Text(title),
@@ -66,23 +54,18 @@ class HospitalSearchPage extends StatelessWidget {
       if (selectedHospital == null) {
         return FloatingActionButton.extended(
           onPressed: null,
-          label: Text(translate(context, 'hospital_search_no_hosp_selected'),
-              style: TextStyle(color: Colors.white)),
+          label: Text(translate(context, 'hospital_search_no_hosp_selected'), style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.grey[400],
         );
       } else {
         return FloatingActionButton.extended(
             onPressed: () {
-              Provider.of<AssignmentsProvider>(context, listen: false)
-                  .moveToConfig();
+              Provider.of<AssignmentsProvider>(context, listen: false).moveToConfig(false);
             },
             label: Row(children: [
-              Text(translate(context, 'next'),
-                  style: TextStyle(
-                      color: Theme.of(context).scaffoldBackgroundColor)),
+              Text(translate(context, 'next'), style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor)),
               SizedBox(width: 8),
-              Icon(Icons.arrow_forward,
-                  color: Theme.of(context).scaffoldBackgroundColor),
+              Icon(Icons.arrow_forward, color: Theme.of(context).scaffoldBackgroundColor),
             ]),
             backgroundColor: Theme.of(context).primaryColor);
       }
@@ -106,41 +89,35 @@ class HospitalSearchPage extends StatelessWidget {
                   children: <Widget>[
                     new Container(
                       height: 32.0,
-                      child: new ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            filterButton(
-                                title: translate(
-                                    context, 'hospital_search_filters_near'),
-                                filterKey: FILTER_IS_NEAR,
-                                filterList: hospProvider.filters,
-                                isLoading: hospProvider.isLoading,
-                                context: context),
-                            SizedBox(width: 8),
-                            filterButton(
-                                title: translate(context,
-                                    'hospital_search_filters_hosp_general'),
-                                filterKey: FILTER_HOSP_GEN,
-                                filterList: hospProvider.filters,
-                                isLoading: hospProvider.isLoading,
-                                context: context),
-                            SizedBox(width: 8),
-                            filterButton(
-                                title: translate(context,
-                                    'hospital_search_filters_hosp_specific'),
-                                filterKey: FILTER_HOSP_SPE,
-                                filterList: hospProvider.filters,
-                                isLoading: hospProvider.isLoading,
-                                context: context),
-                            SizedBox(width: 8),
-                            filterButton(
-                                title: translate(
-                                    context, 'hospital_search_filters_private'),
-                                filterKey: FILTER_PRIVATE,
-                                filterList: hospProvider.filters,
-                                isLoading: hospProvider.isLoading,
-                                context: context),
-                          ]),
+                      child: new ListView(scrollDirection: Axis.horizontal, children: [
+                        filterButton(
+                            title: translate(context, 'hospital_search_filters_near'),
+                            filterKey: FILTER_IS_NEAR,
+                            filterList: hospProvider.filters,
+                            isLoading: hospProvider.isLoading,
+                            context: context),
+                        SizedBox(width: 8),
+                        filterButton(
+                            title: translate(context, 'hospital_search_filters_hosp_general'),
+                            filterKey: FILTER_HOSP_GEN,
+                            filterList: hospProvider.filters,
+                            isLoading: hospProvider.isLoading,
+                            context: context),
+                        SizedBox(width: 8),
+                        filterButton(
+                            title: translate(context, 'hospital_search_filters_hosp_specific'),
+                            filterKey: FILTER_HOSP_SPE,
+                            filterList: hospProvider.filters,
+                            isLoading: hospProvider.isLoading,
+                            context: context),
+                        SizedBox(width: 8),
+                        filterButton(
+                            title: translate(context, 'hospital_search_filters_private'),
+                            filterKey: FILTER_PRIVATE,
+                            filterList: hospProvider.filters,
+                            isLoading: hospProvider.isLoading,
+                            context: context),
+                      ]),
                     ),
                   ],
                 )),
@@ -160,9 +137,7 @@ class HospitalSearchPage extends StatelessWidget {
                         hospital.codCNH == hospProvider.selected.codCNH)
           ],
         ),
-        floatingActionButton: isAssignment
-            ? floatingButtton(selectedHospital: hospProvider.selected)
-            : null,
+        floatingActionButton: isAssignment ? floatingButtton(selectedHospital: hospProvider.selected) : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
