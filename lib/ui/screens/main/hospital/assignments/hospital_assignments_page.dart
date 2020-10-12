@@ -1,7 +1,4 @@
 import 'package:acudia/app_localizations.dart';
-import 'package:acudia/components/expansion/expansion_tile.dart';
-import 'package:acudia/components/folding_card/folding_card.dart';
-import 'package:acudia/components/list-items/date_range_item.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
@@ -10,10 +7,8 @@ import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
 import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_add_page.dart';
 import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_config_page.dart';
-import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 

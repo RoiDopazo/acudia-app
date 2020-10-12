@@ -1,6 +1,4 @@
-import 'package:acudia/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 
 const DEFAULT_NUMBER = 10;
 
