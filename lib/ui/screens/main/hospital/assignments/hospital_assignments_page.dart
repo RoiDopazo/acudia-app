@@ -51,27 +51,37 @@ class HospitalAssignmentsPage extends StatelessWidget {
                   Provider.of<AssignmentsProvider>(context).setRefetchFunc(refetch);
 
                   List<Assignment> assignmentList = Assignment.fromJsonList(result.data['getMyAssignments']['items']);
+
+                  Map<String, List<Assignment>> assignmentMap = new Map();
+                  assignmentList.forEach((Assignment element) {
+                    if (assignmentMap[element.hospId] == null) {
+                      assignmentMap[element.hospId] = [element];
+                    } else {
+                      assignmentMap[element.hospId].add(element);
+                    }
+                  });
+
                   if (assignmentList != null && assignmentList.length > 0) {
                     return SingleChildScrollView(
                         child: Column(children: [
                       SizedBox(height: 16),
-                      for (Assignment assignment in assignmentList)
+                      for (MapEntry<String, List<Assignment>> assignment in assignmentMap.entries)
                         HospitalAssignmentItem(
-                            title: assignment.hospName,
-                            subtitle: '${assignment.hospProvince}',
-                            items: assignment.itemList,
-                            onTap: (AssignmentItem item, int index) {
+                            title: assignment.value[0].hospName,
+                            subtitle: '${assignment.value[0].hospProvince}',
+                            items: assignment.value,
+                            onTap: (Assignment item, int index) {
                               Provider.of<AssignmentsProvider>(context).moveToConfig(true);
-                              Provider.of<AssignmentsProvider>(context).setAssignmentItem(item, assignment);
+                              Provider.of<AssignmentsProvider>(context).setAssignment(item);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => HospitalAssignmentsConfigPage(
                                       hospital: new Hospital(
-                                          codCNH: int.tryParse(assignment.hospId),
-                                          name: assignment.hospName,
-                                          province: assignment.hospProvince),
-                                      assignment: assignment,
+                                          codCNH: int.tryParse(assignment.key),
+                                          name: assignment.value[0].hospName,
+                                          province: assignment.value[0].hospProvince),
+                                      assignment: assignment.value[0],
                                       index: index),
                                   fullscreenDialog: true,
                                 ),

@@ -1,7 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/colors.dart';
 import 'package:acudia/components/list-items/date_range_item.dart';
-import 'package:acudia/core/entity/assignment_item_entity.dart';
+import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/utils/helpers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ class HospitalAssignmentItem extends StatefulWidget {
   final String title;
   final String subtitle;
   final Function onTap;
-  final List<AssignmentItem> items;
+  final List<Assignment> items;
   int _current = 0;
 
   final _foldingCellKey = GlobalKey<SimpleFoldingCellState>();
@@ -89,7 +89,8 @@ class HospitalAssignmentItemState extends State<HospitalAssignmentItem> {
                     Text(widget.title,
                         style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
                     Text(
-                      '2 asignaciones',
+                      '${widget.items.length > 1 ? translate(context, 'num_asignaciones') : translate(context, 'num_asignacion')}'
+                          .replaceAll("{{num}}", widget.items.length.toString()),
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
                   ],

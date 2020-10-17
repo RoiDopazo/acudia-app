@@ -1,27 +1,58 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'assignment_item_entity.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Assignment {
-  final String PK;
-  final String SK;
-  final String hospId;
-  final String hospName;
-  final String hospProvince;
-  List<AssignmentItem> itemList;
-  final int createdAt;
+  String PK;
+  String SK;
+  String assignmentId;
+  String hospId;
+  String hospName;
+  String hospProvince;
+  DateTime from;
+  DateTime to;
+  TimeOfDay startHour;
+  TimeOfDay endHour;
+  double fare;
+  List<bool> days;
+  int createdAt;
+  int updatedAt;
 
-  Assignment({this.PK, this.SK, this.hospId, this.hospName, this.hospProvince, this.itemList, this.createdAt});
+  Assignment(
+      {this.PK,
+      this.SK,
+      this.assignmentId,
+      this.hospId,
+      this.hospName,
+      this.hospProvince,
+      this.from,
+      this.to,
+      this.startHour,
+      this.endHour,
+      this.fare,
+      this.days,
+      this.createdAt,
+      this.updatedAt});
 
   factory Assignment.fromJson(Map<String, dynamic> json) {
     return Assignment(
       PK: json['PK'],
       SK: json['SK'],
+      assignmentId: json['SK'].toString().substring(json['SK'].toString().indexOf('#') + 1),
       hospId: json['hospId'],
       hospName: json['hospName'],
       hospProvince: json['hospProvince'],
-      itemList: AssignmentItem.fromJsonList(json['itemList']),
+      from: DateTime.parse(json["from"]),
+      to: DateTime.parse(json["to"]),
+      startHour: new TimeOfDay(
+          hour: (json["startHour"] / 3600).truncate(), minute: ((json['startHour'] % 3600) / 60).truncate()),
+      endHour:
+          new TimeOfDay(hour: (json["endHour"] / 3600).truncate(), minute: ((json['endHour'] % 3600) / 60).truncate()),
+      fare: json['fare'] != null ? json['fare'].toDouble() : 0.0,
+      days: json['days'],
       createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
     );
   }
 
@@ -36,16 +67,18 @@ class Assignment {
   }
 
   Map<String, dynamic> toJson() {
-    List<Map<String, dynamic>> itemListJson = [];
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 
-    this.itemList.forEach((element) {
-      itemListJson.add(element.toJson());
-    });
     return {
       "hospId": this.hospId,
+      "assignmentId": this.assignmentId,
       "hospName": this.hospName,
       "hospProvince": this.hospProvince,
-      "itemList": itemListJson
+      "from": dateFormat.format(this.from),
+      "to": dateFormat.format(this.to),
+      "startHour": this.startHour.hour * 3600 + this.startHour.minute * 60,
+      "endHour": this.endHour.hour * 3600 + this.endHour.minute * 60,
+      "fare": this.fare
     };
   }
 }

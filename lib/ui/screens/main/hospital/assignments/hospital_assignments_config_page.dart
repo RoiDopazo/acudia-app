@@ -6,7 +6,6 @@ import 'package:acudia/components/pickers/date_picker.dart';
 import 'package:acudia/components/pickers/number_picker.dart';
 import 'package:acudia/components/pickers/time_picker.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
-import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
@@ -59,28 +58,25 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
         RunMutation runMutation,
         QueryResult result,
       ) {
-        if (assingmentsProvider.assignmentItem.fare != null)
+        if (assingmentsProvider.assignment.fare != null)
           return AcudiaAnimationOpacity(
-              opacity: assingmentsProvider.assignmentItem.fare != null ? 1.0 : 0.0,
+              opacity: assingmentsProvider.assignment.fare != null ? 1.0 : 0.0,
               child: AcudiaFloatingActionButtonFull(
                   onPressed: () {
                     showLoadingDialog();
                     if (assingmentsProvider.isEditting) {
-                      assignment.itemList[index] = new AssignmentItem(
-                          from: assingmentsProvider.assignmentItem.from,
-                          to: assingmentsProvider.assignmentItem.to,
-                          startHour: assingmentsProvider.assignmentItem.startHour,
-                          endHour: assingmentsProvider.assignmentItem.endHour,
-                          fare: assingmentsProvider.assignmentItem.fare);
-
+                      assignment.from = assingmentsProvider.assignment.from;
+                      assignment.to = assingmentsProvider.assignment.to;
+                      assignment.startHour = assingmentsProvider.assignment.startHour;
+                      assignment.endHour = assingmentsProvider.assignment.endHour;
+                      assignment.fare = assingmentsProvider.assignment.fare;
                       runMutation(assignment.toJson());
                     } else {
                       runMutation({
-                        "hospId": hospital.codCNH,
+                        ...assingmentsProvider.assignment.toJson(),
+                        "hospId": hospital.codCNH.toString(),
                         "hospName": hospital.name,
                         "hospProvince": hospital.province,
-                        "email": "roidopazo@gmail.com",
-                        "itemList": [assingmentsProvider.assignmentItem.toJson()]
                       });
                     }
                   },
@@ -96,7 +92,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
   Widget removeAssignmentWidget(AssignmentsProvider assingmentsProvider, context) {
     return Mutation(
       options: MutationOptions(
-          documentNode: gql(GRAPHQL_UPDATE_ASSIGNMENT_MUTATION),
+          documentNode: gql(GRAPHQL_REMOVE_ASSIGNMENTS_MUTATION),
           onCompleted: (dynamic resultData) async {
             if (resultData != null) {
               hideLoadingDialog();
@@ -126,7 +122,6 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                 btnCancelOnPress: () {},
                 btnOkOnPress: () async {
                   showLoadingDialog();
-                  assignment.itemList.removeAt(index);
                   runMutation(assignment.toJson());
                 },
               )..show();
@@ -171,46 +166,46 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 AcudiaDatePickerField(
-                  date: assingmentsProvider.assignmentItem.from,
+                  date: assingmentsProvider.assignment.from,
                   label: translate(context, 'start_date'),
                   onChange: (value) => Provider.of<AssignmentsProvider>(context, listen: false).updateFromDate(value),
                 ),
-                if (assingmentsProvider.assignmentItem.from != null)
+                if (assingmentsProvider.assignment.from != null)
                   AcudiaAnimationOpacity(
-                    opacity: assingmentsProvider.assignmentItem.from != null ? 1.0 : 0.0,
+                    opacity: assingmentsProvider.assignment.from != null ? 1.0 : 0.0,
                     child: AcudiaDatePickerField(
-                      date: assingmentsProvider.assignmentItem.to,
-                      firstDate: assingmentsProvider.assignmentItem.from,
+                      date: assingmentsProvider.assignment.to,
+                      firstDate: assingmentsProvider.assignment.from,
                       label: translate(context, 'end_date'),
                       onChange: (value) => Provider.of<AssignmentsProvider>(context, listen: false).updateToDate(value),
                     ),
                   ),
-                if (assingmentsProvider.assignmentItem.to != null)
+                if (assingmentsProvider.assignment.to != null)
                   AcudiaAnimationOpacity(
-                    opacity: assingmentsProvider.assignmentItem.to != null ? 1.0 : 0.0,
+                    opacity: assingmentsProvider.assignment.to != null ? 1.0 : 0.0,
                     child: AcudiaTimePickerField(
-                      time: assingmentsProvider.assignmentItem.startHour,
+                      time: assingmentsProvider.assignment.startHour,
                       label: translate(context, 'start_time'),
                       onChange: (value) =>
                           Provider.of<AssignmentsProvider>(context, listen: false).updateStartHour(value),
                     ),
                   ),
-                if (assingmentsProvider.assignmentItem.startHour != null)
+                if (assingmentsProvider.assignment.startHour != null)
                   AcudiaAnimationOpacity(
-                    opacity: assingmentsProvider.assignmentItem.startHour != null ? 1.0 : 0.0,
+                    opacity: assingmentsProvider.assignment.startHour != null ? 1.0 : 0.0,
                     child: AcudiaTimePickerField(
-                      time: assingmentsProvider.assignmentItem.endHour,
+                      time: assingmentsProvider.assignment.endHour,
                       label: translate(context, 'end_time'),
                       onChange: (value) =>
                           Provider.of<AssignmentsProvider>(context, listen: false).updateEndHour(value),
                     ),
                   ),
-                if (assingmentsProvider.assignmentItem.endHour != null)
+                if (assingmentsProvider.assignment.endHour != null)
                   AcudiaAnimationOpacity(
-                      opacity: assingmentsProvider.assignmentItem.endHour != null ? 1.0 : 0.0,
+                      opacity: assingmentsProvider.assignment.endHour != null ? 1.0 : 0.0,
                       child: AcudiaNumberPickerField(
                           label: translate(context, 'fare'),
-                          number: assingmentsProvider.assignmentItem.fare,
+                          number: assingmentsProvider.assignment.fare,
                           onChange: (value) =>
                               Provider.of<AssignmentsProvider>(context, listen: false).updateFare(value))),
                 if (assingmentsProvider.isEditting) removeAssignmentWidget(assingmentsProvider, context),

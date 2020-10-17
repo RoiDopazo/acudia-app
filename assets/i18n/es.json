@@ -85,5 +85,7 @@
   "schedule": "Horario",
   "to": "a",
   "fare": "Tarifa",
-  "euro_hour": "Euros/hora"
+  "euro_hour": "Euros/hora",
+  "num_asignaciones": "{{num}} asignaciones",
+  "num_asignacion": "{{num}} asignación"
 }
