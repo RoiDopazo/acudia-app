@@ -1,11 +1,10 @@
 import 'package:acudia/core/entity/assignment_entity.dart';
-import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:flutter/material.dart';
 
 class AssignmentsProvider with ChangeNotifier {
   int selectedTab = 0;
   bool isEditting = false;
-  AssignmentItem assignmentItem;
+  Assignment assignment;
   Function refetch;
 
   moveToConfig(isEdittingParam) {
@@ -22,32 +21,32 @@ class AssignmentsProvider with ChangeNotifier {
   }
 
   updateFromDate(DateTime fromDateParam) {
-    assignmentItem.from = fromDateParam;
+    assignment.from = fromDateParam;
     notifyListeners();
   }
 
   updateToDate(DateTime toDateParam) {
-    assignmentItem.to = toDateParam;
+    assignment.to = toDateParam;
     notifyListeners();
   }
 
   updateStartHour(TimeOfDay startDateParam) {
-    assignmentItem.startHour = startDateParam;
+    assignment.startHour = startDateParam;
     notifyListeners();
   }
 
   updateEndHour(TimeOfDay endHourParam) {
-    assignmentItem.endHour = endHourParam;
+    assignment.endHour = endHourParam;
     notifyListeners();
   }
 
   updateFare(double fareParam) {
-    assignmentItem.fare = fareParam;
+    assignment.fare = fareParam;
     notifyListeners();
   }
 
-  setAssignmentItem(AssignmentItem assignmentItemParam, Assignment assignment) {
-    assignmentItem = assignmentItemParam;
+  setAssignment(Assignment assignmentParam) {
+    assignment = assignmentParam;
     notifyListeners();
   }
 
@@ -58,6 +57,6 @@ class AssignmentsProvider with ChangeNotifier {
   cleanup() {
     selectedTab = 0;
     isEditting = false;
-    assignmentItem = new AssignmentItem();
+    assignment = new Assignment();
   }
 }

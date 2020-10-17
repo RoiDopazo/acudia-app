@@ -57,11 +57,11 @@ class AcudiaNumberPickerField extends StatelessWidget {
               color: Colors.white,
             ),
             Slider(
-              value: number,
+              value: number != null ? number : 4,
               min: 4.0,
               max: 20.0,
               divisions: 80,
-              label: number.toStringAsFixed(2),
+              label: number != null ? number.toStringAsFixed(2) : '',
               onChanged: (double value) {
                 onChange(value);
               },
