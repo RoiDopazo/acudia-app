@@ -1,6 +1,5 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
-import 'package:acudia/core/entity/assignment_item_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
