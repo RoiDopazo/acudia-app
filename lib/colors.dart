@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const aCBackground = const Color(0xFFF8F8F8);
 const aCWhite = const Color(0xFFFFFFFF);
+const aCWarning = const Color(0xFFD48A31);
 const aCErrorRed = const Color(0xFFC5032B);
 const aCComplementary = const Color(0xFF962300);
 const aCTextColor = const Color(0xFF000000);

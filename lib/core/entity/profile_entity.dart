@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:acudia/utils/constants.dart';
+import 'package:acudia/utils/helpers.dart';
 
 class Profile {
   final String PK;
@@ -37,8 +38,8 @@ class Profile {
     return Profile(
       PK: json["PK"],
       SK: json["SK"],
-      name: json["name"],
-      secondName: json["secondName"],
+      name: capitalize(json["name"]),
+      secondName: capitalize(json["secondName"]),
       email: json["email"],
       role: USER_ROLES.values.firstWhere((e) => e.toString() == 'USER_ROLES.' + role),
       isAcudier: USER_ROLES.values.firstWhere((e) => e.toString() == 'USER_ROLES.' + role) == USER_ROLES.ACUDIER,

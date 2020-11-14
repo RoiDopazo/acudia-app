@@ -35,9 +35,11 @@ class SignUpProvider with ChangeNotifier {
   bool isRegistered = false;
   String verificationCode = '';
   final values = {
-    FIELD_NAME: '',
-    FIELD_EMAIL: '',
-    FIELD_PASSWORD: '',
+    FIELD_NAME: 'Ruben',
+    FIELD_SECOND_NAME: 'Castro',
+    // FIELD_EMAIL: 'rdopazobucket@gmail.com',
+    FIELD_EMAIL: 'roidopazo@gmail.com',
+    FIELD_PASSWORD: 'Aaaa1234',
     FIELD_ROLE: [false, false],
     FIELD_GENDER: [false, false, false],
     FIELD_BIRTHDATE: null,
@@ -62,8 +64,8 @@ class SignUpProvider with ChangeNotifier {
   }
 
   resetValues() {
-    values[FIELD_EMAIL] = '';
-    values[FIELD_PASSWORD] = '';
+    // values[FIELD_EMAIL] = '';
+    // values[FIELD_PASSWORD] = '';
     selectedTab = 0;
     notifyListeners();
   }

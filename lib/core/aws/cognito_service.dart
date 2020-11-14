@@ -34,8 +34,8 @@ class CognitoService {
     return null;
   }
 
-  static Future<CognitoUserPoolData> signUp(String name, String secondName, String email, String password, String role,
-      String gender, String birthDate, String photoUrl) async {
+  static Future<CognitoUserPoolData> signUp(String name, String secondName, String email,
+      String password, String role, String gender, String birthDate, String photoUrl) async {
     CognitoUserPool userPool = Credentials().getUserPool();
     final userAttributes = [
       new AttributeArg(name: 'name', value: name),
@@ -59,7 +59,8 @@ class CognitoService {
     }
 
     try {
-      CognitoUserPoolData user = await userPool.signUp(email, password, userAttributes: userAttributes);
+      CognitoUserPoolData user =
+          await userPool.signUp(email, password, userAttributes: userAttributes);
       return user;
     } on CognitoClientException catch (error) {
       if (error.code == "UsernameExistsException") {

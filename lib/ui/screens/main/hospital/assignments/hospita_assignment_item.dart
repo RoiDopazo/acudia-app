@@ -7,6 +7,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:folding_cell/folding_cell.dart';
 
+// ignore: must_be_immutable
 class HospitalAssignmentItem extends StatefulWidget {
   final String title;
   final String subtitle;
@@ -15,7 +16,8 @@ class HospitalAssignmentItem extends StatefulWidget {
   int _current = 0;
 
   final _foldingCellKey = GlobalKey<SimpleFoldingCellState>();
-  HospitalAssignmentItem({Key key, this.title, this.subtitle, this.items, this.onTap}) : super(key: key);
+  HospitalAssignmentItem({Key key, this.title, this.subtitle, this.items, this.onTap})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -87,9 +89,10 @@ class HospitalAssignmentItemState extends State<HospitalAssignmentItem> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(widget.title,
-                        style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
                     Text(
-                      '${widget.items.length > 1 ? translate(context, 'num_asignaciones') : translate(context, 'num_asignacion')}'
+                      '${widget.items.length > 1 ? translate(context, 'num_assignments') : translate(context, 'num_assigment')}'
                           .replaceAll("{{num}}", widget.items.length.toString()),
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
@@ -128,12 +131,15 @@ class HospitalAssignmentItemState extends State<HospitalAssignmentItem> {
                                     textBaseline: TextBaseline.alphabetic,
                                     children: [
                                       Column(children: [
-                                        Text('${normalizeTime(i.startHour.hour)}:${normalizeTime(i.startHour.minute)}',
+                                        Text(
+                                            '${normalizeTime(i.startHour.hour)}:${normalizeTime(i.startHour.minute)}',
                                             style: TextStyle(fontSize: 18)),
                                         SizedBox(width: 4),
-                                        Text(translate(context, "to"), style: TextStyle(fontSize: 12)),
+                                        Text(translate(context, "to"),
+                                            style: TextStyle(fontSize: 12)),
                                         SizedBox(width: 4),
-                                        Text('${normalizeTime(i.endHour.hour)}:${normalizeTime(i.endHour.minute)}',
+                                        Text(
+                                            '${normalizeTime(i.endHour.hour)}:${normalizeTime(i.endHour.minute)}',
                                             style: TextStyle(fontSize: 18))
                                       ])
                                     ]),
@@ -166,7 +172,9 @@ class HospitalAssignmentItemState extends State<HospitalAssignmentItem> {
                   margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: value == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
+                    color: value == index
+                        ? Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
                   ),
                 );
               }).toList(),
