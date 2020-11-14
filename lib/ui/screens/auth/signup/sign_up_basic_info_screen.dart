@@ -90,8 +90,50 @@ class SignUpBasicInfo extends StatelessWidget {
               icon: const Icon(Icons.lock),
               labelStyle: new TextStyle(decorationStyle: TextDecorationStyle.solid)),
         ),
+        SizedBox(height: 32),
+        TextFormField(
+          keyboardType: TextInputType.text,
+          autocorrect: false,
+          maxLines: 1,
+          initialValue: signup.values[FIELD_PASSWORD_CONFIRM],
+          obscureText: true,
+          onChanged: (text) {
+            Provider.of<SignUpProvider>(context, listen: false).updateValue(FIELD_PASSWORD_CONFIRM, text);
+          },
+          validator: MultiValidator([
+            RequiredValidator(errorText: translate(context, 'field_password_validation_empty')),
+            MinLengthValidator(8, errorText: translate(context, 'field_password_validation_minlength')),
+            PatternValidator(r'(?=.*?[0-9])', errorText: translate(context, 'field_password_validation_digits')),
+            PatternValidator(r'(?=.*?[A-Z])', errorText: translate(context, 'field_password_validation_upper')),
+            PatternValidator(r'(?=.*?[a-z])', errorText: translate(context, 'field_password_validation_lower')),
+            PasswordValidator(
+                initial: signup.values[FIELD_PASSWORD],
+                errorText: translate(context, "field_password_validation_match"))
+          ]),
+          decoration: new InputDecoration(
+              labelText: translate(context, 'field_password_confirm_label'),
+              hintText: translate(context, 'field_password_confirm_hint'),
+              icon: const Icon(Icons.lock),
+              labelStyle: new TextStyle(decorationStyle: TextDecorationStyle.solid)),
+        ),
         SizedBox(height: 64),
       ]),
     );
+  }
+}
+
+class PasswordValidator extends TextFieldValidator {
+  String initial;
+
+  PasswordValidator({String initial, String errorText}) : super(errorText) {
+    this.initial = initial;
+  }
+
+  @override
+  bool get ignoreEmptyValues => true;
+
+  @override
+  bool isValid(String value) {
+    return this.initial == value;
   }
 }

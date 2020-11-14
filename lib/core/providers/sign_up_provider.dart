@@ -21,6 +21,7 @@ const FIELD_NAME = 'name';
 const FIELD_SECOND_NAME = 'secondName';
 const FIELD_EMAIL = 'email';
 const FIELD_PASSWORD = 'password';
+const FIELD_PASSWORD_CONFIRM = 'password_confirm';
 const FIELD_GENDER = 'gender';
 const FIELD_ROLE = 'role';
 const FIELD_BIRTHDATE = 'birthdate';
@@ -40,6 +41,7 @@ class SignUpProvider with ChangeNotifier {
     // FIELD_EMAIL: 'rdopazobucket@gmail.com',
     FIELD_EMAIL: 'roidopazo@gmail.com',
     FIELD_PASSWORD: 'Aaaa1234',
+    FIELD_PASSWORD_CONFIRM: 'Aaaa1234',
     FIELD_ROLE: [false, false],
     FIELD_GENDER: [false, false, false],
     FIELD_BIRTHDATE: null,
