@@ -26,6 +26,7 @@
   "field_password_validation_upper": "Debe incluir una letra mayúcula",
   "field_password_validation_lower": "Debe incluir una letra minúscula",
   "field_password_validation_minlength": "Debe incluir al menos 8 caracteres",
+  "field_password_validation_match": "Las contraseñas no coinciden",
   "field_name_label": "Nombre",
   "field_name_hint": "Introduzca su nombre",
   "field_name_validation_empty": "Por favor, introduzca su nombre",
