@@ -7,9 +7,11 @@
   "auth_logout": "Cerrar sesión",
   "create": "Crear",
   "save": "Guardar",
+  "search": "Búsqueda",
   "update": "Actualizar",
   "remove": "Eliminar",
   "assignment": "Asignación",
+  "details": "Detalles",
   "auth_step1": "Datos",
   "auth_step2": "Perfil",
   "auth_step3": "Verificación",
@@ -86,6 +88,8 @@
   "to": "a",
   "fare": "Tarifa",
   "euro_hour": "Euros/hora",
-  "num_asignaciones": "{{num}} asignaciones",
-  "num_asignacion": "{{num}} asignación"
+  "num_assignments": "{{num}} asignaciones",
+  "num_assignment": "{{num}} asignación",
+  "no_acudier_available": "No se encontraron acudiers disponibles",
+  "filters": "Filtros"
 }

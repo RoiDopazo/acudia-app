@@ -46,3 +46,30 @@ final String GRAPHQL_REMOVE_ASSIGNMENTS_MUTATION = """
   mutation removeAssignment(\$hospId: String!, \$assignmentId: String!) {
   removeAssignment(input: {hospId: \$hospId, assignmentId: \$assignmentId }) 
 }""";
+
+final String GRAPHQL_SEARCH_ASSIGNMENTS_QUERY = """
+ query searchAssignments(\$hospId: String!) {
+  searchAssignments(input: {hospId: \$hospId}) {
+    items {
+      acudier {
+        PK
+        SK
+        name
+        secondName
+        email
+        genre
+        birthDate
+        photoUrl
+        createdAt
+        updatedAt
+      }
+      assignment {
+        from
+        to
+        startHour
+        endHour
+        fare
+      }
+    }
+  }
+}""";
