@@ -39,7 +39,7 @@ class SignUpScreen extends StatelessWidget {
 
     return Consumer2<SignUpProvider, ErrorNotifierProvider>(
         builder: (context, signup, errorProvider, child) => Scaffold(
-              resizeToAvoidBottomPadding: false,
+              resizeToAvoidBottomPadding: true,
               body: SafeArea(
                   child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
@@ -65,24 +65,26 @@ class SignUpScreen extends StatelessWidget {
                           ))),
                 ]),
               )),
-              floatingActionButton: AcudiaFloatingActionButtonFull(
-                onPressed: () {
-                  if (signup.selectedTab == 0) {
-                    if (_formKey.currentState.validate()) {
-                      Provider.of<SignUpProvider>(context, listen: false).setSelectedTab(signup.selectedTab + 1);
-                    }
-                  } else if (signup.selectedTab == 1) {
-                    if (!Provider.of<SignUpProvider>(context, listen: false).validate()) {
-                      Provider.of<SignUpProvider>(context, listen: false).signUp(context);
-                    }
-                  } else if (signup.selectedTab == 2) {
-                    Provider.of<SignUpProvider>(context, listen: false)
-                        .verifyEmail(context, signup.values[FIELD_EMAIL], signup.verificationCode);
-                  }
-                },
-                text: translate(context, signup.selectedTab == 2 ? 'verify' : 'next'),
-                icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
-              ),
+              floatingActionButton: MediaQuery.of(context).viewInsets.bottom == 0.0
+                  ? AcudiaFloatingActionButtonFull(
+                      onPressed: () {
+                        if (signup.selectedTab == 0) {
+                          if (_formKey.currentState.validate()) {
+                            Provider.of<SignUpProvider>(context, listen: false).setSelectedTab(signup.selectedTab + 1);
+                          }
+                        } else if (signup.selectedTab == 1) {
+                          if (!Provider.of<SignUpProvider>(context, listen: false).validate()) {
+                            Provider.of<SignUpProvider>(context, listen: false).signUp(context);
+                          }
+                        } else if (signup.selectedTab == 2) {
+                          Provider.of<SignUpProvider>(context, listen: false)
+                              .verifyEmail(context, signup.values[FIELD_EMAIL], signup.verificationCode);
+                        }
+                      },
+                      text: translate(context, signup.selectedTab == 2 ? 'verify' : 'next'),
+                      icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                    )
+                  : null,
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             ));
   }
