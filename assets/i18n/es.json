@@ -92,5 +92,6 @@
   "num_assignments": "{{num}} asignaciones",
   "num_assignment": "{{num}} asignación",
   "no_acudier_available": "No se encontraron acudiers disponibles",
-  "filters": "Filtros"
+  "filters": "Filtros",
+  "filters_panel_remove": "Eliminar filtros"
 }

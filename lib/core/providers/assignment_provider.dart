@@ -1,11 +1,13 @@
 import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class AssignmentsProvider with ChangeNotifier {
   int selectedTab = 0;
   bool isEditting = false;
-  Assignment assignment;
+  Assignment assignment = new Assignment();
   Function refetch;
+  RangeValues rangeValues = RangeValues(minFare, maxFare);
 
   moveToConfig(isEdittingParam) {
     if (isEdittingParam) {
@@ -21,11 +23,17 @@ class AssignmentsProvider with ChangeNotifier {
   }
 
   updateFromDate(DateTime fromDateParam) {
+    if (assignment.to != null && fromDateParam.difference(assignment.to).inDays > 0) {
+      assignment.to = null;
+    }
     assignment.from = fromDateParam;
     notifyListeners();
   }
 
   updateToDate(DateTime toDateParam) {
+    if (assignment.from != null && toDateParam.difference(assignment.from).inDays < 0) {
+      assignment.from = null;
+    }
     assignment.to = toDateParam;
     notifyListeners();
   }
@@ -54,9 +62,15 @@ class AssignmentsProvider with ChangeNotifier {
     refetch = refetchParam;
   }
 
+  updateRangeValues(RangeValues rangeValuesParam) {
+    rangeValues = rangeValuesParam;
+    notifyListeners();
+  }
+
   cleanup() {
     selectedTab = 0;
     isEditting = false;
     assignment = new Assignment();
+    rangeValues = RangeValues(minFare, maxFare);
   }
 }
