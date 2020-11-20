@@ -1,4 +1,5 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/colors.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +17,9 @@ class HospitalSearchAppBar extends StatelessWidget implements PreferredSizeWidge
   @override
   Widget build(BuildContext context) {
     return new AppBar(
+      elevation: 1,
+      iconTheme: IconThemeData(color: aCPaletteAccent),
+      backgroundColor: aCWhite,
       title: isSearching == true
           ? TextField(
               focusNode: searchFocusNode,
@@ -27,18 +31,17 @@ class HospitalSearchAppBar extends StatelessWidget implements PreferredSizeWidge
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: translate(context, 'hospital_search_input_hint'),
-                hintStyle: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white.withAlpha(150)),
+                hintStyle: Theme.of(context).textTheme.headline3.copyWith(color: aCPaletteAccent.withAlpha(150)),
               ),
-              style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white))
+              style: Theme.of(context).textTheme.headline3.copyWith(color: aCPaletteAccent))
           : Text(translate(context, 'hospital_search_title'),
-              style: Theme.of(context).textTheme.headline2.copyWith(color: Colors.white)),
+              style: Theme.of(context).textTheme.headline2.copyWith(color: aCPaletteAccent)),
       actions: <Widget>[
         IconButton(
             onPressed: () {
               if (isSearching != true) {
                 searchController.clear();
               }
-              print(searchController.text);
               Provider.of<HospitalProvider>(context, listen: false)
                   .toggleIsSearching(searchValue: searchController.text);
               searchFocusNode.requestFocus();

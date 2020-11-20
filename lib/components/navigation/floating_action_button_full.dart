@@ -14,7 +14,7 @@ class AcudiaFloatingActionButtonFull extends StatelessWidget {
         constraints: BoxConstraints(minWidth: double.infinity, minHeight: 70),
         child: FloatingActionButton(
             shape: ContinuousRectangleBorder(),
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).accentColor,
             onPressed: onPressed,
             isExtended: true,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

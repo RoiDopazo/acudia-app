@@ -11,7 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'hospita_assignment_item.dart';
+import 'hospital_assignment_item.dart';
 
 class HospitalAssignmentsPage extends StatelessWidget {
   @override

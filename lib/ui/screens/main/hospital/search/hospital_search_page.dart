@@ -37,9 +37,9 @@ class HospitalSearchPage extends StatelessWidget {
         height: 10.0,
         child: FlatButton(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0), side: BorderSide(color: Theme.of(context).primaryColor)),
-          textColor: isActive == true ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).primaryColor,
-          color: isActive == true ? Theme.of(context).primaryColor : Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.circular(8.0), side: BorderSide(color: Theme.of(context).accentColor)),
+          textColor: isActive == true ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).accentColor,
+          color: isActive == true ? Theme.of(context).accentColor : Theme.of(context).scaffoldBackgroundColor,
           onPressed: () {
             if (!isLoading) {
               Provider.of<HospitalProvider>(context, listen: false).toggleFilter(filterKey);
