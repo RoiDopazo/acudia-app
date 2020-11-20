@@ -23,8 +23,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
   Assignment assignment;
   final int index;
 
-  HospitalAssignmentsConfigPage({Key key, this.hospital, this.index, this.assignment})
-      : super(key: key);
+  HospitalAssignmentsConfigPage({Key key, this.hospital, this.index, this.assignment}) : super(key: key);
 
   refetchData(assingmentsProvider) async {
     try {
@@ -43,9 +42,8 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
   Widget floatingActionButton(AssignmentsProvider assingmentsProvider, context) {
     return Mutation(
       options: MutationOptions(
-          documentNode: gql(assingmentsProvider.isEditting
-              ? GRAPHQL_UPDATE_ASSIGNMENT_MUTATION
-              : GRAPHQL_ADD_ASSIGNMENT_MUTATION),
+          documentNode: gql(
+              assingmentsProvider.isEditting ? GRAPHQL_UPDATE_ASSIGNMENT_MUTATION : GRAPHQL_ADD_ASSIGNMENT_MUTATION),
           onCompleted: (dynamic resultData) async {
             if (resultData != null) {
               hideLoadingDialog();
@@ -113,8 +111,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
       ) {
         return FlatButton(
             shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: Theme.of(context).errorColor, width: 1, style: BorderStyle.solid),
+                side: BorderSide(color: Theme.of(context).errorColor, width: 1, style: BorderStyle.solid),
                 borderRadius: BorderRadius.circular(8)),
             onPressed: () {
               AwesomeDialog(
@@ -130,8 +127,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                 },
               )..show();
             },
-            child: Text(
-                '${translate(context, 'remove')} ${translate(context, 'assignment').toLowerCase()}',
+            child: Text('${translate(context, 'remove')} ${translate(context, 'assignment').toLowerCase()}',
                 style: TextStyle(color: Theme.of(context).errorColor)));
       },
     );
@@ -141,29 +137,34 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Consumer<AssignmentsProvider>(
         builder: (context, assingmentsProvider, child) => Scaffold(
-              appBar: AppBar(
-                  title: Text(translate(context, 'hospital_assignments_conf_appbar_title'),
-                      style: Theme.of(context).textTheme.headline2.copyWith(color: Colors.white))),
               body: SafeArea(
                   child: SingleChildScrollView(
                       child: Column(children: [
                 Container(
-                    constraints: BoxConstraints.expand(
-                        height: 80.0, width: MediaQuery.of(context).size.width + 100),
+                    constraints: BoxConstraints.expand(height: 80.0, width: MediaQuery.of(context).size.width + 100),
                     padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                     color: Theme.of(context).backgroundColor,
                     alignment: Alignment.center,
-                    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Text(
-                        hospital.name,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        style: Theme.of(context).textTheme.headline2,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                      Container(
+                          width: 48,
+                          child: GestureDetector(onTap: () => Navigator.pop(context), child: Icon(Icons.clear))),
+                      Container(
+                        width: MediaQuery.of(context).size.width - 112,
+                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          Text(
+                            hospital.name,
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                          Text(
+                            hospital.province,
+                            style: Theme.of(context).textTheme.subtitle2,
+                          )
+                        ]),
                       ),
-                      Text(
-                        hospital.province,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      )
+                      Container(width: 48)
                     ])),
                 Divider(
                   height: 1,
@@ -174,8 +175,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                 AcudiaDatePickerField(
                   date: assingmentsProvider.assignment.from,
                   label: translate(context, 'start_date'),
-                  onChange: (value) => Provider.of<AssignmentsProvider>(context, listen: false)
-                      .updateFromDate(value),
+                  onChange: (value) => Provider.of<AssignmentsProvider>(context, listen: false).updateFromDate(value),
                 ),
                 if (assingmentsProvider.assignment.from != null)
                   AcudiaAnimationOpacity(
@@ -184,8 +184,7 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                       date: assingmentsProvider.assignment.to,
                       firstDate: assingmentsProvider.assignment.from,
                       label: translate(context, 'end_date'),
-                      onChange: (value) => Provider.of<AssignmentsProvider>(context, listen: false)
-                          .updateToDate(value),
+                      onChange: (value) => Provider.of<AssignmentsProvider>(context, listen: false).updateToDate(value),
                     ),
                   ),
                 if (assingmentsProvider.assignment.to != null)
@@ -194,8 +193,8 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                     child: AcudiaTimePickerField(
                       time: assingmentsProvider.assignment.startHour,
                       label: translate(context, 'start_time'),
-                      onChange: (value) => Provider.of<AssignmentsProvider>(context, listen: false)
-                          .updateStartHour(value),
+                      onChange: (value) =>
+                          Provider.of<AssignmentsProvider>(context, listen: false).updateStartHour(value),
                     ),
                   ),
                 if (assingmentsProvider.assignment.startHour != null)
@@ -204,8 +203,8 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                     child: AcudiaTimePickerField(
                       time: assingmentsProvider.assignment.endHour,
                       label: translate(context, 'end_time'),
-                      onChange: (value) => Provider.of<AssignmentsProvider>(context, listen: false)
-                          .updateEndHour(value),
+                      onChange: (value) =>
+                          Provider.of<AssignmentsProvider>(context, listen: false).updateEndHour(value),
                     ),
                   ),
                 if (assingmentsProvider.assignment.endHour != null)
@@ -215,10 +214,8 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
                           label: translate(context, 'fare'),
                           number: assingmentsProvider.assignment.fare,
                           onChange: (value) =>
-                              Provider.of<AssignmentsProvider>(context, listen: false)
-                                  .updateFare(value))),
-                if (assingmentsProvider.isEditting)
-                  removeAssignmentWidget(assingmentsProvider, context),
+                              Provider.of<AssignmentsProvider>(context, listen: false).updateFare(value))),
+                if (assingmentsProvider.isEditting) removeAssignmentWidget(assingmentsProvider, context),
                 SizedBox(height: 100),
               ]))),
               floatingActionButton: floatingActionButton(assingmentsProvider, context),

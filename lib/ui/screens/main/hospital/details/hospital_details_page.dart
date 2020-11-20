@@ -1,5 +1,4 @@
 import 'package:acudia/app_localizations.dart';
-import 'package:acudia/colors.dart';
 import 'package:acudia/components/cards/acudier_card.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';

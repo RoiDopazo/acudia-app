@@ -153,7 +153,7 @@ SPEC CHECKSUMS:
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 62ae4a18473520c67b79e9724c31a63599cc9423
   SDWebImageFLPlugin: 6c2295fb1242d44467c6c87dc5db6b0a13228fd8
-  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

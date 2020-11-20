@@ -28,9 +28,6 @@ class HospitalAssignmentsPage extends StatelessWidget {
 
     return Consumer<HospitalProvider>(
         builder: (context, hospProvider, child) => Scaffold(
-              appBar: AppBar(
-                  title: Text(translate(context, 'hospital_assignments_appbar_title'),
-                      style: Theme.of(context).textTheme.headline2.copyWith(color: Colors.white))),
               body: SafeArea(
                   child: Query(
                 options: QueryOptions(
@@ -63,6 +60,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
                   if (assignmentList != null && assignmentList.length > 0) {
                     return SingleChildScrollView(
                         child: Column(children: [
+                      Container(child: Text('asdasdas')),
                       SizedBox(height: 16),
                       for (MapEntry<String, List<Assignment>> assignment in assignmentMap.entries)
                         HospitalAssignmentItem(
