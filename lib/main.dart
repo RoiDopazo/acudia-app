@@ -11,6 +11,7 @@ import 'package:acudia/routes.dart';
 import 'package:acudia/utils/environment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:load/load.dart';
@@ -47,6 +48,8 @@ class MyApp extends StatelessWidget {
     if (userData != null && userData["user"] != null) {
       Provider.of<ProfileProvider>(context, listen: false).getProfileData(context, userData["user"]);
     }
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.white));
 
     return LoadingProvider(
         themeData: LoadingThemeData(tapDismiss: false, loadingBackgroundColor: Colors.transparent),
