@@ -38,8 +38,8 @@ class SignUpProvider with ChangeNotifier {
   final values = {
     FIELD_NAME: 'Ruben',
     FIELD_SECOND_NAME: 'Castro',
-    FIELD_EMAIL: 'rdopazobucket@gmail.com',
-    // FIELD_EMAIL: 'roidopazo@gmail.com',
+    // FIELD_EMAIL: 'rdopazobucket@gmail.com',
+    FIELD_EMAIL: 'roidopazo@gmail.com',
     FIELD_PASSWORD: 'Aaaa1234',
     FIELD_PASSWORD_CONFIRM: 'Aaaa1234',
     FIELD_ROLE: [false, false],

@@ -104,13 +104,20 @@ class HospitalDetailsPage extends StatelessWidget {
                                       return LinearProgressIndicator();
                                     }
 
-                                    List<Widget> wigetList = [];
+                                    List<Widget> widgetList = [];
                                     List<dynamic> responseList = result.data["searchAssignments"]["items"];
 
                                     if (responseList != null && responseList.length > 0) {
+                                      widgetList.add(Container(
+                                          margin: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                                          padding: EdgeInsets.all(12),
+                                          child: Text(
+                                              translate(context, 'assignment_search_displaying_num_results')
+                                                  .replaceFirst('{{ num }}', 'X'),
+                                              style: TextStyle(color: Theme.of(context).highlightColor))));
                                       responseList.forEach((dynamic responseJson) {
                                         Profile acudier = Profile.fromJson(responseJson["acudier"]);
-                                        wigetList.add(AcudierCard(
+                                        widgetList.add(AcudierCard(
                                           name: acudier.name,
                                           secondName: acudier.secondName,
                                           photoUrl: acudier.photoUrl,
@@ -119,7 +126,7 @@ class HospitalDetailsPage extends StatelessWidget {
                                           popularity: math.Random.secure().nextDouble() * 5, //FIXME: not random
                                         ));
                                       });
-                                      return Column(children: wigetList);
+                                      return Column(children: widgetList);
                                     } else {
                                       return Container(
                                           decoration: BoxDecoration(
