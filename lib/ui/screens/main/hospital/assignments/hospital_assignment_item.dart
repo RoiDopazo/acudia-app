@@ -40,12 +40,14 @@ class HospitalAssignmentItemState extends State<HospitalAssignmentItem> {
                   style: Theme.of(context).textTheme.headline3,
                 )),
                 SizedBox(height: 6),
-                Text("${widget.items.length.toString()} asignaciones",
+                Text(
+                    "${widget.items.length > 1 ? translate(context, 'num_assignments') : translate(context, 'num_assignment')}"
+                        .replaceAll("{{num}}", widget.items.length.toString()),
                     style: TextStyle(fontSize: 12, color: Theme.of(context).primaryColor)),
                 SizedBox(height: 32),
                 CarouselSlider(
                   options: CarouselOptions(
-                      height: 300,
+                      height: 324,
                       viewportFraction: 0.9,
                       onPageChanged: (index, reason) {
                         setState(() {
@@ -67,7 +69,18 @@ class HospitalAssignmentItemState extends State<HospitalAssignmentItem> {
                                     label: "Horario",
                                     value:
                                         '${normalizeTime(item.startHour.hour)}:${normalizeTime(item.startHour.minute)} ${translate(context, "to")} ${normalizeTime(item.endHour.hour)}:${normalizeTime(item.endHour.minute)}'),
-                                AcudiaDataItem(label: "Tarifa", value: "15 €/h")
+                                AcudiaDataItem(label: "Tarifa", value: "15 €/h"),
+                                if (item.from.millisecondsSinceEpoch < new DateTime.now().millisecondsSinceEpoch)
+                                  Container(
+                                      padding: EdgeInsets.fromLTRB(16, 4, 16, 4),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                        color: Theme.of(context).highlightColor,
+                                      )),
+                                      child: Text(
+                                        translate(context, 'active'),
+                                        style: TextStyle(color: Theme.of(context).highlightColor),
+                                      ))
                               ])),
                         );
                       },

@@ -70,7 +70,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                 children: [
                               Row(
                                 children: [
-                                  Text('Hola ', style: TextStyle(fontSize: 32)),
+                                  Text('${translate(context, 'hello')} ', style: TextStyle(fontSize: 32)),
                                   Text(profileProvider.profile.name,
                                       overflow: TextOverflow.ellipsis,
                                       softWrap: false,
@@ -78,7 +78,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                   Text(',', style: TextStyle(fontSize: 32)),
                                 ],
                               ),
-                              Text("Estas son tus asignaciones", style: TextStyle(fontSize: 22))
+                              Text(translate(context, 'hospital_assignments_hi_label'), style: TextStyle(fontSize: 22))
                             ])),
                       ),
                       SizedBox(height: 16),
