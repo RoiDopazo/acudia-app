@@ -3,6 +3,7 @@ import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
+import 'package:acudia/core/providers/profile_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
 import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_add_page.dart';
 import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_config_page.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'hospita_assignment_item.dart';
+import 'hospital_assignment_item.dart';
 
 class HospitalAssignmentsPage extends StatelessWidget {
   @override
@@ -26,11 +27,8 @@ class HospitalAssignmentsPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ))));
 
-    return Consumer<HospitalProvider>(
-        builder: (context, hospProvider, child) => Scaffold(
-              appBar: AppBar(
-                  title: Text(translate(context, 'hospital_assignments_appbar_title'),
-                      style: Theme.of(context).textTheme.headline2.copyWith(color: Colors.white))),
+    return Consumer2<HospitalProvider, ProfileProvider>(
+        builder: (context, hospProvider, profileProvider, child) => Scaffold(
               body: SafeArea(
                   child: Query(
                 options: QueryOptions(
@@ -63,29 +61,52 @@ class HospitalAssignmentsPage extends StatelessWidget {
                   if (assignmentList != null && assignmentList.length > 0) {
                     return SingleChildScrollView(
                         child: Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              Row(
+                                children: [
+                                  Text('${translate(context, 'hello')} ', style: TextStyle(fontSize: 32)),
+                                  Text(profileProvider.profile.name,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      style: TextStyle(fontSize: 32, color: Theme.of(context).primaryColor)),
+                                  Text(',', style: TextStyle(fontSize: 32)),
+                                ],
+                              ),
+                              Text(translate(context, 'hospital_assignments_hi_label'), style: TextStyle(fontSize: 22))
+                            ])),
+                      ),
                       SizedBox(height: 16),
                       for (MapEntry<String, List<Assignment>> assignment in assignmentMap.entries)
-                        HospitalAssignmentItem(
-                            title: assignment.value[0].hospName,
-                            subtitle: '${assignment.value[0].hospProvince}',
-                            items: assignment.value,
-                            onTap: (Assignment item, int index) {
-                              Provider.of<AssignmentsProvider>(context).moveToConfig(true);
-                              Provider.of<AssignmentsProvider>(context).setAssignment(item);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HospitalAssignmentsConfigPage(
-                                      hospital: new Hospital(
-                                          codCNH: int.tryParse(assignment.key),
-                                          name: assignment.value[0].hospName,
-                                          province: assignment.value[0].hospProvince),
-                                      assignment: assignment.value[0],
-                                      index: index),
-                                  fullscreenDialog: true,
-                                ),
-                              );
-                            }),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: HospitalAssignmentItem(
+                              title: assignment.value[0].hospName,
+                              subtitle: '${assignment.value[0].hospProvince}',
+                              items: assignment.value,
+                              onTap: (Assignment item, int index) {
+                                Provider.of<AssignmentsProvider>(context).moveToConfig(true);
+                                Provider.of<AssignmentsProvider>(context).setAssignment(item);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HospitalAssignmentsConfigPage(
+                                        hospital: new Hospital(
+                                            codCNH: int.tryParse(assignment.key),
+                                            name: assignment.value[0].hospName,
+                                            province: assignment.value[0].hospProvince),
+                                        assignment: assignment.value[0],
+                                        index: index),
+                                    fullscreenDialog: true,
+                                  ),
+                                );
+                              }),
+                        ),
                       SizedBox(height: 24)
                     ]));
                   } else {

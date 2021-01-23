@@ -34,17 +34,21 @@ class HospitalDetailsPage extends StatelessWidget {
                               expandedHeight: 240.0,
                               floating: false,
                               pinned: true,
+                              centerTitle: true,
                               flexibleSpace: FlexibleSpaceBar(
                                 title: LayoutBuilder(builder: (context, size) {
                                   var span = TextSpan(
                                       text: args.hospital.name,
-                                      style: TextStyle(
-                                          color: Theme.of(context).scaffoldBackgroundColor));
+                                      style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor));
 
-                                  return Text.rich(
-                                    span,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: size.maxHeight > 180 ? 3 : 1,
+                                  return Container(
+                                    margin: EdgeInsets.only(
+                                        left: size.maxHeight > 180 ? 16 : 48, right: size.maxHeight > 180 ? 16 : 48),
+                                    child: Text.rich(
+                                      span,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: size.maxHeight > 180 ? 3 : 1,
+                                    ),
                                   );
                                 }),
                               ),
@@ -84,15 +88,14 @@ class HospitalDetailsPage extends StatelessWidget {
                           SlidingUpPanel(
                             panelBuilder: (sc) => _panel(sc, context),
                             minHeight: 80,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
+                            borderRadius:
+                                BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
                             body: SingleChildScrollView(
                               child: Query(
                                   options: QueryOptions(
                                       documentNode: gql(GRAPHQL_SEARCH_ASSIGNMENTS_QUERY),
                                       variables: {"hospId": args.hospital.codCNH}),
-                                  builder: (QueryResult result,
-                                      {VoidCallback refetch, FetchMore fetchMore}) {
+                                  builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
                                     if (result.hasException) {
                                       return Text(result.exception.toString());
                                     }
@@ -101,31 +104,43 @@ class HospitalDetailsPage extends StatelessWidget {
                                       return LinearProgressIndicator();
                                     }
 
-                                    List<Widget> wigetList = [];
-                                    List<dynamic> responseList =
-                                        result.data["searchAssignments"]["items"];
+                                    List<Widget> widgetList = [];
+                                    List<dynamic> responseList = result.data["searchAssignments"]["items"];
 
                                     if (responseList != null && responseList.length > 0) {
+                                      widgetList.add(Container(
+                                          margin: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                                          padding: EdgeInsets.all(12),
+                                          child: Text(
+                                              translate(context, 'assignment_search_displaying_num_results')
+                                                  .replaceFirst('{{ num }}', 'X'),
+                                              style: TextStyle(color: Theme.of(context).highlightColor))));
                                       responseList.forEach((dynamic responseJson) {
                                         Profile acudier = Profile.fromJson(responseJson["acudier"]);
-                                        wigetList.add(AcudierCard(
+                                        widgetList.add(AcudierCard(
                                           name: acudier.name,
                                           secondName: acudier.secondName,
                                           photoUrl: acudier.photoUrl,
                                           age: calculateAge(acudier.birthDate),
-                                          numJobs:
-                                              math.Random.secure().nextInt(30), //FIXME: not random
-                                          popularity: math.Random.secure().nextDouble() *
-                                              5, //FIXME: not random
+                                          numJobs: math.Random.secure().nextInt(30), //FIXME: not random
+                                          popularity: math.Random.secure().nextDouble() * 5, //FIXME: not random
                                         ));
                                       });
-                                      return Column(children: wigetList);
+                                      return Column(children: widgetList);
                                     } else {
                                       return Container(
                                           decoration: BoxDecoration(
-                                              color: Theme.of(context).highlightColor,
-                                              borderRadius:
-                                                  BorderRadius.all(Radius.circular(12.0))),
+                                            color: Theme.of(context).highlightColor,
+                                            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.5),
+                                                spreadRadius: 5,
+                                                blurRadius: 8,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
                                           padding: EdgeInsets.all(8),
                                           margin: EdgeInsets.only(top: 80, left: 40, right: 40),
                                           child: Center(
@@ -137,12 +152,10 @@ class HospitalDetailsPage extends StatelessWidget {
                                             ),
                                             SizedBox(width: 8),
                                             Flexible(
-                                                child: Text(
-                                                    translate(context, 'no_acudiers_available'),
+                                                child: Text(translate(context, 'no_acudiers_available'),
                                                     style: TextStyle(
                                                         fontSize: 18,
-                                                        color: Theme.of(context)
-                                                            .scaffoldBackgroundColor)))
+                                                        color: Theme.of(context).scaffoldBackgroundColor)))
                                           ])));
                                     }
                                   }),
@@ -176,9 +189,7 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
+    return maxHeight != oldDelegate.maxHeight || minHeight != oldDelegate.minHeight || child != oldDelegate.child;
   }
 }
 
@@ -205,8 +216,8 @@ Widget _panel(ScrollController sc, context) {
               Container(
                 width: 30,
                 height: 5,
-                decoration: BoxDecoration(
-                    color: Colors.grey[300], borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                decoration:
+                    BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.all(Radius.circular(12.0))),
               ),
             ],
           ),

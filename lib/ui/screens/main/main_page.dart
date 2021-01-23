@@ -7,7 +7,6 @@ import 'package:acudia/ui/screens/main/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class MainPage extends StatelessWidget {
   static List<Widget> _clientWidgetOptions = <Widget>[
@@ -43,47 +42,45 @@ class MainPage extends StatelessWidget {
                           ? _acudierWidgetOptions.elementAt(app.selectedTab)
                           : _clientWidgetOptions.elementAt(app.selectedTab),
                     ),
-                    bottomNavigationBar: BottomNavigationBar(
-                        showSelectedLabels: false,
-                        showUnselectedLabels: false,
-                        items: <BottomNavigationBarItem>[
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                              app.selectedTab == 0
-                                  ? 'assets/media/icon_home.svg'
-                                  : 'assets/media/icon_home_outlined.svg',
-                              height: 24,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            title: Text(''),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: app.selectedTab == 1
-                                ? Image(
-                                    image: AssetImage('assets/media/icon_agreement.png'),
-                                    height: 32,
-                                  )
-                                : SvgPicture.asset('assets/media/icon_agreement_outlined.svg',
-                                    height: 32, color: Theme.of(context).primaryColor),
-                            title: Text(''),
-                          ),
-                          BottomNavigationBarItem(
-                            icon: SvgPicture.asset(
-                              app.selectedTab == 2
-                                  ? 'assets/media/icon_user_profile.svg'
-                                  : 'assets/media/icon_user_profile_outlined.svg',
-                              height: 24,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            title: Text(''),
+                    bottomNavigationBar: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            blurRadius: 10,
                           ),
                         ],
-                        currentIndex: app.selectedTab,
-                        backgroundColor: Theme.of(context).backgroundColor,
-                        selectedItemColor: Theme.of(context).primaryColor,
-                        onTap: (index) {
-                          Provider.of<AppProvider>(context, listen: false).setSelectedTab(context, index);
-                        }))
+                      ),
+                      child: BottomNavigationBar(
+                          showSelectedLabels: true,
+                          showUnselectedLabels: true,
+                          elevation: 8,
+                          items: <BottomNavigationBarItem>[
+                            profile.profile.isAcudier
+                                ? BottomNavigationBarItem(
+                                    icon: Icon(Icons.mail_outline),
+                                    title: Text(translate(context, "assignments")),
+                                  )
+                                : BottomNavigationBarItem(
+                                    icon: Icon(Icons.search),
+                                    title: Text(translate(context, "search")),
+                                  ),
+                            BottomNavigationBarItem(
+                              icon: Icon(Icons.compare_arrows),
+                              title: Text(translate(context, "requests")),
+                            ),
+                            BottomNavigationBarItem(
+                              icon: Icon(Icons.face),
+                              title: Text(translate(context, "auth_step2")),
+                            ),
+                          ],
+                          currentIndex: app.selectedTab,
+                          backgroundColor: Theme.of(context).backgroundColor,
+                          selectedItemColor: Theme.of(context).primaryColor,
+                          onTap: (index) {
+                            Provider.of<AppProvider>(context, listen: false).setSelectedTab(context, index);
+                          }),
+                    ))
                 : Scaffold(
                     body: Container(
                         height: MediaQuery.of(context).size.height,

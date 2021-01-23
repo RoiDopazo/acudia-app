@@ -20,6 +20,14 @@ class AcudierCard extends StatelessWidget {
         child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 5,
+                  blurRadius: 8,
+                  offset: Offset(0, 3),
+                ),
+              ],
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment(1, 1),

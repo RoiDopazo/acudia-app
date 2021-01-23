@@ -10,7 +10,9 @@
   "search": "Búsqueda",
   "update": "Actualizar",
   "remove": "Eliminar",
+  "requests": "Solicitudes",
   "assignment": "Asignación",
+  "assignments": "Asignaciones",
   "details": "Detalles",
   "auth_step1": "Datos",
   "auth_step2": "Perfil",
@@ -76,8 +78,10 @@
   "hospital_assignments_appbar_title": "Mis asignaciones",
   "hospital_assignments_conf_appbar_title": "Crear asignación",
   "hospital_assignments_new_label": "Nueva asignación",
+  "hospital_assignments_hi_label": "Estas son tus asignaciones",
   "hospital_assignments_empty_content": "Sin asignaciones. Puede empezar creando asignaciones haciendo click en el botón '+' de la parte inferior.",
   "hospital_assignment_remove_question": "Está seguro de querer eliminar esta asignación?",
+  "assignment_search_displaying_num_results": "Se han encontrado {{ num }} acudiers disponibles",
   "error_unexpected_title": "Opps! Ha ocurrido un error inesperado",
   "error_unexpected_subtitle": "Intentelo de nuevo más tarde",
   "error_unexpected_label": "Ha ocurrido un error inesperado, intentelo de nuevo.",
@@ -92,5 +96,7 @@
   "num_assignments": "{{num}} asignaciones",
   "num_assignment": "{{num}} asignación",
   "no_acudier_available": "No se encontraron acudiers disponibles",
-  "filters": "Filtros"
+  "filters": "Filtros",
+  "hello": "Hola",
+  "active": "Activo"
 }

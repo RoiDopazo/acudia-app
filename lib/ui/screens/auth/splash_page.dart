@@ -46,7 +46,7 @@ class SplashScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
         padding: const EdgeInsets.all(16.0),
         textColor: Theme.of(context).backgroundColor,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).accentColor,
         onPressed: () {
           Provider.of<SignUpProvider>(context).showLogin
               ? Provider.of<SignUpProvider>(context, listen: false).login(context)
@@ -152,7 +152,7 @@ class CurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.color = aCPalette;
+    paint.color = aCPaletteAccent;
     paint.style = PaintingStyle.fill;
 
     var path = Path();
