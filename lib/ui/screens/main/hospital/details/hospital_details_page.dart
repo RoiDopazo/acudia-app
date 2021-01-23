@@ -35,16 +35,21 @@ class HospitalDetailsPage extends StatelessWidget {
                               expandedHeight: 240.0,
                               floating: false,
                               pinned: true,
+                              centerTitle: true,
                               flexibleSpace: FlexibleSpaceBar(
                                 title: LayoutBuilder(builder: (context, size) {
                                   var span = TextSpan(
                                       text: args.hospital.name,
                                       style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor));
 
-                                  return Text.rich(
-                                    span,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: size.maxHeight > 180 ? 3 : 1,
+                                  return Container(
+                                    margin: EdgeInsets.only(
+                                        left: size.maxHeight > 180 ? 16 : 48, right: size.maxHeight > 180 ? 16 : 48),
+                                    child: Text.rich(
+                                      span,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: size.maxHeight > 180 ? 3 : 1,
+                                    ),
                                   );
                                 }),
                               ),
@@ -100,13 +105,20 @@ class HospitalDetailsPage extends StatelessWidget {
                                       return LinearProgressIndicator();
                                     }
 
-                                    List<Widget> wigetList = [];
+                                    List<Widget> widgetList = [];
                                     List<dynamic> responseList = result.data["searchAssignments"]["items"];
 
                                     if (responseList != null && responseList.length > 0) {
+                                      widgetList.add(Container(
+                                          margin: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                                          padding: EdgeInsets.all(12),
+                                          child: Text(
+                                              translate(context, 'assignment_search_displaying_num_results')
+                                                  .replaceFirst('{{ num }}', 'X'),
+                                              style: TextStyle(color: Theme.of(context).highlightColor))));
                                       responseList.forEach((dynamic responseJson) {
                                         Profile acudier = Profile.fromJson(responseJson["acudier"]);
-                                        wigetList.add(AcudierCard(
+                                        widgetList.add(AcudierCard(
                                           name: acudier.name,
                                           secondName: acudier.secondName,
                                           photoUrl: acudier.photoUrl,
@@ -115,12 +127,21 @@ class HospitalDetailsPage extends StatelessWidget {
                                           popularity: math.Random.secure().nextDouble() * 5, //FIXME: not random
                                         ));
                                       });
-                                      return Column(children: wigetList);
+                                      return Column(children: widgetList);
                                     } else {
                                       return Container(
                                           decoration: BoxDecoration(
-                                              color: Theme.of(context).highlightColor,
-                                              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                                            color: Theme.of(context).highlightColor,
+                                            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.5),
+                                                spreadRadius: 5,
+                                                blurRadius: 8,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
                                           padding: EdgeInsets.all(8),
                                           margin: EdgeInsets.only(top: 80, left: 40, right: 40),
                                           child: Center(

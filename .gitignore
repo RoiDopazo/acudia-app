@@ -24,6 +24,7 @@
 **/doc/api/
 .dart_tool/
 .flutter-plugins
+.flutter-plugins-dependencies
 .packages
 .pub-cache/
 .pub/
@@ -82,4 +83,3 @@ android/key.properties
 android/app/google-services.json
 
 .env*
-.flutter-plugins-dependencies

@@ -7,15 +7,6 @@ class AcudiaNumberPickerField extends StatelessWidget {
   final String label;
   final Function onChange;
 
-  String normalizeTime(time) {
-    String timeString = time.toString();
-
-    if (time < 10) {
-      timeString = '0$timeString';
-    }
-    return timeString;
-  }
-
   const AcudiaNumberPickerField({Key key, this.number, this.onChange, this.label = ''}) : super(key: key);
 
   @override
