@@ -95,8 +95,9 @@
   "euro_hour": "Euros/hora",
   "num_assignments": "{{num}} asignaciones",
   "num_assignment": "{{num}} asignación",
-  "no_acudier_available": "No se encontraron acudiers disponibles",
+  "no_acudiers_available": "No se encontraron acudiers disponibles",
   "filters": "Filtros",
+  "filters_panel_remove": "Eliminar filtros",
   "hello": "Hola",
   "active": "Activo"
 }

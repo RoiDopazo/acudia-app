@@ -48,8 +48,8 @@ final String GRAPHQL_REMOVE_ASSIGNMENTS_MUTATION = """
 }""";
 
 final String GRAPHQL_SEARCH_ASSIGNMENTS_QUERY = """
- query searchAssignments(\$hospId: String!) {
-  searchAssignments(input: {hospId: \$hospId}) {
+ query searchAssignments(\$hospId: String!, \$from: AWSDate, \$to: AWSDate, \$startHour: Float, \$endHour: Float, \$minFare: Float, \$maxFare: Float) {
+  searchAssignments(input: {hospId: \$hospId, query: { from: \$from, to: \$to, startHour: \$startHour, endHour: \$endHour, minFare: \$minFare, maxFare: \$maxFare } }) {
     items {
       acudier {
         PK
