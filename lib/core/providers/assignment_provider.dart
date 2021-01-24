@@ -73,4 +73,10 @@ class AssignmentsProvider with ChangeNotifier {
     assignment = new Assignment();
     rangeValues = RangeValues(minFare, maxFare);
   }
+
+  resetFilterValues() {
+    assignment = new Assignment();
+    assignment.from = new DateTime.now();
+    rangeValues = RangeValues(minFare, maxFare);
+  }
 }
