@@ -141,7 +141,7 @@ class HospitalDetailsPage extends StatelessWidget {
                                                   padding: EdgeInsets.all(12),
                                                   child: Text(
                                                       translate(context, 'assignment_search_displaying_num_results')
-                                                          .replaceFirst('{{ num }}', 'X'),
+                                                          .replaceFirst('{{ num }}', responseList.length.toString()),
                                                       style: TextStyle(color: Theme.of(context).highlightColor))));
                                               responseList.forEach((dynamic responseJson) {
                                                 Profile acudier = Profile.fromJson(responseJson["acudier"]);
@@ -150,8 +150,8 @@ class HospitalDetailsPage extends StatelessWidget {
                                                   secondName: acudier.secondName,
                                                   photoUrl: acudier.photoUrl,
                                                   age: calculateAge(acudier.birthDate),
-                                                  numJobs: math.Random.secure().nextInt(30), //FIXME: not random
-                                                  popularity: math.Random.secure().nextDouble() * 5, //FIXME: not random
+                                                  numJobs: acudier.jobsCompleted,
+                                                  popularity: acudier.popularity,
                                                 ));
                                               });
                                               return Column(children: widgetList);

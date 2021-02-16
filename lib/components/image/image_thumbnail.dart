@@ -17,7 +17,7 @@ class AcudiaImageThumbnail extends StatelessWidget {
       decoration: BoxDecoration(
         color: !hasImage ? aCPalette.shade600 : null,
         shape: BoxShape.circle,
-        image: hasImage ? DecorationImage(image: NetworkImage(photoUrl), fit: BoxFit.fill) : null,
+        image: hasImage ? DecorationImage(image: new NetworkImage(photoUrl), fit: BoxFit.fill) : null,
       ),
       child: !hasImage
           ? Center(

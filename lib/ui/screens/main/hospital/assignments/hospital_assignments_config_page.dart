@@ -28,7 +28,6 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
   refetchData(assingmentsProvider) async {
     try {
       await assingmentsProvider.refetch();
-      print('works');
     } catch (err) {
       // FIXME!!!!
       print(err);

@@ -42,7 +42,7 @@ class AcudierCard extends StatelessWidget {
                   Container(
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Row(children: [
-                      AcudiaImageThumbnail(photoUrl: photoUrl, fallbackText: "${name[0] ?? ''}${secondName[0] ?? ''}"),
+                      AcudiaImageThumbnail(photoUrl: photoUrl, fallbackText: "${name[0] ?? ''}$secondName"),
                       SizedBox(width: 16),
                       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Container(
