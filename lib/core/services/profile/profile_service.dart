@@ -11,6 +11,8 @@ final String GRAPHQL_GET_PROFILE_QUERY = """query (\$role: String!) {
     birthDate
     photoUrl
     createdAt
+    jobsCompleted
+    popularity
     updatedAt
     deletedAt
   }

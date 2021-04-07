@@ -59,6 +59,8 @@ final String GRAPHQL_SEARCH_ASSIGNMENTS_QUERY = """
         email
         genre
         birthDate
+        jobsCompleted
+        popularity
         photoUrl
         createdAt
         updatedAt

@@ -72,7 +72,7 @@ class Hospital {
       patrimonialDependence: capitalize(json["DEPENDENCIA_PATRIMONIAL"]),
       codFu: int.parse(json["CODFU"]),
       functionalDependence: capitalize(json["DEPENDENCIA_FUNCIONAL"]),
-      isPrivate: json["DEPENDENCIA_FUNCIONA"] == 'PRIVADOS',
+      isPrivate: json["DEPENDENCIA_FUNCIONAL"].toString().contains('PRIVADO'),
       coords: {"lat": json["Y"], "lng": json["X"]},
       distance: 0,
     );

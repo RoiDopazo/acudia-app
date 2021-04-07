@@ -1,5 +1,7 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/colors.dart';
 import 'package:acudia/components/cards/acudier_card.dart';
+import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
@@ -9,6 +11,7 @@ import 'package:acudia/ui/screens/main/hospital/details/hospital_details_filters
 import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +23,7 @@ class HospitalDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HospitalArguments args = ModalRoute.of(context).settings.arguments;
+    final Hospital hospitalData = args.hospital;
     DateFormat dateFormat = DateFormat("yyyy-MM-dd");
     Provider.of<AssignmentsProvider>(context, listen: false).resetFilterValues();
 
@@ -43,7 +47,7 @@ class HospitalDetailsPage extends StatelessWidget {
                               flexibleSpace: FlexibleSpaceBar(
                                 title: LayoutBuilder(builder: (context, size) {
                                   var span = TextSpan(
-                                      text: args.hospital.name,
+                                      text: hospitalData.name,
                                       style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor));
 
                                   return Container(
@@ -101,7 +105,7 @@ class HospitalDetailsPage extends StatelessWidget {
                                           options: QueryOptions(
                                               documentNode: gql(GRAPHQL_SEARCH_ASSIGNMENTS_QUERY),
                                               variables: {
-                                                "hospId": args.hospital.codCNH,
+                                                "hospId": hospitalData.codCNH,
                                                 "from": assignmentsProvider.assignment.from != null
                                                     ? dateFormat.format(assignmentsProvider.assignment.from)
                                                     : null,
@@ -141,7 +145,7 @@ class HospitalDetailsPage extends StatelessWidget {
                                                   padding: EdgeInsets.all(12),
                                                   child: Text(
                                                       translate(context, 'assignment_search_displaying_num_results')
-                                                          .replaceFirst('{{ num }}', 'X'),
+                                                          .replaceFirst('{{ num }}', responseList.length.toString()),
                                                       style: TextStyle(color: Theme.of(context).highlightColor))));
                                               responseList.forEach((dynamic responseJson) {
                                                 Profile acudier = Profile.fromJson(responseJson["acudier"]);
@@ -150,8 +154,8 @@ class HospitalDetailsPage extends StatelessWidget {
                                                   secondName: acudier.secondName,
                                                   photoUrl: acudier.photoUrl,
                                                   age: calculateAge(acudier.birthDate),
-                                                  numJobs: math.Random.secure().nextInt(30), //FIXME: not random
-                                                  popularity: math.Random.secure().nextDouble() * 5, //FIXME: not random
+                                                  numJobs: acudier.jobsCompleted,
+                                                  popularity: acudier.popularity,
                                                 ));
                                               });
                                               return Column(children: widgetList);
@@ -189,7 +193,142 @@ class HospitalDetailsPage extends StatelessWidget {
                                           }),
                                     )),
                           ),
-                          Container(child: Icon(Icons.directions_transit)),
+                          Container(
+                            margin: EdgeInsets.only(top: 24, left: 20, right: 20),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(children: [
+                                    Icon(Icons.location_city),
+                                    SizedBox(width: 8),
+                                    Flexible(
+                                        child: Text(
+                                      hospitalData.name,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ))
+                                  ]),
+                                  SizedBox(height: 16),
+                                  Row(children: [
+                                    Icon(Icons.add_location_rounded),
+                                    SizedBox(width: 8),
+                                    Flexible(
+                                        child: Text(
+                                      '${hospitalData.address} - ${hospitalData.postalCode}, ${hospitalData.province}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ))
+                                  ]),
+                                  SizedBox(height: 32),
+                                  Text(
+                                    'Información general',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Divider(height: 4, thickness: 2, color: aCTextColor),
+                                  SizedBox(height: 16),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text('Especialidad'),
+                                        SizedBox(width: 8),
+                                        Flexible(
+                                            child: Text(
+                                          hospitalData.healthCarePurpose,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ))
+                                      ]),
+                                  SizedBox(height: 16),
+                                  Divider(height: 4, thickness: 1),
+                                  SizedBox(height: 16),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text('Tipo'),
+                                        SizedBox(width: 8),
+                                        Flexible(
+                                            child: Text(
+                                          hospitalData.patrimonialDependence,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ))
+                                      ]),
+                                  SizedBox(height: 16),
+                                  Divider(height: 4, thickness: 1),
+                                  SizedBox(height: 16),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text('C.A'),
+                                        SizedBox(width: 8),
+                                        Flexible(
+                                            child: Text(
+                                          hospitalData.state,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ))
+                                      ]),
+                                  SizedBox(height: 16),
+                                  Divider(height: 4, thickness: 1),
+                                  SizedBox(height: 16),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text('Contacto'),
+                                        SizedBox(width: 8),
+                                        Flexible(
+                                            child: Text(
+                                          '+34 ${hospitalData.phone}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                          ),
+                                        ))
+                                      ]),
+                                  SizedBox(height: 16),
+                                  Divider(height: 4, thickness: 1),
+                                  SizedBox(height: 32),
+                                  Text(
+                                    'Ubicación',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Divider(height: 4, thickness: 2, color: aCTextColor),
+                                  SizedBox(height: 16),
+                                  Container(
+                                    height: 200,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: GoogleMap(
+                                      mapToolbarEnabled: false,
+                                      rotateGesturesEnabled: false,
+                                      zoomControlsEnabled: false,
+                                      zoomGesturesEnabled: false,
+                                      compassEnabled: false,
+                                      initialCameraPosition: CameraPosition(
+                                          target: LatLng(hospitalData.coords['lat'], hospitalData.coords['lng']),
+                                          zoom: 18),
+                                    ),
+                                  )
+                                ]),
+                          )
                         ],
                       )))),
             )));
