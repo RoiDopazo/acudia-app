@@ -13,8 +13,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="acudia"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyC1lufFHPv2hI6uTyDX5uYNmuRarfamEbY"/>
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyC1lufFHPv2hI6uTyDX5uYNmuRarfamEbY"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
