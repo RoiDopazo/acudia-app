@@ -6,6 +6,8 @@ import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
+import 'package:acudia/routes.dart';
+import 'package:acudia/ui/screens/main/acudier/acudier_details_args.dart';
 import 'package:acudia/ui/screens/main/hospital/details/hospital_details_args.dart';
 import 'package:acudia/ui/screens/main/hospital/details/hospital_details_filters_panel.dart';
 import 'package:acudia/utils/helpers.dart';
@@ -150,13 +152,19 @@ class HospitalDetailsPage extends StatelessWidget {
                                               responseList.forEach((dynamic responseJson) {
                                                 Profile acudier = Profile.fromJson(responseJson["acudier"]);
                                                 widgetList.add(AcudierCard(
-                                                  name: acudier.name,
-                                                  secondName: acudier.secondName,
-                                                  photoUrl: acudier.photoUrl,
-                                                  age: calculateAge(acudier.birthDate),
-                                                  numJobs: acudier.jobsCompleted,
-                                                  popularity: acudier.popularity,
-                                                ));
+                                                    name: acudier.name,
+                                                    secondName: acudier.secondName,
+                                                    photoUrl: acudier.photoUrl,
+                                                    age: calculateAge(acudier.birthDate),
+                                                    numJobs: acudier.jobsCompleted,
+                                                    popularity: acudier.popularity,
+                                                    onPress: () {
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        Routes.ACUDIER_DETAILS,
+                                                        arguments: AcudierDetailsArguments(acudier: acudier),
+                                                      );
+                                                    }));
                                               });
                                               return Column(children: widgetList);
                                             } else {

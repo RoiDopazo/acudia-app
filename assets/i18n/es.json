@@ -99,5 +99,18 @@
   "filters": "Filtros",
   "filters_panel_remove": "Eliminar filtros",
   "hello": "Hola",
-  "active": "Activo"
+  "active": "Activo",
+  "jobs": "Trabajos",
+  "computed_age": "{{ age }} años",
+  "popularity": "Popularidad",
+  "jobs_completed": "{{ jobs }} trabajos realizados",
+  "num_positive_comments": "{{ num }} de 5",
+  "popularity_0": "Muy malas valoraciones",
+  "popularity_1": "Malas valoraciones",
+  "popularity_2": "Valoraciones normales",
+  "popularity_3": "Buenas valoraciones",
+  "popularity_4": "Muy buenas valoraciones",
+  "popularity_5": "Excelentes valoraciones",
+  "popularity_number": "{{ num }} de 5",
+  "member_since": "Miembro desde {{ date }}"
 }

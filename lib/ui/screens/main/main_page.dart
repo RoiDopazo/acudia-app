@@ -59,19 +59,19 @@ class MainPage extends StatelessWidget {
                             profile.profile.isAcudier
                                 ? BottomNavigationBarItem(
                                     icon: Icon(Icons.mail_outline),
-                                    title: Text(translate(context, "assignments")),
+                                    label: translate(context, "assignments"),
                                   )
                                 : BottomNavigationBarItem(
                                     icon: Icon(Icons.search),
-                                    title: Text(translate(context, "search")),
+                                    label: translate(context, "search"),
                                   ),
                             BottomNavigationBarItem(
                               icon: Icon(Icons.compare_arrows),
-                              title: Text(translate(context, "requests")),
+                              label: translate(context, "requests"),
                             ),
                             BottomNavigationBarItem(
                               icon: Icon(Icons.face),
-                              title: Text(translate(context, "auth_step2")),
+                              label: translate(context, "auth_step2"),
                             ),
                           ],
                           currentIndex: app.selectedTab,
