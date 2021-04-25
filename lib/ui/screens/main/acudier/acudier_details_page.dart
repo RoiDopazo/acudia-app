@@ -1,4 +1,6 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/ui/screens/main/acudier/acudier_details_args.dart';
@@ -7,15 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 const HEADER_HEIGHT = 340.0;
-const BOTTOM_BOX_HEIGHT = 120.0;
+const BOTTOM_BOX_HEIGHT = 96.0;
 
 class AcudierDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AcudierDetailsArguments args = ModalRoute.of(context).settings.arguments;
     final Profile acudier = args.acudier;
+    final Hospital hospital = args.hospital;
+    final Assignment assignment = args.assignment;
 
     DateFormat dateFormat = new DateFormat.yMMMM('es');
 
@@ -84,9 +89,33 @@ class AcudierDetailsPage extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontSize: 14.0,
                                                     ))),
-                                            SizedBox(height: 20),
+                                            SizedBox(height: 24),
                                             Divider(height: 4, thickness: 1),
-                                            SizedBox(height: 20),
+                                            SizedBox(height: 24),
+                                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                              Container(
+                                                  width: MediaQuery.of(context).size.width - 88,
+                                                  child: Text(hospital.name,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                      style: TextStyle(
+                                                        fontSize: 20.0,
+                                                        fontWeight: FontWeight.w500,
+                                                      ))),
+                                              SvgPicture.asset('assets/media/icon_hospital.svg', height: 48),
+                                            ]),
+                                            Wrap(
+                                              children: [
+                                                Text(hospital.healthCarePurpose),
+                                                Text(' · '),
+                                                Text(hospital.province),
+                                                Text(' · '),
+                                                Text(hospital.state)
+                                              ],
+                                            ),
+                                            SizedBox(height: 24),
+                                            Divider(height: 4, thickness: 1),
+                                            SizedBox(height: 24),
                                             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                                               Icon(Icons.calendar_today_outlined),
                                               SizedBox(width: 8),
@@ -110,16 +139,51 @@ class AcudierDetailsPage extends StatelessWidget {
                                               Text(translate(context, "popularity_number")
                                                   .replaceAll("{{ num }}", '${acudier.popularity}')),
                                               Text(')')
-                                            ])
+                                            ]),
+                                            SizedBox(height: 24),
+                                            Divider(height: 4, thickness: 1),
+                                            SizedBox(height: 24),
                                           ],
                                         )))),
                           ),
                           Container(
-                            color: Colors.black,
                             width: MediaQuery.of(context).size.width,
                             height: BOTTOM_BOX_HEIGHT,
-                            child: Text('sadsa'),
-                          ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.6),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3)),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        '${assignment.fare.toStringAsFixed(2)} €/h',
+                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                      )),
+                                  Expanded(
+                                      flex: 5,
+                                      child: RaisedButton(
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+                                        padding: const EdgeInsets.all(16.0),
+                                        textColor: Theme.of(context).backgroundColor,
+                                        color: Theme.of(context).primaryColor,
+                                        onPressed: () {},
+                                        child: new Text(translate(context, 'check_availability')),
+                                      ))
+                                ],
+                              ),
+                            ),
+                          )
                         ]))))));
   }
 }
