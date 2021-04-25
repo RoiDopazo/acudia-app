@@ -1,19 +1,23 @@
 import 'package:acudia/colors.dart';
 import 'package:flutter/material.dart';
 
+const LARGE_SIZE = 75.0;
+const SMALL_SIZE = 40.0;
+
 class AcudiaImageThumbnail extends StatelessWidget {
   final String photoUrl;
   final String fallbackText;
+  final bool small;
 
-  const AcudiaImageThumbnail({Key key, this.photoUrl, this.fallbackText}) : super(key: key);
+  const AcudiaImageThumbnail({Key key, this.photoUrl, this.fallbackText, this.small = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     bool hasImage = photoUrl != null && photoUrl != '';
 
     return Container(
-      width: 75,
-      height: 75,
+      width: small ? SMALL_SIZE : LARGE_SIZE,
+      height: small ? SMALL_SIZE : LARGE_SIZE,
       decoration: BoxDecoration(
         color: !hasImage ? aCPalette.shade600 : null,
         shape: BoxShape.circle,
@@ -21,8 +25,8 @@ class AcudiaImageThumbnail extends StatelessWidget {
       ),
       child: !hasImage
           ? Center(
-              child:
-                  Text(fallbackText, style: TextStyle(fontSize: 22, color: Theme.of(context).scaffoldBackgroundColor)))
+              child: Text(fallbackText,
+                  style: TextStyle(fontSize: small ? 18 : 22, color: Theme.of(context).scaffoldBackgroundColor)))
           : null,
     );
   }

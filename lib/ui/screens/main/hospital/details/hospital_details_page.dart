@@ -2,6 +2,7 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/colors.dart';
 import 'package:acudia/components/cards/acudier_card.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/core/entity/comment_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
@@ -151,7 +152,9 @@ class HospitalDetailsPage extends StatelessWidget {
                                                           .replaceFirst('{{ num }}', responseList.length.toString()),
                                                       style: TextStyle(color: Theme.of(context).highlightColor))));
                                               responseList.forEach((dynamic responseJson) {
-                                                Profile acudier = Profile.fromJson(responseJson["acudier"]);
+                                                Profile acudier = Profile.fromJson(responseJson["acudier"]['profile']);
+                                                List<Comment> comments =
+                                                    Comment.fromJsonList(responseJson['acudier']['comments']);
                                                 Assignment assignment = Assignment.fromJson(responseJson["assignment"]);
 
                                                 widgetList.add(AcudierCard(
@@ -167,6 +170,7 @@ class HospitalDetailsPage extends StatelessWidget {
                                                         Routes.ACUDIER_DETAILS,
                                                         arguments: AcudierDetailsArguments(
                                                             acudier: acudier,
+                                                            comments: comments,
                                                             hospital: hospitalData,
                                                             assignment: assignment),
                                                       );

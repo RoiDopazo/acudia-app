@@ -52,18 +52,26 @@ final String GRAPHQL_SEARCH_ASSIGNMENTS_QUERY = """
   searchAssignments(input: {hospId: \$hospId, query: { from: \$from, to: \$to, startHour: \$startHour, endHour: \$endHour, minFare: \$minFare, maxFare: \$maxFare } }) {
     items {
       acudier {
-        PK
-        SK
-        name
-        secondName
-        email
-        genre
-        birthDate
-        jobsCompleted
-        popularity
-        photoUrl
-        createdAt
-        updatedAt
+        profile {
+          PK
+          SK
+          name
+          secondName
+          email
+          genre
+          birthDate
+          jobsCompleted
+          popularity
+          photoUrl
+          createdAt
+          updatedAt
+        }
+        comments {
+          author
+          comment
+          date
+          rating
+        }      
       }
       assignment {
         from
