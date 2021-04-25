@@ -1,5 +1,7 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/components/reviews/review-list.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/core/entity/comment_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
@@ -21,6 +23,7 @@ class AcudierDetailsPage extends StatelessWidget {
     final Profile acudier = args.acudier;
     final Hospital hospital = args.hospital;
     final Assignment assignment = args.assignment;
+    final List<Comment> comments = args.comments;
 
     DateFormat dateFormat = new DateFormat.yMMMM('es');
 
@@ -143,6 +146,16 @@ class AcudierDetailsPage extends StatelessWidget {
                                             SizedBox(height: 24),
                                             Divider(height: 4, thickness: 1),
                                             SizedBox(height: 24),
+                                            comments.length > 0
+                                                ? Container(
+                                                    child: Text(translate(context, 'latest_reviews'),
+                                                        style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          fontWeight: FontWeight.w500,
+                                                        )))
+                                                : Container(),
+                                            SizedBox(height: 24),
+                                            ReviewList(comments: comments)
                                           ],
                                         )))),
                           ),

@@ -113,5 +113,6 @@
   "popularity_5": "Excelentes valoraciones",
   "popularity_number": "{{ num }} de 5",
   "member_since": "Miembro desde {{ date }}",
-  "check_availability": "Comprobar disponibilidad"
+  "check_availability": "Comprobar disponibilidad",
+  "latest_reviews": "Últimas valoraciones"
 }
