@@ -1,3 +1,4 @@
+import 'package:acudia/app_localizations.dart';
 import 'package:acudia/colors.dart';
 import 'package:acudia/components/image/image_thumbnail.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +11,16 @@ class AcudierCard extends StatelessWidget {
   final int age;
   final int numJobs;
   final double popularity;
+  final Function onPress;
 
-  const AcudierCard({Key key, this.name, this.secondName, this.photoUrl, this.age, this.numJobs, this.popularity})
+  const AcudierCard(
+      {Key key, this.name, this.secondName, this.photoUrl, this.age, this.numJobs, this.popularity, this.onPress})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+        onTap: () => onPress(),
         child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
@@ -52,7 +56,7 @@ class AcudierCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(color: Colors.white, fontSize: 22))),
                         SizedBox(height: 4),
-                        Text('$age años',
+                        Text(translate(context, 'computed_age').replaceAll('{{ age }}', '$age'),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: Colors.white, fontSize: 14))
@@ -68,7 +72,8 @@ class AcudierCard extends StatelessWidget {
                               Column(children: [
                                 Text('$numJobs', style: TextStyle(color: Colors.white, fontSize: 12)),
                                 SizedBox(height: 2),
-                                Text('Trabajos', style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 10))
+                                Text(translate(context, 'jobs'),
+                                    style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 10))
                               ]),
                               SizedBox(width: 24),
                               Column(children: [
@@ -81,7 +86,8 @@ class AcudierCard extends StatelessWidget {
                                     borderColor: Colors.white,
                                   ),
                                 SizedBox(height: 2),
-                                Text('Popularidad', style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 10))
+                                Text(translate(context, 'popularity'),
+                                    style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 10))
                               ])
                             ])),
                   ])),

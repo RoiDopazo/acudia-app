@@ -1,11 +1,14 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/colors.dart';
 import 'package:acudia/components/cards/acudier_card.dart';
+import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/hospital_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
+import 'package:acudia/routes.dart';
+import 'package:acudia/ui/screens/main/acudier/acudier_details_args.dart';
 import 'package:acudia/ui/screens/main/hospital/details/hospital_details_args.dart';
 import 'package:acudia/ui/screens/main/hospital/details/hospital_details_filters_panel.dart';
 import 'package:acudia/utils/helpers.dart';
@@ -149,14 +152,25 @@ class HospitalDetailsPage extends StatelessWidget {
                                                       style: TextStyle(color: Theme.of(context).highlightColor))));
                                               responseList.forEach((dynamic responseJson) {
                                                 Profile acudier = Profile.fromJson(responseJson["acudier"]);
+                                                Assignment assignment = Assignment.fromJson(responseJson["assignment"]);
+
                                                 widgetList.add(AcudierCard(
-                                                  name: acudier.name,
-                                                  secondName: acudier.secondName,
-                                                  photoUrl: acudier.photoUrl,
-                                                  age: calculateAge(acudier.birthDate),
-                                                  numJobs: acudier.jobsCompleted,
-                                                  popularity: acudier.popularity,
-                                                ));
+                                                    name: acudier.name,
+                                                    secondName: acudier.secondName,
+                                                    photoUrl: acudier.photoUrl,
+                                                    age: calculateAge(acudier.birthDate),
+                                                    numJobs: acudier.jobsCompleted,
+                                                    popularity: acudier.popularity,
+                                                    onPress: () {
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        Routes.ACUDIER_DETAILS,
+                                                        arguments: AcudierDetailsArguments(
+                                                            acudier: acudier,
+                                                            hospital: hospitalData,
+                                                            assignment: assignment),
+                                                      );
+                                                    }));
                                               });
                                               return Column(children: widgetList);
                                             } else {
