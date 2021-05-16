@@ -1,7 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
-import 'package:acudia/core/providers/hospital_provider.dart';
+import 'package:acudia/core/providers/search_provider.dart';
 import 'package:acudia/ui/screens/main/hospital/search/hospital_list_item.dart';
 import 'package:acudia/ui/screens/main/hospital/search/hospital_search_appbar.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +23,13 @@ class HospitalSearchPage extends StatelessWidget {
       var triggerFetchMoreSize = 0.95 * _scrollController.position.maxScrollExtent;
 
       if (_scrollController.position.pixels > triggerFetchMoreSize) {
-        Provider.of<HospitalProvider>(context, listen: false).getMoreItems();
+        Provider.of<SearchProvider>(context, listen: false).getMoreItems();
       }
     }
 
     _scrollController..addListener(_scrollListener);
 
-    Provider.of<HospitalProvider>(context, listen: false).fetchHospitals();
+    Provider.of<SearchProvider>(context, listen: false).fetchHospitals();
 
     filterButton({String title, String filterKey, List<String> filterList, bool isLoading, BuildContext context}) {
       final bool isActive = filterList.indexOf(filterKey) != -1;
@@ -42,7 +42,7 @@ class HospitalSearchPage extends StatelessWidget {
           color: isActive == true ? Theme.of(context).accentColor : Theme.of(context).scaffoldBackgroundColor,
           onPressed: () {
             if (!isLoading) {
-              Provider.of<HospitalProvider>(context, listen: false).toggleFilter(filterKey);
+              Provider.of<SearchProvider>(context, listen: false).toggleFilter(filterKey);
             }
           },
           child: new Text(title),
@@ -71,10 +71,10 @@ class HospitalSearchPage extends StatelessWidget {
       }
     }
 
-    return Consumer<HospitalProvider>(
-      builder: (context, hospProvider, child) => Scaffold(
+    return Consumer<SearchProvider>(
+      builder: (context, searchProvider, child) => Scaffold(
         appBar: HospitalSearchAppBar(
-          isSearching: hospProvider.isSearching,
+          isSearching: searchProvider.isSearching,
           appBar: AppBar(),
           searchController: _searchController,
           searchFocusNode: _searchFocusNode,
@@ -93,51 +93,51 @@ class HospitalSearchPage extends StatelessWidget {
                         filterButton(
                             title: translate(context, 'hospital_search_filters_near'),
                             filterKey: FILTER_IS_NEAR,
-                            filterList: hospProvider.filters,
-                            isLoading: hospProvider.isLoading,
+                            filterList: searchProvider.filters,
+                            isLoading: searchProvider.isLoading,
                             context: context),
                         SizedBox(width: 8),
                         filterButton(
                             title: translate(context, 'hospital_search_filters_hosp_general'),
                             filterKey: FILTER_HOSP_GEN,
-                            filterList: hospProvider.filters,
-                            isLoading: hospProvider.isLoading,
+                            filterList: searchProvider.filters,
+                            isLoading: searchProvider.isLoading,
                             context: context),
                         SizedBox(width: 8),
                         filterButton(
                             title: translate(context, 'hospital_search_filters_hosp_specific'),
                             filterKey: FILTER_HOSP_SPE,
-                            filterList: hospProvider.filters,
-                            isLoading: hospProvider.isLoading,
+                            filterList: searchProvider.filters,
+                            isLoading: searchProvider.isLoading,
                             context: context),
                         SizedBox(width: 8),
                         filterButton(
                             title: translate(context, 'hospital_search_filters_private'),
                             filterKey: FILTER_PRIVATE,
-                            filterList: hospProvider.filters,
-                            isLoading: hospProvider.isLoading,
+                            filterList: searchProvider.filters,
+                            isLoading: searchProvider.isLoading,
                             context: context),
                       ]),
                     ),
                   ],
                 )),
-            if (hospProvider.isLoading)
+            if (searchProvider.isLoading)
               Container(
                   height: MediaQuery.of(context).size.height - 240,
                   child: Center(
                     child: CircularProgressIndicator(),
                   ))
             else
-              for (Hospital hospital in hospProvider.paginatedList)
+              for (Hospital hospital in searchProvider.paginatedList)
                 HospitalListItem(
                     hospital: hospital,
                     isAssigment: isAssignment,
                     isSelected: isAssignment &&
-                        hospProvider.selected != null &&
-                        hospital.codCNH == hospProvider.selected.codCNH)
+                        searchProvider.selected != null &&
+                        hospital.codCNH == searchProvider.selected.codCNH)
           ],
         ),
-        floatingActionButton: isAssignment ? floatingButtton(selectedHospital: hospProvider.selected) : null,
+        floatingActionButton: isAssignment ? floatingButtton(selectedHospital: searchProvider.selected) : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );

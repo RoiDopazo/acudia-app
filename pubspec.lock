@@ -775,6 +775,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.3"
+  vertical_calendar:
+    dependency: "direct main"
+    description:
+      name: vertical_calendar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1+6"
   websocket:
     dependency: transitive
     description:
@@ -812,4 +819,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.10.0-110 <2.11.0"
-  flutter: ">=1.18.0-6.0.pre <2.0.0"
+  flutter: ">=1.20.0 <2.0.0"

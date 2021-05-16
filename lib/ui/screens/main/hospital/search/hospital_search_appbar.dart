@@ -1,6 +1,6 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/colors.dart';
-import 'package:acudia/core/providers/hospital_provider.dart';
+import 'package:acudia/core/providers/search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +26,7 @@ class HospitalSearchAppBar extends StatelessWidget implements PreferredSizeWidge
               controller: searchController,
               textInputAction: TextInputAction.go,
               onSubmitted: (value) {
-                Provider.of<HospitalProvider>(context, listen: false).searchHospitals(searchValue: value);
+                Provider.of<SearchProvider>(context, listen: false).searchHospitals(searchValue: value);
               },
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -42,8 +42,7 @@ class HospitalSearchAppBar extends StatelessWidget implements PreferredSizeWidge
               if (isSearching != true) {
                 searchController.clear();
               }
-              Provider.of<HospitalProvider>(context, listen: false)
-                  .toggleIsSearching(searchValue: searchController.text);
+              Provider.of<SearchProvider>(context, listen: false).toggleIsSearching(searchValue: searchController.text);
               searchFocusNode.requestFocus();
             },
             icon: Icon(isSearching == true ? Icons.cancel : Icons.search))

@@ -114,5 +114,7 @@
   "popularity_number": "{{ num }} de 5",
   "member_since": "Miembro desde {{ date }}",
   "check_availability": "Comprobar disponibilidad",
-  "latest_reviews": "Últimas valoraciones"
+  "latest_reviews": "Últimas valoraciones",
+  "request": "Solicitar",
+  "selected_schedule": "Horario seleccionado: "
 }
