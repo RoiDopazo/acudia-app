@@ -1,3 +1,5 @@
+import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 String normalizeTime(time) {
@@ -37,3 +39,36 @@ int calculateAge(DateTime birthDate) {
 }
 
 final DateFormat dateFormat = DateFormat('yMMMMd');
+
+double timeOfDayToDouble(TimeOfDay time) {
+  return time.hour + time.minute / 60.0;
+}
+
+int isDayAvailable(DateTime date, List<Assignment> assignments, TimeOfDay startHour, TimeOfDay endHour) {
+  int result = 0;
+
+  for (Assignment assig in assignments) {
+    if (date.isBefore(assig.to) && date.isAfter(assig.from)) {
+      result = 1;
+      if (timeOfDayToDouble(startHour) >= timeOfDayToDouble(assig.startHour) &&
+          timeOfDayToDouble(endHour) <= timeOfDayToDouble(assig.endHour)) {
+        result = 2;
+      }
+    }
+  }
+  return result;
+}
+
+double getTotalPrice(DateTime startDate, DateTime endDate, List<Assignment> assignments, double duration) {
+  double price = 0.0;
+  DateTime date = startDate;
+
+  while (date.isBefore(endDate) || date.isAtSameMomentAs(endDate)) {
+    Assignment assig =
+        assignments.firstWhere((assig) => date.isBefore(assig.to) && date.isAfter(assig.from), orElse: () => null);
+    date = date.add(new Duration(days: 1));
+    price += assig.fare * duration;
+  }
+
+  return double.parse(price.toStringAsFixed(2));
+}

@@ -13,6 +13,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vertical_calendar/vertical_calendar.dart';
+import 'package:badges/badges.dart';
 
 const BOTTOM_BOX_HEIGHT = 80.0;
 
@@ -80,7 +81,7 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                           selectedTime: availability.startHour,
                                           onChanged: (value) =>
                                               Provider.of<AvailabilityProvider>(context, listen: false)
-                                                  .setStartHour(value));
+                                                  .setRangeHours(value, availability.endHour, assignments));
                                     },
                                     shape: RoundedRectangleBorder(
                                         side: BorderSide(
@@ -100,7 +101,7 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                           selectedTime: availability.endHour,
                                           onChanged: (value) =>
                                               Provider.of<AvailabilityProvider>(context, listen: false)
-                                                  .setEndHour(value));
+                                                  .setRangeHours(availability.startHour, value, assignments));
                                     },
                                     shape: RoundedRectangleBorder(
                                         side: BorderSide(
@@ -132,60 +133,98 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                 ),
                 Divider(height: 4, thickness: 1),
                 Expanded(
-                    child: VerticalCalendar(
-                  minDate: DateTime.now(),
-                  maxDate: DateTime.now().add(const Duration(days: 365)),
-                  onDayPressed: (DateTime date) {
-                    print('Date selected: $date');
-                  },
-                  onRangeSelected: (DateTime d1, DateTime d2) {
-                    print('Range: from $d1 to $d2');
-                  },
-                  monthBuilder: (BuildContext context, int month, int year) {
-                    return Container(
-                        margin: EdgeInsets.only(top: 32, left: 20, bottom: 12),
-                        alignment: Alignment.centerLeft,
-                        child: Text(capitalize(DateFormat('MMMM yyyy').format(DateTime(year, month))),
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)));
-                  },
-                  dayBuilder: (BuildContext context, DateTime date, {bool isSelected}) {
-                    bool isAvailable = false;
+                    child: Consumer<AvailabilityProvider>(
+                        builder: (context, availability, child) => VerticalCalendar(
+                              minDate: DateTime.now(),
+                              maxDate: DateTime.now().add(const Duration(days: 365)),
+                              onDayPressed: (DateTime date) {
+                                print('Date selected: $date');
+                              },
+                              onRangeSelected: (DateTime d1, DateTime d2) {
+                                Provider.of<AvailabilityProvider>(context, listen: false)
+                                    .setSelectedDates(d1, d2, assignments);
+                              },
+                              monthBuilder: (BuildContext context, int month, int year) {
+                                return Container(
+                                    margin: EdgeInsets.only(top: 32, left: 20, bottom: 12),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(capitalize(DateFormat('MMMM yyyy').format(DateTime(year, month))),
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)));
+                              },
+                              dayBuilder: (BuildContext context, DateTime date, {bool isSelected}) {
+                                int result =
+                                    isDayAvailable(date, assignments, availability.startHour, availability.endHour);
+                                bool isAvailable = result == 2;
+                                bool isPartialAvailable = result == 1;
+                                bool isDateSelected = false;
+                                if (availability.endDate != null) {
+                                  isDateSelected = isSelected &&
+                                      (date.isAfter(availability.startDate) ||
+                                          date.isAtSameMomentAs(availability.startDate)) &&
+                                      (date.isBefore(availability.endDate) ||
+                                          date.isAtSameMomentAs(availability.endDate));
+                                } else {
+                                  isDateSelected = isSelected && date.isAtSameMomentAs(availability.startDate);
+                                }
 
-                    for (Assignment assig in assignments) {
-                      if (date.isBefore(assig.to) && date.isAfter(assig.from)) {
-                        isAvailable = true;
-                      }
-                    }
+                                for (Assignment assig in assignments) {
+                                  if (date.isBefore(assig.to) && date.isAfter(assig.from)) {
+                                    isPartialAvailable = true;
+                                    if (timeOfDayToDouble(availability.startHour) >=
+                                            timeOfDayToDouble(assig.startHour) &&
+                                        timeOfDayToDouble(availability.endHour) <= timeOfDayToDouble(assig.endHour)) {
+                                      isAvailable = true;
+                                    }
+                                  }
+                                }
 
-                    if (isSelected) {
-                      return Ink(
-                        decoration: BoxDecoration(color: Theme.of(context).accentColor, shape: BoxShape.rectangle),
-                        child: Center(
-                          child: Text(
-                            date.day.toString(),
-                            style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
-                          ),
-                        ),
-                      );
-                    }
+                                if (isDateSelected) {
+                                  return Ink(
+                                    decoration: BoxDecoration(
+                                        color: isAvailable
+                                            ? Theme.of(context).accentColor
+                                            : Theme.of(context).backgroundColor,
+                                        shape: BoxShape.rectangle),
+                                    child: Badge(
+                                        position: BadgePosition.bottomEnd(bottom: 14, end: 14),
+                                        padding: EdgeInsets.all(isPartialAvailable && !isAvailable ? 2 : 0),
+                                        badgeColor: Theme.of(context).highlightColor,
+                                        child: Center(
+                                          child: Text(
+                                            date.day.toString(),
+                                            style: TextStyle(
+                                                decoration:
+                                                    isAvailable ? TextDecoration.none : TextDecoration.lineThrough,
+                                                color: isAvailable
+                                                    ? Theme.of(context).scaffoldBackgroundColor
+                                                    : Theme.of(context).accentColor),
+                                          ),
+                                        )),
+                                  );
+                                }
 
-                    return Ink(
-                      decoration:
-                          BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor, shape: BoxShape.circle),
-                      child: Center(
-                        child: Text(
-                          date.day.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              decoration: isAvailable ? TextDecoration.none : TextDecoration.lineThrough,
-                              color: isAvailable
-                                  ? Theme.of(context).accentColor
-                                  : Theme.of(context).accentColor.withOpacity(0.3)),
-                        ),
-                      ),
-                    );
-                  },
-                )),
+                                return Ink(
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context).scaffoldBackgroundColor, shape: BoxShape.circle),
+                                  child: Badge(
+                                      position: BadgePosition.bottomEnd(bottom: 14, end: 14),
+                                      padding: EdgeInsets.all(isPartialAvailable && !isAvailable ? 2 : 0),
+                                      badgeColor: Theme.of(context).highlightColor,
+                                      child: Center(
+                                        child: Text(
+                                          date.day.toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              decoration:
+                                                  isAvailable ? TextDecoration.none : TextDecoration.lineThrough,
+                                              color: isAvailable
+                                                  ? Theme.of(context).accentColor
+                                                  : Theme.of(context).accentColor.withOpacity(0.3)),
+                                        ),
+                                      )),
+                                );
+                              },
+                            ))),
                 Container(
                     width: MediaQuery.of(context).size.width,
                     height: BOTTOM_BOX_HEIGHT,
@@ -198,35 +237,56 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(left: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child: Text(
-                                '${20} €/h',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                      child: Consumer<AvailabilityProvider>(
+                          builder: (context, availability, child) => Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                      flex: 2,
+                                      child: availability.price == null
+                                          ? ((availability.startDate == null && availability.endDate == null
+                                              ? Text('Seleccione las fechas')
+                                              : Builder(builder: (context) {
+                                                  Assignment selectedAssignment = assignments.firstWhere(
+                                                      (assig) =>
+                                                          availability.startDate.isBefore(assig.to) &&
+                                                          availability.startDate.isAfter(assig.from),
+                                                      orElse: () => null);
+
+                                                  if (selectedAssignment == null) {
+                                                    return Text('No disponible');
+                                                  }
+
+                                                  return Text(
+                                                      'No disponible en la hora escogida. Disponibilidad: ${normalizeTime(selectedAssignment.startHour.hour)}:${normalizeTime(selectedAssignment.startHour.minute)} - ${normalizeTime(selectedAssignment.endHour.hour)}:${normalizeTime(selectedAssignment.endHour.minute)}',
+                                                      style: TextStyle(color: Theme.of(context).highlightColor));
+                                                })))
+                                          : Text(
+                                              'Total: ${availability.price} €',
+                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                            )),
+                                  RaisedButton(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+                                    padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+                                    textColor: Theme.of(context).backgroundColor,
+                                    color: Theme.of(context).primaryColor,
+                                    onPressed: availability.price != null
+                                        ? () {
+                                            // Navigator.pushNamed(
+                                            //   context,
+                                            //   Routes.ACUDIER_AVAILABILITY,
+                                            //   // arguments: AcudierDetailsArguments(
+                                            //   //     acudier: acudier,
+                                            //   //     comments: comments,
+                                            //   //     hospital: hospitalData,
+                                            //   //     assignment: assignment),
+                                            // );
+                                          }
+                                        : null,
+                                    child: new Text(translate(context, 'request')),
+                                  )
+                                ],
                               )),
-                          RaisedButton(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-                            padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                            textColor: Theme.of(context).backgroundColor,
-                            color: Theme.of(context).primaryColor,
-                            onPressed: () {
-                              // Navigator.pushNamed(
-                              //   context,
-                              //   Routes.ACUDIER_AVAILABILITY,
-                              //   // arguments: AcudierDetailsArguments(
-                              //   //     acudier: acudier,
-                              //   //     comments: comments,
-                              //   //     hospital: hospitalData,
-                              //   //     assignment: assignment),
-                              // );
-                            },
-                            child: new Text(translate(context, 'request')),
-                          )
-                        ],
-                      ),
                     ))
               ]);
             }));

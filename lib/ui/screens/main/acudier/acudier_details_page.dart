@@ -193,9 +193,8 @@ class AcudierDetailsPage extends StatelessWidget {
                                     color: Theme.of(context).primaryColor,
                                     onPressed: () {
                                       Provider.of<AvailabilityProvider>(context, listen: false)
-                                          .setStartHour(assignments[0].startHour);
-                                      Provider.of<AvailabilityProvider>(context, listen: false)
-                                          .setEndHour(assignments[0].endHour);
+                                          .setRangeHours(assignments[0].startHour, assignments[0].endHour, null);
+                                      Provider.of<AvailabilityProvider>(context, listen: false).reset();
                                       Navigator.pushNamed(
                                         context,
                                         Routes.ACUDIER_AVAILABILITY,
