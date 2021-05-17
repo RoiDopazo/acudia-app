@@ -1,4 +1,5 @@
 import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/core/entity/request_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -44,8 +45,16 @@ double timeOfDayToDouble(TimeOfDay time) {
   return time.hour + time.minute / 60.0;
 }
 
-int isDayAvailable(DateTime date, List<Assignment> assignments, TimeOfDay startHour, TimeOfDay endHour) {
+int isDayAvailable(
+    DateTime date, List<Assignment> assignments, List<Request> requests, TimeOfDay startHour, TimeOfDay endHour) {
   int result = 0;
+
+  for (Request request in requests) {
+    if ((date.isAtSameMomentAs(request.from) || (date.isAfter(request.from))) &&
+        (date.isAtSameMomentAs(request.to) || (date.isBefore(request.to)))) {
+      return 0;
+    }
+  }
 
   for (Assignment assig in assignments) {
     if (date.isBefore(assig.to) && date.isAfter(assig.from)) {

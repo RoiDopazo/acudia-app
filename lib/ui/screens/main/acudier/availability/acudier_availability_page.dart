@@ -81,7 +81,7 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                           selectedTime: availability.startHour,
                                           onChanged: (value) =>
                                               Provider.of<AvailabilityProvider>(context, listen: false)
-                                                  .setRangeHours(value, availability.endHour, assignments));
+                                                  .setRangeHours(value, availability.endHour, assignments, requests));
                                     },
                                     shape: RoundedRectangleBorder(
                                         side: BorderSide(
@@ -101,7 +101,7 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                           selectedTime: availability.endHour,
                                           onChanged: (value) =>
                                               Provider.of<AvailabilityProvider>(context, listen: false)
-                                                  .setRangeHours(availability.startHour, value, assignments));
+                                                  .setRangeHours(availability.startHour, value, assignments, requests));
                                     },
                                     shape: RoundedRectangleBorder(
                                         side: BorderSide(
@@ -122,13 +122,20 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('mon.', style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
-                        Text('tue.', style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
-                        Text('wed.', style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
-                        Text('thu.', style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
-                        Text('fri.', style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
-                        Text('sat.', style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
-                        Text('sun.', style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
+                        Text('${translate(context, 'mon')}.',
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
+                        Text('${translate(context, 'tue')}.',
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
+                        Text('${translate(context, 'wed')}.',
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
+                        Text('${translate(context, 'thu')}.',
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
+                        Text('${translate(context, 'fri')}.',
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
+                        Text('${translate(context, 'sat')}.',
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
+                        Text('${translate(context, 'sun')}.',
+                            style: TextStyle(fontSize: 12, color: Theme.of(context).accentColor)),
                       ]),
                 ),
                 Divider(height: 4, thickness: 1),
@@ -136,13 +143,10 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                     child: Consumer<AvailabilityProvider>(
                         builder: (context, availability, child) => VerticalCalendar(
                               minDate: DateTime.now(),
-                              maxDate: DateTime.now().add(const Duration(days: 365)),
-                              onDayPressed: (DateTime date) {
-                                print('Date selected: $date');
-                              },
+                              maxDate: DateTime.now().add(Duration(days: (365 / 2).ceil())),
                               onRangeSelected: (DateTime d1, DateTime d2) {
                                 Provider.of<AvailabilityProvider>(context, listen: false)
-                                    .setSelectedDates(d1, d2, assignments);
+                                    .setSelectedDates(d1, d2, assignments, requests);
                               },
                               monthBuilder: (BuildContext context, int month, int year) {
                                 return Container(
@@ -152,8 +156,8 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)));
                               },
                               dayBuilder: (BuildContext context, DateTime date, {bool isSelected}) {
-                                int result =
-                                    isDayAvailable(date, assignments, availability.startHour, availability.endHour);
+                                int result = isDayAvailable(
+                                    date, assignments, requests, availability.startHour, availability.endHour);
                                 bool isAvailable = result == 2;
                                 bool isPartialAvailable = result == 1;
                                 bool isDateSelected = false;
@@ -165,17 +169,6 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                           date.isAtSameMomentAs(availability.endDate));
                                 } else {
                                   isDateSelected = isSelected && date.isAtSameMomentAs(availability.startDate);
-                                }
-
-                                for (Assignment assig in assignments) {
-                                  if (date.isBefore(assig.to) && date.isAfter(assig.from)) {
-                                    isPartialAvailable = true;
-                                    if (timeOfDayToDouble(availability.startHour) >=
-                                            timeOfDayToDouble(assig.startHour) &&
-                                        timeOfDayToDouble(availability.endHour) <= timeOfDayToDouble(assig.endHour)) {
-                                      isAvailable = true;
-                                    }
-                                  }
                                 }
 
                                 if (isDateSelected) {
@@ -245,20 +238,38 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                       flex: 2,
                                       child: availability.price == null
                                           ? ((availability.startDate == null && availability.endDate == null
-                                              ? Text('Seleccione las fechas')
+                                              ? Text(translate(context, 'select_dates'))
                                               : Builder(builder: (context) {
                                                   Assignment selectedAssignment = assignments.firstWhere(
                                                       (assig) =>
-                                                          availability.startDate.isBefore(assig.to) &&
-                                                          availability.startDate.isAfter(assig.from),
+                                                          (availability.startDate.isBefore(assig.to) &&
+                                                              availability.startDate.isAfter(assig.from)) &&
+                                                          ((availability.endDate.isBefore(assig.to)) &&
+                                                              (availability.endDate.isAfter(assig.from))),
                                                       orElse: () => null);
 
-                                                  if (selectedAssignment == null) {
-                                                    return Text('No disponible');
+                                                  Request selectedRequest = requests.firstWhere(
+                                                      (assig) =>
+                                                          (availability.startDate.isAtSameMomentAs(assig.from) ||
+                                                              availability.startDate.isBefore(assig.to) &&
+                                                                  availability.startDate.isAtSameMomentAs(assig.to) ||
+                                                              availability.startDate.isAfter(assig.from)) ||
+                                                          ((availability.endDate.isAtSameMomentAs(assig.to) ||
+                                                                  availability.endDate.isBefore(assig.to)) &&
+                                                              (availability.endDate.isAtSameMomentAs(assig.from) ||
+                                                                  availability.endDate.isAfter(assig.from))),
+                                                      orElse: () => null);
+
+                                                  if (selectedAssignment == null || selectedRequest != null) {
+                                                    return Text(translate(context, 'no_available'));
                                                   }
 
                                                   return Text(
-                                                      'No disponible en la hora escogida. Disponibilidad: ${normalizeTime(selectedAssignment.startHour.hour)}:${normalizeTime(selectedAssignment.startHour.minute)} - ${normalizeTime(selectedAssignment.endHour.hour)}:${normalizeTime(selectedAssignment.endHour.minute)}',
+                                                      translate(context, 'no_available_in_dates')
+                                                          .replaceFirst('{{ startHour }}',
+                                                              '${normalizeTime(selectedAssignment.startHour.hour)}:${normalizeTime(selectedAssignment.startHour.minute)}')
+                                                          .replaceFirst('{{ endHour }}',
+                                                              '${normalizeTime(selectedAssignment.endHour.hour)}:${normalizeTime(selectedAssignment.endHour.minute)}'),
                                                       style: TextStyle(color: Theme.of(context).highlightColor));
                                                 })))
                                           : Text(
