@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:acudia/core/providers/hospital_provider.dart';
+import 'package:acudia/core/providers/search_provider.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;

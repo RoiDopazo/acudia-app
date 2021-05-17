@@ -1,4 +1,4 @@
-capitalize(String text) {
+capitalizeHosp(String text) {
   String lcText = text != null ? text.toLowerCase() : '';
   return lcText.splitMapJoin(new RegExp(r"(?:^|\s(?!de|del|y\s)|\/|-)\S"),
       onMatch: (m) => "${m.group(0).toUpperCase()}");
@@ -56,22 +56,22 @@ class Hospital {
   factory Hospital.fromJson(Map<String, dynamic> json) {
     return Hospital(
       codCNH: int.parse(json["CODCNH"]),
-      name: capitalize(json["NOMBRE"]),
-      address: capitalize(json["DIRECCION"]),
+      name: capitalizeHosp(json["NOMBRE"]),
+      address: capitalizeHosp(json["DIRECCION"]),
       postalCode: json["CODPOSTAL"],
       phone: json["TELEFONO"] != '' ? int.parse(json["TELEFONO"]) : null,
       codMu: int.parse(json["CODMU"]),
-      municipallity: capitalize(json["MUNICIPIOS"]),
+      municipallity: capitalizeHosp(json["MUNICIPIOS"]),
       codProv: int.parse(json["CODPROV"]),
-      province: capitalize(json["PROVINCIAS"]),
+      province: capitalizeHosp(json["PROVINCIAS"]),
       codAuto: int.parse(json["CODAUTO"]),
-      state: capitalize(json["COMUNIDADES"]),
+      state: capitalizeHosp(json["COMUNIDADES"]),
       codFi: int.parse(json["CODFI"]),
-      healthCarePurpose: capitalize(json["FINALIDAD_ASISITENCIAL"]),
+      healthCarePurpose: capitalizeHosp(json["FINALIDAD_ASISITENCIAL"]),
       codPat: int.parse(json["CODPAT"]),
-      patrimonialDependence: capitalize(json["DEPENDENCIA_PATRIMONIAL"]),
+      patrimonialDependence: capitalizeHosp(json["DEPENDENCIA_PATRIMONIAL"]),
       codFu: int.parse(json["CODFU"]),
-      functionalDependence: capitalize(json["DEPENDENCIA_FUNCIONAL"]),
+      functionalDependence: capitalizeHosp(json["DEPENDENCIA_FUNCIONAL"]),
       isPrivate: json["DEPENDENCIA_FUNCIONAL"].toString().contains('PRIVADO'),
       coords: {"lat": json["Y"], "lng": json["X"]},
       distance: 0,

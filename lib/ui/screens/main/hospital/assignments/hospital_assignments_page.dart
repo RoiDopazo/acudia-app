@@ -2,7 +2,7 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
-import 'package:acudia/core/providers/hospital_provider.dart';
+import 'package:acudia/core/providers/search_provider.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
 import 'package:acudia/core/services/assignments/assignments_service.dart';
 import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_add_page.dart';
@@ -27,8 +27,8 @@ class HospitalAssignmentsPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ))));
 
-    return Consumer2<HospitalProvider, ProfileProvider>(
-        builder: (context, hospProvider, profileProvider, child) => Scaffold(
+    return Consumer<ProfileProvider>(
+        builder: (context, profileProvider, child) => Scaffold(
               body: SafeArea(
                   child: Query(
                 options: QueryOptions(
@@ -117,7 +117,7 @@ class HospitalAssignmentsPage extends StatelessWidget {
               floatingActionButton: FloatingActionButton(
                   shape: StadiumBorder(side: BorderSide(color: Theme.of(context).primaryColor)),
                   onPressed: () {
-                    Provider.of<HospitalProvider>(context).cleanup();
+                    Provider.of<SearchProvider>(context).cleanup();
                     Provider.of<AssignmentsProvider>(context).cleanup();
                     Navigator.push(
                       context,

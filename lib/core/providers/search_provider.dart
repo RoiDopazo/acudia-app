@@ -8,7 +8,7 @@ const FILTER_HOSP_GEN = 'HOSP_GEN';
 const FILTER_HOSP_SPE = 'HOSP_SPE';
 const FILTER_PRIVATE = 'IS_PRIVATE';
 
-class HospitalProvider with ChangeNotifier {
+class SearchProvider with ChangeNotifier {
   List<Hospital> hospList = [];
   List<Hospital> paginatedList = [];
   int currentPage = 1;
@@ -19,6 +19,7 @@ class HospitalProvider with ChangeNotifier {
   bool isLoading = true;
   List<String> filters = [];
   Hospital selected;
+  
 
   fetchHospitals() async {
     if (hospList.length == 0) {

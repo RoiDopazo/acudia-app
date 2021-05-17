@@ -1,5 +1,5 @@
 import 'package:acudia/core/entity/hospital_entity.dart';
-import 'package:acudia/core/providers/hospital_provider.dart';
+import 'package:acudia/core/providers/search_provider.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/ui/screens/main/hospital/details/hospital_details_args.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class HospitalListItem extends StatelessWidget {
       child: ListTile(
         onTap: () {
           if (isAssigment) {
-            Provider.of<HospitalProvider>(context, listen: false).setSelectedHospital(hospital);
+            Provider.of<SearchProvider>(context, listen: false).setSelectedHospital(hospital);
           } else {
             Navigator.pushNamed(
               context,

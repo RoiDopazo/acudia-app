@@ -26,3 +26,26 @@ final String GRAPHQL_GET_ACUDIER_BY_ID = """query (\$email: String!) {
     updatedAt
   }
 }""";
+
+final String GRAPHQL_GET_ACUDIER_REQUESTS = """query (\$acudier: String!, \$status: String) {
+  getAcudierRequests(input: {acudier: \$acudier, status: \$status}) {
+    items {
+      PK
+      SK
+      status
+      acudier
+      acudierName
+      acudierPhoto
+      client
+      clientName
+      clientPhoto
+      from
+      to
+      startHour
+      endHour
+      price
+      createdAt
+      updatedAt  
+    }
+  }
+}""";

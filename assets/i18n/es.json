@@ -114,5 +114,16 @@
   "popularity_number": "{{ num }} de 5",
   "member_since": "Miembro desde {{ date }}",
   "check_availability": "Comprobar disponibilidad",
-  "latest_reviews": "Últimas valoraciones"
+  "latest_reviews": "Últimas valoraciones",
+  "request": "Solicitar",
+  "no_available": "No disponible",
+  "no_available_in_dates": "No disponible en la hora escogida. Disponibilidad: {{ startHour }} - {{ endHour }}",
+  "select_dates": "Por favor, especifique las fechas",
+  "mon": "lun",
+  "tue": "mar",
+  "wed": "mie",
+  "thu": "jue",
+  "fri": "vie",
+  "sat": "sab",
+  "sun": "dom"
 }

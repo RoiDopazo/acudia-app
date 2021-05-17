@@ -11,7 +11,7 @@ class Comment {
       author: json['author'].trim(),
       date: DateTime.parse(json["date"]),
       comment: json['comment'],
-      rating: json['rating'],
+      rating: json['rating'].toDouble(),
     );
   }
 
