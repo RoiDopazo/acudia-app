@@ -1,7 +1,10 @@
 import 'package:acudia/core/entity/assignment_entity.dart';
 import 'package:acudia/core/entity/request_entity.dart';
+import 'package:acudia/core/providers/app_provider.dart';
+import 'package:acudia/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:acudia/utils/helpers.dart';
+import 'package:provider/provider.dart';
 
 class AvailabilityProvider with ChangeNotifier {
   TimeOfDay startHour;
@@ -40,6 +43,12 @@ class AvailabilityProvider with ChangeNotifier {
     startDate = date1;
     endDate = computedDate2;
     notifyListeners();
+  }
+
+  confirmAvailability(BuildContext context) {
+    Provider.of<AppProvider>(context).setSelectedTab(context, 1);
+
+    Navigator.pushNamedAndRemoveUntil(context, Routes.MAIN, (route) => false);
   }
 
   reset() {

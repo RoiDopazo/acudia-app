@@ -119,6 +119,8 @@
   "no_available": "No disponible",
   "no_available_in_dates": "No disponible en la hora escogida. Disponibilidad: {{ startHour }} - {{ endHour }}",
   "select_dates": "Por favor, especifique las fechas",
+  "do_request": "Enviar solicitud",
+  "total_price": "Precio total: ",
   "mon": "lun",
   "tue": "mar",
   "wed": "mie",
