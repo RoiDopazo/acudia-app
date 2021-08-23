@@ -1,7 +1,18 @@
 import 'package:acudia/core/entity/assignment_entity.dart';
+import 'package:acudia/core/entity/hospital_entity.dart';
+import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/entity/request_entity.dart';
+import 'package:acudia/core/providers/app_provider.dart';
+import 'package:acudia/core/providers/profile_provider.dart';
+import 'package:acudia/core/services/graphql_client.dart';
+import 'package:acudia/core/services/requests/request_service.dart';
+import 'package:acudia/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:acudia/utils/helpers.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:load/load.dart';
+import 'package:provider/provider.dart';
 
 class AvailabilityProvider with ChangeNotifier {
   TimeOfDay startHour;
@@ -40,6 +51,34 @@ class AvailabilityProvider with ChangeNotifier {
     startDate = date1;
     endDate = computedDate2;
     notifyListeners();
+  }
+
+  confirmAvailability(BuildContext context, Profile acudier, Hospital hospital) async {
+    Profile client = Provider.of<ProfileProvider>(context).profile;
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    showLoadingDialog();
+
+    await graphQLClient.value.mutate(
+      MutationOptions(documentNode: gql(GRAPHQL_CREATE_REQUEST), variables: {
+        "acudier": acudier.PK,
+        "acudierName": '${acudier.name} ${acudier.secondName}',
+        "acudierPhoto": acudier.photoUrl,
+        "clientName": '${client.name} ${client.secondName}',
+        "clientPhoto": client.photoUrl,
+        "hospId": hospital.codCNH,
+        "hospName": hospital.name,
+        "from": dateFormat.format(startDate),
+        "to": dateFormat.format(endDate),
+        "startHour": startHour.hour * 3600 + startHour.minute * 60,
+        "endHour": endHour.hour * 3600 + endHour.minute * 60,
+        "price": price
+      }),
+    );
+
+    Provider.of<AppProvider>(context).setSelectedTab(context, 1);
+
+    hideLoadingDialog();
+    Navigator.pushNamedAndRemoveUntil(context, Routes.MAIN, (route) => false);
   }
 
   reset() {

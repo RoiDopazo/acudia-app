@@ -5,7 +5,10 @@ import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/entity/request_entity.dart';
 import 'package:acudia/core/providers/availability_provider.dart';
 import 'package:acudia/core/services/acudiers/acudiers_service.dart';
+import 'package:acudia/routes.dart';
 import 'package:acudia/ui/screens/main/acudier/availability/acudier_availability_args.dart';
+import 'package:acudia/ui/screens/main/acudier/confirm/acudier_confirm_args.dart';
+import 'package:acudia/utils/constants.dart';
 import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
@@ -14,8 +17,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vertical_calendar/vertical_calendar.dart';
 import 'package:badges/badges.dart';
-
-const BOTTOM_BOX_HEIGHT = 80.0;
 
 class AcudierAvailabiltyPage extends StatelessWidget {
   @override
@@ -34,6 +35,7 @@ class AcudierAvailabiltyPage extends StatelessWidget {
         body: Query(
             options: QueryOptions(documentNode: gql(GRAPHQL_GET_ACUDIER_REQUESTS), variables: {
               "acudier": acudier.PK.substring(acudier.PK.indexOf('#') + 1),
+              "status": REQUEST_STATUS.ACCEPTED.toString().split('.')[1]
             }),
             builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
               if (result.hasException) {
@@ -283,15 +285,14 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                     color: Theme.of(context).primaryColor,
                                     onPressed: availability.price != null
                                         ? () {
-                                            // Navigator.pushNamed(
-                                            //   context,
-                                            //   Routes.ACUDIER_AVAILABILITY,
-                                            //   // arguments: AcudierDetailsArguments(
-                                            //   //     acudier: acudier,
-                                            //   //     comments: comments,
-                                            //   //     hospital: hospitalData,
-                                            //   //     assignment: assignment),
-                                            // );
+                                            Navigator.pushNamed(
+                                              context,
+                                              Routes.ACUDIER_CONFIRM,
+                                              arguments: AcudierConfirmArguments(
+                                                acudier: acudier,
+                                                hospital: hospital,
+                                              ),
+                                            );
                                           }
                                         : null,
                                     child: new Text(translate(context, 'request')),

@@ -8,6 +8,7 @@ import 'package:acudia/core/providers/availability_provider.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/ui/screens/main/acudier/acudier_details_args.dart';
 import 'package:acudia/ui/screens/main/acudier/availability/acudier_availability_args.dart';
+import 'package:acudia/utils/constants.dart';
 import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +17,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 const HEADER_HEIGHT = 340.0;
-const BOTTOM_BOX_HEIGHT = 80.0;
 
 class AcudierDetailsPage extends StatelessWidget {
   @override

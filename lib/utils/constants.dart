@@ -13,5 +13,9 @@ final String OPENDATA_HOSPITAL_API = Environment.getEnvValueForKey('OPENDATA_HOS
 enum USER_ROLES { CLIENT, ACUDIER }
 enum USER_GENDER { MALE, FEMALE, OTHER }
 
+enum REQUEST_STATUS { ACCEPTED, PENDING, REJECTED }
+
 final double minFare = 04.00;
 final double maxFare = 20.00;
+
+final double BOTTOM_BOX_HEIGHT = 80.0;
