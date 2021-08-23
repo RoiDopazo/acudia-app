@@ -4,7 +4,6 @@ import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/entity/request_entity.dart';
 import 'package:acudia/core/providers/availability_provider.dart';
-import 'package:acudia/core/providers/error_notifier_provider.dart';
 import 'package:acudia/core/services/acudiers/acudiers_service.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/ui/screens/main/acudier/availability/acudier_availability_args.dart';
@@ -36,6 +35,7 @@ class AcudierAvailabiltyPage extends StatelessWidget {
         body: Query(
             options: QueryOptions(documentNode: gql(GRAPHQL_GET_ACUDIER_REQUESTS), variables: {
               "acudier": acudier.PK.substring(acudier.PK.indexOf('#') + 1),
+              "status": REQUEST_STATUS.ACCEPTED.toString().split('.')[1]
             }),
             builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
               if (result.hasException) {
