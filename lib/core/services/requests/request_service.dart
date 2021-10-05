@@ -6,3 +6,48 @@ final String GRAPHQL_CREATE_REQUEST =
     PK
   }
 }""";
+
+final String GRAPHQL_GET_MY_REQUESTS = """query (\$role: String!, \$status: String, \$active: Boolean) {
+  getMyRequests(input: {role: \$role, status: \$status, active: \$active }) {
+    incoming {
+        PK
+        SK
+        status
+        acudier
+        acudierName
+        acudierPhoto
+        client
+        clientName
+        clientPhoto
+        from
+        to
+        startHour
+        endHour
+        hospId
+        hospName
+        price
+        createdAt
+        updatedAt  
+      }
+    active {
+        PK
+        SK
+        status
+        acudier
+        acudierName
+        acudierPhoto
+        client
+        clientName
+        clientPhoto
+        from
+        to
+        startHour
+        endHour
+        hospId
+        hospName
+        price
+        createdAt
+        updatedAt  
+      }
+  }
+}""";

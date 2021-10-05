@@ -127,5 +127,9 @@
   "thu": "jue",
   "fri": "vie",
   "sat": "sab",
-  "sun": "dom"
+  "sun": "dom",
+  "incoming_request": "Próximas",
+  "inprogress_request": "En curso",
+  "inprogress_complete_request": "Finalizada",
+  "completed_request": "Completadas"
 }
