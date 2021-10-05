@@ -4,6 +4,7 @@ import 'package:acudia/core/providers/profile_provider.dart';
 import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments_page.dart';
 import 'package:acudia/ui/screens/main/hospital/search/hospital_search_page.dart';
 import 'package:acudia/ui/screens/main/profile/profile_page.dart';
+import 'package:acudia/ui/screens/main/request/client_request_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -11,9 +12,7 @@ import 'package:provider/provider.dart';
 class MainPage extends StatelessWidget {
   static List<Widget> _clientWidgetOptions = <Widget>[
     HospitalSearchPage(),
-    Text(
-      'Under development',
-    ),
+    ClientRequestPage(),
     ProfilePage(),
   ];
 
