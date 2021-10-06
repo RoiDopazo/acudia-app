@@ -27,6 +27,7 @@ class RequestDetailsPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          brightness: Brightness.dark,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           leading: BackButton(color: Theme.of(context).accentColor),
           elevation: 0,

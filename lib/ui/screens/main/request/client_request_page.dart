@@ -5,6 +5,7 @@ import 'package:acudia/ui/screens/main/request/incoming_request_tab.dart';
 import 'package:acudia/ui/screens/main/request/inprogres_request_tab.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,7 @@ class ClientRequestPage extends StatelessWidget {
               }
               return Scaffold(
                   appBar: AppBar(
+                      brightness: Brightness.dark,
                       title: Text(
                         "Solicitudes",
                         style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),

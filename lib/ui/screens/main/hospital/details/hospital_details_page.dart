@@ -40,6 +40,7 @@ class HospitalDetailsPage extends StatelessWidget {
                     sliver: SliverSafeArea(
                         top: false,
                         sliver: SliverAppBar(
+                          brightness: Brightness.dark,
                           collapsedHeight: 52,
                           toolbarHeight: 50,
                           expandedHeight: 180.0,

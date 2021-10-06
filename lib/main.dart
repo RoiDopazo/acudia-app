@@ -53,7 +53,12 @@ class MyApp extends StatelessWidget {
       Provider.of<ProfileProvider>(context, listen: false).getProfileData(context, userData["user"]);
     }
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.white));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: _aCTheme.accentColor,
+        systemNavigationBarColor: _aCTheme.accentColor,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light));
 
     return LoadingProvider(
         themeData: LoadingThemeData(tapDismiss: false, loadingBackgroundColor: Colors.transparent),
