@@ -1,6 +1,7 @@
 import 'package:acudia/components/cards/request/incoming_request_card.dart';
 import 'package:acudia/core/entity/request_entity.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
+import 'package:acudia/core/providers/request_provider.dart';
 import 'package:acudia/routes.dart';
 import 'package:acudia/ui/screens/main/request/details/request_details_args.dart';
 import 'package:acudia/utils/constants.dart';
@@ -22,6 +23,7 @@ class IncomingRequestTab extends StatelessWidget {
 
     requests.forEach((dynamic responseJson) {
       Request request = Request.fromJson(responseJson);
+      Provider.of<RequestProvider>(context).reset();
       onPress() {
         Navigator.pushNamed(
           context,

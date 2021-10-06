@@ -137,5 +137,7 @@
   "request_details": "Detalles solicitud",
   "review_our_acudier": "Cómo de satisfecho está con el trabajo hecho por nuestro acudier?",
   "leave_a_comment": "Añada un comentario...",
-  "end": "Finalizar"
+  "end": "Finalizar",
+  "pending": "Pendiente",
+  "rejected": "Rejected"
 }

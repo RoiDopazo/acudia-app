@@ -55,7 +55,7 @@ class InProgressRequestCard extends StatelessWidget {
                 child: new RotatedBox(
                     quarterTurns: 3,
                     child: new Text(
-                      translate(context, hasFinished == true ? "inprogress_request" : "inprogress_complete_request"),
+                      translate(context, hasFinished == true ? "inprogress_complete_request" : "inprogress_request"),
                       style: TextStyle(fontSize: 14, color: Theme.of(context).scaffoldBackgroundColor),
                       textAlign: TextAlign.center,
                     )))));

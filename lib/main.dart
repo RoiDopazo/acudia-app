@@ -4,6 +4,7 @@ import 'package:acudia/core/providers/app_provider.dart';
 import 'package:acudia/core/providers/assignment_provider.dart';
 import 'package:acudia/core/providers/availability_provider.dart';
 import 'package:acudia/core/providers/error_notifier_provider.dart';
+import 'package:acudia/core/providers/request_provider.dart';
 import 'package:acudia/core/providers/search_provider.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
 import 'package:acudia/core/providers/sign_up_provider.dart';
@@ -35,7 +36,8 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => SignUpProvider()),
       ChangeNotifierProvider(create: (context) => SearchProvider()),
       ChangeNotifierProvider(create: (context) => AssignmentsProvider()),
-      ChangeNotifierProvider(create: (context) => AvailabilityProvider())
+      ChangeNotifierProvider(create: (context) => AvailabilityProvider()),
+      ChangeNotifierProvider(create: (context) => RequestProvider())
     ], child: MyApp(userData: userData)),
   );
 }

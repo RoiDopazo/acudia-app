@@ -26,6 +26,8 @@ final String GRAPHQL_GET_MY_REQUESTS = """query (\$role: String!, \$status: Stri
         hospId
         hospName
         price
+        hasFinished
+        hasStarted
         createdAt
         updatedAt  
       }
@@ -46,6 +48,8 @@ final String GRAPHQL_GET_MY_REQUESTS = """query (\$role: String!, \$status: Stri
         hospId
         hospName
         price
+        hasFinished
+        hasStarted
         createdAt
         updatedAt  
       }

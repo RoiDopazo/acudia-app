@@ -1,6 +1,8 @@
 import 'package:acudia/app_localizations.dart';
+import 'package:acudia/components/animation/animation_blinking.dart';
 import 'package:acudia/core/entity/request_entity.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
+import 'package:acudia/core/providers/request_provider.dart';
 import 'package:acudia/ui/screens/main/request/details/request_details_args.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:acudia/utils/helpers.dart';
@@ -47,7 +49,30 @@ class RequestDetailsPage extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ))),
                 ])),
-            SizedBox(height: 24),
+            SizedBox(height: 12),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              SvgPicture.asset('assets/media/icon_agreement_outlined.svg',
+                  height: 24, color: getLabelColor(context, request.status, request.hasFinished)[0]),
+              SizedBox(width: 12),
+              BlinkingAnimation(
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: getLabelColor(context, request.status, request.hasFinished)[0],
+                        ),
+                      ),
+                      child: Text(
+                          getLabelColor(context, request.status, request.hasFinished)[1].toString().toUpperCase(),
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: getLabelColor(context, request.status, request.hasFinished)[0])))),
+              SizedBox(width: 12),
+              SvgPicture.asset('assets/media/icon_agreement_outlined.svg',
+                  height: 24, color: getLabelColor(context, request.status, request.hasFinished)[0]),
+            ]),
+            SizedBox(height: 12),
             Padding(
                 padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -60,9 +85,9 @@ class RequestDetailsPage extends StatelessWidget {
                   SizedBox(width: 12),
                   SvgPicture.asset('assets/media/client_logo.svg', height: 48),
                 ])),
-            SizedBox(height: 24),
+            SizedBox(height: 16),
             Divider(height: 4, thickness: 1),
-            SizedBox(height: 24),
+            SizedBox(height: 16),
             Padding(
                 padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -77,9 +102,9 @@ class RequestDetailsPage extends StatelessWidget {
                           ))),
                   SvgPicture.asset('assets/media/icon_hospital.svg', height: 48),
                 ])),
-            SizedBox(height: 24),
+            SizedBox(height: 16),
             Divider(height: 4, thickness: 1),
-            SizedBox(height: 24),
+            SizedBox(height: 16),
             Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -162,34 +187,54 @@ class RequestDetailsPage extends StatelessWidget {
   }
 }
 
+getLabelColor(context, REQUEST_STATUS status, bool hasFinished) {
+  if (status.index == REQUEST_STATUS.ACCEPTED.index) {
+    return hasFinished == true
+        ? [Theme.of(context).accentColor, translate(context, 'inprogress_complete_request')]
+        : [Theme.of(context).primaryColor, translate(context, "inprogress_request")];
+  }
+  if (status.index == REQUEST_STATUS.PENDING.index) {
+    return [Theme.of(context).highlightColor, translate(context, "pending")];
+  }
+  if (status.index == REQUEST_STATUS.REJECTED.index) {
+    return [Theme.of(context).errorColor, translate(context, "rejected")];
+  }
+}
+
 onShowDialog(context) {
   return showDialog<String>(
     context: context,
-    builder: (BuildContext context) => AlertDialog(
-      title: Text(translate(context, 'review_our_acudier')),
-      content: Column(mainAxisSize: MainAxisSize.min, children: [
-        SmoothStarRating(
-          size: 36.0,
-          isReadOnly: false,
-          color: Theme.of(context).primaryColor,
-          borderColor: Theme.of(context).accentColor,
-        ),
-        SizedBox(height: 24),
-        TextField(
-          maxLines: 5,
-          decoration: InputDecoration.collapsed(hintText: translate(context, 'leave_a_comment')),
-        ),
-      ]),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: Text(translate(context, 'cancel')),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'OK'),
-          child: Text(translate(context, 'send')),
-        ),
-      ],
-    ),
+    builder: (BuildContext context) => Consumer<RequestProvider>(
+        builder: (context, requestProvider, child) => AlertDialog(
+              title: Text(translate(context, 'review_our_acudier')),
+              content: Column(mainAxisSize: MainAxisSize.min, children: [
+                SmoothStarRating(
+                  rating: requestProvider.rating,
+                  size: 44.0,
+                  isReadOnly: false,
+                  onRated: (value) => Provider.of<RequestProvider>(context).setRating(value),
+                  color: Theme.of(context).primaryColor,
+                  borderColor: Theme.of(context).accentColor,
+                ),
+                SizedBox(height: 24),
+                TextField(
+                  maxLines: 5,
+                  onChanged: (String value) {
+                    Provider.of<RequestProvider>(context).setComment(value);
+                  },
+                  decoration: InputDecoration.collapsed(hintText: translate(context, 'leave_a_comment')),
+                ),
+              ]),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  child: Text(translate(context, 'cancel')),
+                ),
+                TextButton(
+                  onPressed: requestProvider.hasChange == false ? null : () => Navigator.pop(context, 'OK'),
+                  child: Text(translate(context, 'send')),
+                ),
+              ],
+            )),
   );
 }
