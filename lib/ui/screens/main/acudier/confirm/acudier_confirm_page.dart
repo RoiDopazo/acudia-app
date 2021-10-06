@@ -2,7 +2,6 @@ import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/entity/hospital_entity.dart';
 import 'package:acudia/core/entity/profile_entity.dart';
 import 'package:acudia/core/providers/availability_provider.dart';
-import 'package:acudia/routes.dart';
 import 'package:acudia/ui/screens/main/acudier/confirm/acudier_confirm_args.dart';
 import 'package:acudia/utils/helpers.dart';
 import 'package:flutter/material.dart';

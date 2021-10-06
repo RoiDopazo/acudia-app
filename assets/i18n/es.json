@@ -6,6 +6,8 @@
   "auth_register_label": "Registro",
   "auth_logout": "Cerrar sesión",
   "create": "Crear",
+  "cancel": "Cancelar",
+  "send": "Enviar",
   "save": "Guardar",
   "search": "Búsqueda",
   "update": "Actualizar",
@@ -131,5 +133,9 @@
   "incoming_request": "Próximas",
   "inprogress_request": "En curso",
   "inprogress_complete_request": "Finalizada",
-  "completed_request": "Completadas"
+  "completed_request": "Completadas",
+  "request_details": "Detalles solicitud",
+  "review_our_acudier": "Cómo de satisfecho está con el trabajo hecho por nuestro acudier?",
+  "leave_a_comment": "Añada un comentario...",
+  "end": "Finalizar"
 }

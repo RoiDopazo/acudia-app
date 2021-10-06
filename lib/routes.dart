@@ -9,6 +9,7 @@ import 'package:acudia/ui/screens/main/hospital/assignments/hospital_assignments
 import 'package:acudia/ui/screens/main/hospital/details/hospital_details_page.dart';
 import 'package:acudia/ui/screens/main/hospital/search/hospital_search_page.dart';
 import 'package:acudia/ui/screens/main/main_page.dart';
+import 'package:acudia/ui/screens/main/request/details/request_details_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,7 @@ class Routes {
   static const String ACUDIER_DETAILS = '/acudier-details';
   static const String ACUDIER_AVAILABILITY = '/acudier-availability';
   static const String ACUDIER_CONFIRM = '/acudier-confirm';
+  static const String REQUEST_DETAILS = '/request-details';
 
 
   /// The map used to define our routes, needs to be supplied to [MaterialApp]
@@ -41,7 +43,8 @@ class Routes {
       Routes.HOSP_ASSIGNMENTS: (context) => buildRoute(HospitalAssignmentsConfigPage()),
       Routes.ACUDIER_DETAILS: (context) => buildRoute(AcudierDetailsPage()),
       Routes.ACUDIER_AVAILABILITY : (context) => buildRoute(AcudierAvailabiltyPage()),
-      Routes.ACUDIER_CONFIRM: (context) => buildRoute(AcudierConfirmPage())
+      Routes.ACUDIER_CONFIRM: (context) => buildRoute(AcudierConfirmPage()),
+      Routes.REQUEST_DETAILS: (context) => buildRoute(RequestDetailsPage())
     };
   }
 }
