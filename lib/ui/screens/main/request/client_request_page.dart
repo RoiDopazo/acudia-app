@@ -15,15 +15,19 @@ class ClientRequestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     USER_ROLES role = Provider.of<ProfileProvider>(context).profile.role;
+    bool isClient = role.toString().split('.')[1] == USER_ROLES.CLIENT.toString().split('.')[1];
+    List<String> statusList = [
+      REQUEST_STATUS.PENDING.toString().split('.')[1],
+      REQUEST_STATUS.ACCEPTED.toString().split('.')[1]
+    ];
+    if (isClient) statusList.add(REQUEST_STATUS.REJECTED.toString().split('.')[1]);
 
     return DefaultTabController(
         length: 3,
         child: Query(
-            options: QueryOptions(documentNode: gql(GRAPHQL_GET_MY_REQUESTS), variables: {
-              "role": role.toString().split('.')[1],
-              "status":
-                  "${REQUEST_STATUS.PENDING.toString().split('.')[1]},${REQUEST_STATUS.ACCEPTED.toString().split('.')[1]},${REQUEST_STATUS.REJECTED.toString().split('.')[1]}"
-            }),
+            options: QueryOptions(
+                documentNode: gql(GRAPHQL_GET_MY_REQUESTS),
+                variables: {"role": role.toString().split('.')[1], "status": statusList.join(',')}),
             builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
               if (result.hasException) {
                 return Text(result.exception.toString());
