@@ -1,3 +1,4 @@
+import 'package:acudia/app_localizations.dart';
 import 'package:acudia/components/cards/request/inprogress_request_card.dart';
 import 'package:acudia/core/entity/request_entity.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
@@ -21,8 +22,14 @@ class InProgressRequestTab extends StatelessWidget {
 
     List<Widget> widgetList = [];
 
+    if (requests.length == 0) {
+      return Center(
+          child: Padding(padding: EdgeInsets.all(8), child: Text(translate(context, 'no_inprogress_requests'))));
+    }
+
     requests.forEach((dynamic responseJson) {
       Request request = Request.fromJson(responseJson);
+
       onPress() {
         Provider.of<RequestProvider>(context).reset();
         Navigator.pushNamed(

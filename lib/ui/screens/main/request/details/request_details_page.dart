@@ -53,25 +53,30 @@ class RequestDetailsPage extends StatelessWidget {
             SizedBox(height: 12),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               SvgPicture.asset('assets/media/icon_agreement_outlined.svg',
-                  height: 24, color: getLabelColor(context, request.status, request.hasFinished)[0]),
+                  height: 24,
+                  color: getLabelColor(context, request.status, request.hasFinished, request.hasStarted)[0]),
               SizedBox(width: 12),
               BlinkingAnimation(
                   child: Container(
                       padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: getLabelColor(context, request.status, request.hasFinished)[0],
+                          color: getLabelColor(context, request.status, request.hasFinished, request.hasStarted)[0],
                         ),
                       ),
                       child: Text(
-                          getLabelColor(context, request.status, request.hasFinished)[1].toString().toUpperCase(),
+                          getLabelColor(context, request.status, request.hasFinished, request.hasStarted)[1]
+                              .toString()
+                              .toUpperCase(),
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: getLabelColor(context, request.status, request.hasFinished)[0])))),
+                              color: getLabelColor(
+                                  context, request.status, request.hasFinished, request.hasStarted)[0])))),
               SizedBox(width: 12),
               SvgPicture.asset('assets/media/icon_agreement_outlined.svg',
-                  height: 24, color: getLabelColor(context, request.status, request.hasFinished)[0]),
+                  height: 24,
+                  color: getLabelColor(context, request.status, request.hasFinished, request.hasStarted)[0]),
             ]),
             SizedBox(height: 12),
             Padding(
@@ -188,17 +193,17 @@ class RequestDetailsPage extends StatelessWidget {
   }
 }
 
-getLabelColor(context, REQUEST_STATUS status, bool hasFinished) {
+getLabelColor(context, REQUEST_STATUS status, bool hasFinished, bool hasStarted) {
   if (status.index == REQUEST_STATUS.ACCEPTED.index) {
     return hasFinished == true
         ? [Theme.of(context).accentColor, translate(context, 'inprogress_complete_request')]
         : [Theme.of(context).primaryColor, translate(context, "inprogress_request")];
   }
+  if (status.index == REQUEST_STATUS.REJECTED.index || hasStarted) {
+    return [Theme.of(context).errorColor, translate(context, "rejected")];
+  }
   if (status.index == REQUEST_STATUS.PENDING.index) {
     return [Theme.of(context).highlightColor, translate(context, "pending")];
-  }
-  if (status.index == REQUEST_STATUS.REJECTED.index) {
-    return [Theme.of(context).errorColor, translate(context, "rejected")];
   }
 }
 

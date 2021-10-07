@@ -139,5 +139,8 @@
   "leave_a_comment": "Añada un comentario...",
   "end": "Finalizar",
   "pending": "Pendiente",
-  "rejected": "Rejected"
+  "rejected": "Rejected",
+  "no_incoming_requests": "No tiene solicitudes pendientes",
+  "no_inprogress_requests": "No tiene ninguan solicitud activa en este momento",
+  "no_completed_requests": "Aún no ha finalizado ninguna solicitud"
 }

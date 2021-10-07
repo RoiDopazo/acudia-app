@@ -13,6 +13,7 @@ class IncomingRequestCard extends StatelessWidget {
   final DateTime endDate;
   final double price;
   final Function onPress;
+  final bool hasStarted;
 
   const IncomingRequestCard(
       {Key key,
@@ -25,7 +26,8 @@ class IncomingRequestCard extends StatelessWidget {
       this.startHour,
       this.endHour,
       this.price,
-      this.onPress})
+      this.onPress,
+      this.hasStarted})
       : super(key: key);
 
   @override
@@ -46,7 +48,7 @@ class IncomingRequestCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               color: status.index == REQUEST_STATUS.ACCEPTED.index
                   ? Theme.of(context).primaryColor.withOpacity(0.7)
-                  : status.index == REQUEST_STATUS.REJECTED.index
+                  : status.index == REQUEST_STATUS.REJECTED.index || hasStarted
                       ? Theme.of(context).errorColor.withOpacity(0.7)
                       : Theme.of(context).highlightColor.withOpacity(0.7)),
           child: Icon(

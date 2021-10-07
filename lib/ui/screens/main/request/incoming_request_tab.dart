@@ -1,3 +1,4 @@
+import 'package:acudia/app_localizations.dart';
 import 'package:acudia/components/cards/request/incoming_request_card.dart';
 import 'package:acudia/core/entity/request_entity.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
@@ -21,10 +22,16 @@ class IncomingRequestTab extends StatelessWidget {
 
     List<Widget> widgetList = [];
 
+    if (requests.length == 0) {
+      return Center(
+          child: Padding(padding: EdgeInsets.all(8), child: Text(translate(context, 'no_incoming_requests'))));
+    }
+
     requests.forEach((dynamic responseJson) {
       Request request = Request.fromJson(responseJson);
-      Provider.of<RequestProvider>(context).reset();
+
       onPress() {
+        Provider.of<RequestProvider>(context).reset();
         Navigator.pushNamed(
           context,
           Routes.REQUEST_DETAILS,
@@ -42,7 +49,8 @@ class IncomingRequestTab extends StatelessWidget {
           startHour: request.startHour,
           endHour: request.endHour,
           price: request.price,
-          onPress: onPress);
+          onPress: onPress,
+          hasStarted: request.hasStarted);
       widgetList.add(requestWidget);
     });
 

@@ -66,8 +66,8 @@ class Request {
       price: json['price'] != null ? json['price'].toDouble() : 0.0,
       hospId: json['hospId'],
       hospName: json['hospName'],
-      hasStarted: json['hasStarted'],
-      hasFinished: json['hasFinished'],
+      hasStarted: json['hasStarted'] != null ? json['hasStarted'] : false,
+      hasFinished: json['hasFinished'] != null ? json['hasFinished'] : false,
       createdAt: json['createdAt'].toDouble(),
       updatedAt: json['updatedAt'].toDouble(),
     );
