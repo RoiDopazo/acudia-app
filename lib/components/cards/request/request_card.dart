@@ -62,7 +62,11 @@ class RequestCard extends StatelessWidget {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text(DateFormat.yMMMd('es').format(startDate)), Text("$price €")],
+                            children: [
+                              Text(DateFormat.yMMMd('es').format(startDate),
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                              Text("$price €", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500))
+                            ],
                           ),
                           SizedBox(height: 4),
                           Row(

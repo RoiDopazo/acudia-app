@@ -39,6 +39,7 @@ class AcudierDetailsPage extends StatelessWidget {
                       sliver: SliverSafeArea(
                           top: false,
                           sliver: SliverAppBar(
+                            brightness: Brightness.dark,
                             collapsedHeight: 52,
                             toolbarHeight: 50,
                             expandedHeight: HEADER_HEIGHT,

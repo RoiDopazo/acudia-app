@@ -40,6 +40,7 @@ class HospitalDetailsPage extends StatelessWidget {
                     sliver: SliverSafeArea(
                         top: false,
                         sliver: SliverAppBar(
+                          brightness: Brightness.dark,
                           collapsedHeight: 52,
                           toolbarHeight: 50,
                           expandedHeight: 180.0,
@@ -154,7 +155,6 @@ class HospitalDetailsPage extends StatelessWidget {
                                                 Comment.fromJsonList(responseJson['acudier']['comments']);
                                             List<Assignment> assignments =
                                                 Assignment.fromJsonList(responseJson["assignment"]);
-
                                             widgetList.add(AcudierCard(
                                                 name: acudier.name,
                                                 secondName: acudier.secondName,
@@ -174,7 +174,9 @@ class HospitalDetailsPage extends StatelessWidget {
                                                   );
                                                 }));
                                           });
-                                          return Column(children: widgetList);
+                                          return Container(
+                                              margin: EdgeInsets.fromLTRB(0, 0, 0, 180),
+                                              child: Column(children: widgetList));
                                         } else {
                                           return Container(
                                               decoration: BoxDecoration(

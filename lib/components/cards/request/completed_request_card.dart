@@ -1,8 +1,9 @@
+import 'package:acudia/app_localizations.dart';
 import 'package:acudia/components/cards/request/request_card.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class IncomingRequestCard extends StatelessWidget {
+class CompletedRequestCard extends StatelessWidget {
   final String name;
   final String hospName;
   final String photoUrl;
@@ -13,9 +14,9 @@ class IncomingRequestCard extends StatelessWidget {
   final DateTime endDate;
   final double price;
   final Function onPress;
-  final bool hasStarted;
+  final bool hasFinished;
 
-  const IncomingRequestCard(
+  const CompletedRequestCard(
       {Key key,
       this.name,
       this.hospName,
@@ -27,7 +28,7 @@ class IncomingRequestCard extends StatelessWidget {
       this.endHour,
       this.price,
       this.onPress,
-      this.hasStarted})
+      this.hasFinished})
       : super(key: key);
 
   @override
@@ -43,21 +44,17 @@ class IncomingRequestCard extends StatelessWidget {
         price: this.price,
         onPress: this.onPress,
         leftComponent: Container(
-          width: 35,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: status.index == REQUEST_STATUS.ACCEPTED.index
-                  ? Theme.of(context).primaryColor.withOpacity(0.7)
-                  : status.index == REQUEST_STATUS.REJECTED.index || hasStarted
-                      ? Theme.of(context).errorColor.withOpacity(0.7)
-                      : Theme.of(context).highlightColor.withOpacity(0.7)),
-          child: Icon(
-              status.index == REQUEST_STATUS.ACCEPTED.index
-                  ? Icons.thumb_up_outlined
-                  : status.index == REQUEST_STATUS.REJECTED.index
-                      ? Icons.thumb_down_outlined
-                      : Icons.watch_later_outlined,
-              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6)),
-        ));
+            width: 35,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16), color: Theme.of(context).accentColor.withOpacity(0.7)),
+            child: Container(
+                margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: new RotatedBox(
+                    quarterTurns: 3,
+                    child: new Text(
+                      translate(context, "completed_request"),
+                      style: TextStyle(fontSize: 14, color: Theme.of(context).scaffoldBackgroundColor),
+                      textAlign: TextAlign.center,
+                    )))));
   }
 }

@@ -75,7 +75,9 @@ class HospitalSearchPage extends StatelessWidget {
       builder: (context, searchProvider, child) => Scaffold(
         appBar: HospitalSearchAppBar(
           isSearching: searchProvider.isSearching,
-          appBar: AppBar(),
+          appBar: AppBar(
+            brightness: Brightness.dark,
+          ),
           searchController: _searchController,
           searchFocusNode: _searchFocusNode,
         ),
