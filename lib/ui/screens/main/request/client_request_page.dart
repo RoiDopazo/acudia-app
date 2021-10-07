@@ -1,6 +1,7 @@
 import 'package:acudia/app_localizations.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
 import 'package:acudia/core/services/requests/request_service.dart';
+import 'package:acudia/ui/screens/main/request/completed_request_tab.dart';
 import 'package:acudia/ui/screens/main/request/incoming_request_tab.dart';
 import 'package:acudia/ui/screens/main/request/inprogres_request_tab.dart';
 import 'package:acudia/utils/constants.dart';
@@ -51,14 +52,14 @@ class ClientRequestPage extends StatelessWidget {
                             ),
                           ),
                           Tab(
-                              child: Text(translate(context, 'completed_request'),
+                              child: Text(translate(context, 'completed_requests'),
                                   style: TextStyle(fontSize: 14, color: Theme.of(context).scaffoldBackgroundColor))),
                         ],
                       )),
                   body: TabBarView(children: [
                     IncomingRequestTab(requests: result.data["getMyRequests"]["incoming"]),
                     InProgressRequestTab(requests: result.data["getMyRequests"]["active"]),
-                    Text('test 2')
+                    CompletedRequestTab()
                   ]));
             }));
   }

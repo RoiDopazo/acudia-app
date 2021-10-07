@@ -53,6 +53,28 @@ final String GRAPHQL_GET_MY_REQUESTS = """query (\$role: String!, \$status: Stri
         createdAt
         updatedAt  
       }
+    completed {
+        PK
+        SK
+        status
+        acudier
+        acudierName
+        acudierPhoto
+        client
+        clientName
+        clientPhoto
+        from
+        to
+        startHour
+        endHour
+        hospId
+        hospName
+        price
+        hasFinished
+        hasStarted
+        createdAt
+        updatedAt  
+      }
   }
 }""";
 

@@ -175,22 +175,24 @@ class RequestDetailsPage extends StatelessWidget {
             SizedBox(height: 24),
           ]))),
           Divider(height: shouldShowAction ? 2 : 0, thickness: 2, color: computedLabelData[0]),
-          GestureDetector(
-              onTap: () {
-                if (isClient == true) {
-                  if (request.status.index == REQUEST_STATUS.ACCEPTED.index) {
-                    onShowDialog(context);
-                  } else {
-                    Provider.of<RequestProvider>(context).removeRequest(context, request);
-                  }
-                }
-              },
-              child: Container(
-                  width: MediaQuery.of(context).size.width,
+          shouldShowAction
+              ? FlatButton(
                   height: shouldShowAction ? 56 : 0,
-                  child: Center(
-                      child: Text(computedLabelData[2],
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: computedLabelData[0])))))
+                  minWidth: MediaQuery.of(context).size.width,
+                  color: computedLabelData[0].withOpacity(0.05),
+                  onPressed: () {
+                    if (isClient == true) {
+                      if (request.status.index == REQUEST_STATUS.ACCEPTED.index) {
+                        onShowDialog(context);
+                      } else {
+                        Provider.of<RequestProvider>(context).removeRequest(context, request);
+                      }
+                    }
+                  },
+                  child: Text(computedLabelData[2],
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: computedLabelData[0])),
+                )
+              : Container(),
         ]));
   }
 }
@@ -205,6 +207,10 @@ getLabelColor(context, REQUEST_STATUS status, bool hasFinished, bool hasStarted)
           ]
         : [Theme.of(context).primaryColor, translate(context, "inprogress_request"), ''];
   }
+  if (status.index == REQUEST_STATUS.COMPLETED.index) {
+    return [Theme.of(context).accentColor, translate(context, 'inprogress_complete_request'), ''];
+  }
+
   if (status.index == REQUEST_STATUS.REJECTED.index || hasStarted) {
     return [Theme.of(context).errorColor, translate(context, "rejected"), translate(context, 'remove_request')];
   }

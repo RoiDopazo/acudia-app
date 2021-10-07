@@ -3,7 +3,7 @@ import 'package:acudia/components/cards/request/request_card.dart';
 import 'package:acudia/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class InProgressRequestCard extends StatelessWidget {
+class CompletedRequestCard extends StatelessWidget {
   final String name;
   final String hospName;
   final String photoUrl;
@@ -16,7 +16,7 @@ class InProgressRequestCard extends StatelessWidget {
   final Function onPress;
   final bool hasFinished;
 
-  const InProgressRequestCard(
+  const CompletedRequestCard(
       {Key key,
       this.name,
       this.hospName,
@@ -33,8 +33,6 @@ class InProgressRequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isCompleted = hasFinished == true;
-
     return RequestCard(
         endDate: this.endDate,
         name: this.name,
@@ -48,16 +46,13 @@ class InProgressRequestCard extends StatelessWidget {
         leftComponent: Container(
             width: 35,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: isCompleted == true
-                    ? Theme.of(context).accentColor.withOpacity(0.7)
-                    : Theme.of(context).primaryColor.withOpacity(0.7)),
+                borderRadius: BorderRadius.circular(16), color: Theme.of(context).accentColor.withOpacity(0.7)),
             child: Container(
                 margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
                 child: new RotatedBox(
                     quarterTurns: 3,
                     child: new Text(
-                      translate(context, isCompleted == true ? "inprogress_complete_request" : "inprogress_request"),
+                      translate(context, "completed_request"),
                       style: TextStyle(fontSize: 14, color: Theme.of(context).scaffoldBackgroundColor),
                       textAlign: TextAlign.center,
                     )))));
