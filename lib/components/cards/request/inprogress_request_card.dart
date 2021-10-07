@@ -48,8 +48,8 @@ class InProgressRequestCard extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: hasFinished == true
-                    ? Theme.of(context).disabledColor.withOpacity(0.7)
-                    : Theme.of(context).accentColor.withOpacity(0.7)),
+                    ? Theme.of(context).accentColor.withOpacity(0.7)
+                    : Theme.of(context).primaryColor.withOpacity(0.7)),
             child: Container(
                 margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
                 child: new RotatedBox(

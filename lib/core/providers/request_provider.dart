@@ -1,4 +1,12 @@
+import 'package:acudia/app_localizations.dart';
+import 'package:acudia/core/entity/request_entity.dart';
+import 'package:acudia/core/providers/error_notifier_provider.dart';
+import 'package:acudia/core/services/graphql_client.dart';
+import 'package:acudia/core/services/requests/request_service.dart';
+import 'package:acudia/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:load/load.dart';
 
 class RequestProvider with ChangeNotifier {
   double rating = 0.0;
@@ -13,6 +21,23 @@ class RequestProvider with ChangeNotifier {
 
   setComment(String commentParam) {
     this.comment = commentParam;
+  }
+
+  finishRequest() {}
+
+  removeRequest(BuildContext context, Request request) async {
+    try {
+      showLoadingDialog();
+      dynamic t = await graphQLClient.value.mutate(
+        MutationOptions(documentNode: gql(GRAPHQL_REMOVE_REQUEST), variables: {"PK": request.PK, "SK": request.SK}),
+      );
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.MAIN, (Route<dynamic> route) => false);
+      hideLoadingDialog();
+    } catch (err) {
+      hideLoadingDialog();
+      return showError(context, translate(context, 'error_unexpected'), translate(context, 'error_try_again_later'),
+          ERROR_VISUALIZATIONS_TYPE.dialog);
+    }
   }
 
   reset() {

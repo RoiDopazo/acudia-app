@@ -55,3 +55,7 @@ final String GRAPHQL_GET_MY_REQUESTS = """query (\$role: String!, \$status: Stri
       }
   }
 }""";
+
+final String GRAPHQL_REMOVE_REQUEST = """mutation (\$PK: String!, \$SK: String!) {
+  removeRequest(input: {SK: \$SK, PK: \$PK } ) 
+}""";

@@ -25,6 +25,13 @@ class RequestDetailsPage extends StatelessWidget {
     DateFormat dateFormat = DateFormat("d MMM");
     DateFormat dateFormat2 = DateFormat("y");
 
+    bool shouldShowAction = isClient &&
+        (request.status.index == REQUEST_STATUS.REJECTED.index ||
+            (request.status.index == REQUEST_STATUS.PENDING.index && request.hasStarted) ||
+            (request.status.index == REQUEST_STATUS.ACCEPTED.index && request.hasFinished));
+
+    dynamic computedLabelData = getLabelColor(context, request.status, request.hasFinished, request.hasStarted);
+
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -52,31 +59,24 @@ class RequestDetailsPage extends StatelessWidget {
                 ])),
             SizedBox(height: 12),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              SvgPicture.asset('assets/media/icon_agreement_outlined.svg',
-                  height: 24,
-                  color: getLabelColor(context, request.status, request.hasFinished, request.hasStarted)[0]),
+              SvgPicture.asset('assets/media/icon_agreement_outlined.svg', height: 24, color: computedLabelData[0]),
               SizedBox(width: 12),
               BlinkingAnimation(
                   child: Container(
                       padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: getLabelColor(context, request.status, request.hasFinished, request.hasStarted)[0],
+                          color: computedLabelData[0],
                         ),
                       ),
-                      child: Text(
-                          getLabelColor(context, request.status, request.hasFinished, request.hasStarted)[1]
-                              .toString()
-                              .toUpperCase(),
+                      child: Text(computedLabelData[1].toString().toUpperCase(),
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               color: getLabelColor(
                                   context, request.status, request.hasFinished, request.hasStarted)[0])))),
               SizedBox(width: 12),
-              SvgPicture.asset('assets/media/icon_agreement_outlined.svg',
-                  height: 24,
-                  color: getLabelColor(context, request.status, request.hasFinished, request.hasStarted)[0]),
+              SvgPicture.asset('assets/media/icon_agreement_outlined.svg', height: 24, color: computedLabelData[0]),
             ]),
             SizedBox(height: 12),
             Padding(
@@ -173,22 +173,24 @@ class RequestDetailsPage extends StatelessWidget {
                   Text("${request.price} €", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))
                 ])),
             SizedBox(height: 24),
-            Container(
-                width: MediaQuery.of(context).size.width - 48,
-                padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Theme.of(context).primaryColor, width: 2, style: BorderStyle.solid),
-                      borderRadius: BorderRadius.circular(8)),
-                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-                  color: Theme.of(context).backgroundColor,
-                  textColor: Theme.of(context).primaryColor,
-                  onPressed: () => {
-                    if (isClient == true) {onShowDialog(context)}
-                  },
-                  child: new Text(translate(context, 'end')),
-                ))
-          ])))
+          ]))),
+          Divider(height: shouldShowAction ? 2 : 0, thickness: 2, color: computedLabelData[0]),
+          GestureDetector(
+              onTap: () {
+                if (isClient == true) {
+                  if (request.status.index == REQUEST_STATUS.ACCEPTED.index) {
+                    onShowDialog(context);
+                  } else {
+                    Provider.of<RequestProvider>(context).removeRequest(context, request);
+                  }
+                }
+              },
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: shouldShowAction ? 56 : 0,
+                  child: Center(
+                      child: Text(computedLabelData[2],
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: computedLabelData[0])))))
         ]));
   }
 }
@@ -196,14 +198,18 @@ class RequestDetailsPage extends StatelessWidget {
 getLabelColor(context, REQUEST_STATUS status, bool hasFinished, bool hasStarted) {
   if (status.index == REQUEST_STATUS.ACCEPTED.index) {
     return hasFinished == true
-        ? [Theme.of(context).accentColor, translate(context, 'inprogress_complete_request')]
-        : [Theme.of(context).primaryColor, translate(context, "inprogress_request")];
+        ? [
+            Theme.of(context).accentColor,
+            translate(context, 'inprogress_complete_request'),
+            translate(context, 'end_request')
+          ]
+        : [Theme.of(context).primaryColor, translate(context, "inprogress_request"), ''];
   }
   if (status.index == REQUEST_STATUS.REJECTED.index || hasStarted) {
-    return [Theme.of(context).errorColor, translate(context, "rejected")];
+    return [Theme.of(context).errorColor, translate(context, "rejected"), translate(context, 'remove_request')];
   }
   if (status.index == REQUEST_STATUS.PENDING.index) {
-    return [Theme.of(context).highlightColor, translate(context, "pending")];
+    return [Theme.of(context).highlightColor, translate(context, "pending"), ''];
   }
 }
 
@@ -237,7 +243,9 @@ onShowDialog(context) {
                   child: Text(translate(context, 'cancel')),
                 ),
                 TextButton(
-                  onPressed: requestProvider.hasChange == false ? null : () => Navigator.pop(context, 'OK'),
+                  onPressed: requestProvider.hasChange == false
+                      ? null
+                      : () => {Provider.of<RequestProvider>(context).finishRequest()},
                   child: Text(translate(context, 'send')),
                 ),
               ],
