@@ -183,7 +183,7 @@ class RequestDetailsPage extends StatelessWidget {
                   onPressed: () {
                     if (isClient == true) {
                       if (request.status.index == REQUEST_STATUS.ACCEPTED.index) {
-                        onShowDialog(context);
+                        onShowDialog(context, request);
                       } else {
                         Provider.of<RequestProvider>(context).removeRequest(context, request);
                       }
@@ -219,7 +219,7 @@ getLabelColor(context, REQUEST_STATUS status, bool hasFinished, bool hasStarted)
   }
 }
 
-onShowDialog(context) {
+onShowDialog(BuildContext context, Request request) {
   return showDialog<String>(
     context: context,
     builder: (BuildContext context) => Consumer<RequestProvider>(
@@ -251,7 +251,7 @@ onShowDialog(context) {
                 TextButton(
                   onPressed: requestProvider.hasChange == false
                       ? null
-                      : () => {Provider.of<RequestProvider>(context).finishRequest()},
+                      : () => {Provider.of<RequestProvider>(context).finishRequest(context, request)},
                   child: Text(translate(context, 'send')),
                 ),
               ],

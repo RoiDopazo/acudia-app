@@ -81,3 +81,8 @@ final String GRAPHQL_GET_MY_REQUESTS = """query (\$role: String!, \$status: Stri
 final String GRAPHQL_REMOVE_REQUEST = """mutation (\$PK: String!, \$SK: String!) {
   removeRequest(input: {SK: \$SK, PK: \$PK } ) 
 }""";
+
+final String GRAPHQL_FINISH_REQUEST =
+    """mutation (\$PK: String!, \$SK: String!, \$rating: Float!, \$author: String!, \$comment: String) {
+  finishRequest(input: {SK: \$SK, PK: \$PK, rating: \$rating, author: \$author, comment: \$comment} ) 
+}""";

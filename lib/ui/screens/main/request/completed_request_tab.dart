@@ -1,3 +1,4 @@
+import 'package:acudia/app_localizations.dart';
 import 'package:acudia/components/cards/request/completed_request_card.dart';
 import 'package:acudia/core/entity/request_entity.dart';
 import 'package:acudia/core/providers/profile_provider.dart';
@@ -34,6 +35,11 @@ class CompletedRequestTab extends StatelessWidget {
           }
           List<Widget> widgetList = [];
           List<dynamic> responseJson = result.data["getMyRequests"]["completed"];
+
+          if (responseJson.length == 0) {
+            return Center(
+                child: Padding(padding: EdgeInsets.all(8), child: Text(translate(context, 'no_completed_requests'))));
+          }
 
           responseJson.forEach((dynamic response) {
             Request request = Request.fromJson(response);

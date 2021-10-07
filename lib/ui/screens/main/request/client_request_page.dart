@@ -19,8 +19,11 @@ class ClientRequestPage extends StatelessWidget {
     return DefaultTabController(
         length: 3,
         child: Query(
-            options: QueryOptions(
-                documentNode: gql(GRAPHQL_GET_MY_REQUESTS), variables: {"role": role.toString().split('.')[1]}),
+            options: QueryOptions(documentNode: gql(GRAPHQL_GET_MY_REQUESTS), variables: {
+              "role": role.toString().split('.')[1],
+              "status":
+                  "${REQUEST_STATUS.PENDING.toString().split('.')[1]},${REQUEST_STATUS.ACCEPTED.toString().split('.')[1]},${REQUEST_STATUS.REJECTED.toString().split('.')[1]}"
+            }),
             builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
               if (result.hasException) {
                 return Text(result.exception.toString());

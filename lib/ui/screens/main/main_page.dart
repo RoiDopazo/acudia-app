@@ -18,9 +18,7 @@ class MainPage extends StatelessWidget {
 
   static List<Widget> _acudierWidgetOptions = <Widget>[
     HospitalAssignmentsPage(),
-    Text(
-      'Under development',
-    ),
+    ClientRequestPage(),
     ProfilePage(),
   ];
 
