@@ -25,10 +25,11 @@ class RequestDetailsPage extends StatelessWidget {
     DateFormat dateFormat = DateFormat("d MMM");
     DateFormat dateFormat2 = DateFormat("y");
 
-    bool shouldShowAction = isClient &&
-        (request.status.index == REQUEST_STATUS.REJECTED.index ||
-            (request.status.index == REQUEST_STATUS.PENDING.index && request.hasStarted) ||
-            (request.status.index == REQUEST_STATUS.ACCEPTED.index && request.hasFinished));
+    bool shouldShowAction = (isClient &&
+            (request.status.index == REQUEST_STATUS.REJECTED.index ||
+                (request.status.index == REQUEST_STATUS.PENDING.index && request.hasStarted) ||
+                (request.status.index == REQUEST_STATUS.ACCEPTED.index && request.hasFinished))) ||
+        (!isClient && request.status.index == REQUEST_STATUS.PENDING.index && !request.hasStarted);
 
     dynamic computedLabelData = getLabelColor(context, request.status, request.hasFinished, request.hasStarted);
 
@@ -177,11 +178,15 @@ class RequestDetailsPage extends StatelessWidget {
           Divider(height: shouldShowAction ? 2 : 0, thickness: 2, color: computedLabelData[0]),
           shouldShowAction
               ? FlatButton(
-                  height: shouldShowAction ? 56 : 0,
+                  height: shouldShowAction
+                      ? isClient
+                          ? 56
+                          : 72
+                      : 0,
                   minWidth: MediaQuery.of(context).size.width,
                   color: computedLabelData[0].withOpacity(0.05),
                   onPressed: () {
-                    if (isClient == true) {
+                    if (isClient) {
                       if (request.status.index == REQUEST_STATUS.ACCEPTED.index) {
                         onShowDialog(context, request);
                       } else {
@@ -189,8 +194,32 @@ class RequestDetailsPage extends StatelessWidget {
                       }
                     }
                   },
-                  child: Text(computedLabelData[2],
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: computedLabelData[0])),
+                  child: isClient
+                      ? Text(computedLabelData[2],
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: computedLabelData[0]))
+                      : Row(mainAxisSize: MainAxisSize.max, children: [
+                          Expanded(
+                            child: Container(
+                                height: 46,
+                                child: RaisedButton(
+                                    color: Theme.of(context).errorColor.withOpacity(0.6),
+                                    onPressed: () {
+                                      Provider.of<RequestProvider>(context).answerRequest(context, request, false);
+                                    },
+                                    child: Text(translate(context, "deny")))),
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(
+                              child: Container(
+                                  height: 46,
+                                  child: RaisedButton(
+                                    color: Theme.of(context).primaryColor,
+                                    onPressed: () {
+                                      Provider.of<RequestProvider>(context).answerRequest(context, request, true);
+                                    },
+                                    child: Text(translate(context, "accept")),
+                                  )))
+                        ]),
                 )
               : Container(),
         ]));
