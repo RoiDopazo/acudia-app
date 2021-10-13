@@ -42,7 +42,7 @@ class ClientRequestPage extends StatelessWidget {
                   appBar: AppBar(
                       brightness: Brightness.dark,
                       title: Text(
-                        "Solicitudes",
+                        translate(context, "requests"),
                         style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
                       ),
                       bottom: TabBar(

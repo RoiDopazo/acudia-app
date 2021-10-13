@@ -86,3 +86,7 @@ final String GRAPHQL_FINISH_REQUEST =
     """mutation (\$PK: String!, \$SK: String!, \$rating: Float!, \$author: String!, \$comment: String) {
   finishRequest(input: {SK: \$SK, PK: \$PK, rating: \$rating, author: \$author, comment: \$comment} ) 
 }""";
+
+final String GRAPHQL_ANSWER_REQUEST = """mutation (\$PK: String!, \$SK: String!, \$status: String!) {
+ answerRequest(input: {SK: \$SK, PK: \$PK, status: \$status} ) 
+}""";
