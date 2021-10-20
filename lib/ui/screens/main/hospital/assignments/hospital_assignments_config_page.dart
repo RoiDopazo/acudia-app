@@ -93,6 +93,10 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
     return Mutation(
       options: MutationOptions(
           documentNode: gql(GRAPHQL_REMOVE_ASSIGNMENTS_MUTATION),
+          variables: {
+            "hospId": assingmentsProvider.assignment.hospId,
+            "assignmentId": assingmentsProvider.assignment.assignmentId
+          },
           onCompleted: (dynamic resultData) async {
             if (resultData != null) {
               hideLoadingDialog();
@@ -100,9 +104,11 @@ class HospitalAssignmentsConfigPage extends StatelessWidget {
               Navigator.of(context).pop(true);
             }
           },
-          onError: (dynamic error) {
+          // FIXME:
+          onError: (dynamic error) async {
             hideLoadingDialog();
-            showUnexpectedError(context);
+            await refetchData(assingmentsProvider);
+            Navigator.of(context).pop(true);
           }),
       builder: (
         RunMutation runMutation,

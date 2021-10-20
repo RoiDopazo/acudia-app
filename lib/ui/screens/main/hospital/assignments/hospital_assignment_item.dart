@@ -69,7 +69,7 @@ class HospitalAssignmentItemState extends State<HospitalAssignmentItem> {
                                     label: "Horario",
                                     value:
                                         '${normalizeTime(item.startHour.hour)}:${normalizeTime(item.startHour.minute)} ${translate(context, "to")} ${normalizeTime(item.endHour.hour)}:${normalizeTime(item.endHour.minute)}'),
-                                AcudiaDataItem(label: "Tarifa", value: "15 €/h"),
+                                AcudiaDataItem(label: "Tarifa", value: "${item.fare} €/h"),
                                 if (item.from.millisecondsSinceEpoch < new DateTime.now().millisecondsSinceEpoch)
                                   Container(
                                       padding: EdgeInsets.fromLTRB(16, 4, 16, 4),

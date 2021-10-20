@@ -228,6 +228,9 @@ class RequestDetailsPage extends StatelessWidget {
 
 getLabelColor(context, REQUEST_STATUS status, bool hasFinished, bool hasStarted) {
   if (status.index == REQUEST_STATUS.ACCEPTED.index) {
+    if (!hasStarted) {
+      return [Theme.of(context).accentColor, translate(context, 'accepted_request')];
+    }
     return hasFinished == true
         ? [
             Theme.of(context).accentColor,

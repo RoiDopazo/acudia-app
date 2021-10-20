@@ -132,18 +132,23 @@ class AcudierDetailsPage extends StatelessWidget {
                                           Icon(Icons.work_outline),
                                           SizedBox(width: 8),
                                           Text(translate(context, 'jobs_completed')
-                                              .replaceAll('{{ jobs }}', '${acudier.jobsCompleted}'))
+                                              .replaceAll('{{ jobs }}', '${acudier.jobsCompleted.toInt()}'))
                                         ]),
                                         SizedBox(height: 20),
                                         Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                                           Icon(Icons.star_border_outlined),
                                           SizedBox(width: 8),
-                                          Text(translate(context, "popularity_${acudier.popularity.round()}")),
-                                          SizedBox(width: 4),
-                                          Text('('),
-                                          Text(translate(context, "popularity_number")
-                                              .replaceAll("{{ num }}", '${acudier.popularity}')),
-                                          Text(')')
+                                          if (acudier.jobsCompleted == 0)
+                                            Text(translate(context, 'no_popularity_label')),
+                                          if (acudier.jobsCompleted > 0)
+                                            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                              Text(translate(context, "popularity_${acudier.popularity.round()}")),
+                                              SizedBox(width: 4),
+                                              Text('('),
+                                              Text(translate(context, "popularity_number")
+                                                  .replaceAll("{{ num }}", '${acudier.popularity}')),
+                                              Text(')')
+                                            ])
                                         ]),
                                         SizedBox(height: 24),
                                         Divider(height: 4, thickness: 1),

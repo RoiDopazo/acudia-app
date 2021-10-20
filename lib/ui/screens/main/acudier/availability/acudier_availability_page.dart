@@ -243,37 +243,72 @@ class AcudierAvailabiltyPage extends StatelessWidget {
                                           ? ((availability.startDate == null && availability.endDate == null
                                               ? Text(translate(context, 'select_dates'))
                                               : Builder(builder: (context) {
-                                                  Assignment selectedAssignment = assignments.firstWhere(
-                                                      (assig) =>
-                                                          (availability.startDate.isBefore(assig.to) &&
-                                                              availability.startDate.isAfter(assig.from)) &&
-                                                          ((availability.endDate.isBefore(assig.to)) &&
-                                                              (availability.endDate.isAfter(assig.from))),
-                                                      orElse: () => null);
+                                                  Iterable<Assignment> selectedAssignment = assignments.where(
+                                                    (assig) =>
+                                                        ((availability.startDate.isBefore(assig.to) ||
+                                                                availability.startDate.isAtSameMomentAs(assig.to)) &&
+                                                            (availability.startDate.isAfter(assig.from) ||
+                                                                availability.startDate.isAtSameMomentAs(assig.from))) &&
+                                                        (((availability.endDate.isBefore(assig.to) ||
+                                                                availability.endDate.isAtSameMomentAs(assig.to))) &&
+                                                            ((availability.endDate.isAfter(assig.from) ||
+                                                                availability.endDate.isAtSameMomentAs(assig.from)))),
+                                                  );
 
-                                                  Request selectedRequest = requests.firstWhere(
-                                                      (assig) =>
-                                                          (availability.startDate.isAtSameMomentAs(assig.from) ||
-                                                              availability.startDate.isBefore(assig.to) &&
-                                                                  availability.startDate.isAtSameMomentAs(assig.to) ||
-                                                              availability.startDate.isAfter(assig.from)) ||
-                                                          ((availability.endDate.isAtSameMomentAs(assig.to) ||
-                                                                  availability.endDate.isBefore(assig.to)) &&
-                                                              (availability.endDate.isAtSameMomentAs(assig.from) ||
-                                                                  availability.endDate.isAfter(assig.from))),
-                                                      orElse: () => null);
+                                                  for (Request request in requests) {
+                                                    if ((availability.startDate.isAtSameMomentAs(request.from) ||
+                                                            (availability.startDate.isAfter(request.from))) &&
+                                                        (availability.startDate.isAtSameMomentAs(request.to) ||
+                                                            (availability.startDate.isBefore(request.to)))) {
+                                                      return Text(translate(context, 'no_available'));
+                                                    }
+                                                  }
 
-                                                  if (selectedAssignment == null || selectedRequest != null) {
+                                                  // Request selectedRequest = requests.firstWhere(
+                                                  //     (assig) =>
+                                                  //         (availability.startDate.isAtSameMomentAs(assig.from) ||
+                                                  //             availability.startDate.isBefore(assig.to) &&
+                                                  //                 availability.startDate.isAtSameMomentAs(assig.to) ||
+                                                  //             availability.startDate.isAfter(assig.from)) ||
+                                                  //         ((availability.endDate.isAtSameMomentAs(assig.to) ||
+                                                  //                 availability.endDate.isBefore(assig.to)) &&
+                                                  //             (availability.endDate.isAtSameMomentAs(assig.from) ||
+                                                  //                 availability.endDate.isAfter(assig.from))),
+                                                  //     orElse: () => null);
+
+                                                  if (selectedAssignment == null) {
                                                     return Text(translate(context, 'no_available'));
                                                   }
 
-                                                  return Text(
-                                                      translate(context, 'no_available_in_dates')
-                                                          .replaceFirst('{{ startHour }}',
-                                                              '${normalizeTime(selectedAssignment.startHour.hour)}:${normalizeTime(selectedAssignment.startHour.minute)}')
-                                                          .replaceFirst('{{ endHour }}',
-                                                              '${normalizeTime(selectedAssignment.endHour.hour)}:${normalizeTime(selectedAssignment.endHour.minute)}'),
-                                                      style: TextStyle(color: Theme.of(context).highlightColor));
+                                                  if (selectedAssignment.length == 1) {
+                                                    return Text(
+                                                        translate(context, 'no_available_in_dates')
+                                                            .replaceFirst('{{ startHour }}',
+                                                                '${normalizeTime(selectedAssignment.first.startHour.hour)}:${normalizeTime(selectedAssignment.first.startHour.minute)}')
+                                                            .replaceFirst('{{ endHour }}',
+                                                                '${normalizeTime(selectedAssignment.first.endHour.hour)}:${normalizeTime(selectedAssignment.first.endHour.minute)}'),
+                                                        style: TextStyle(color: Theme.of(context).highlightColor));
+                                                  } else {
+                                                    return Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(translate(context, 'no_available_in_dates_see_more'),
+                                                              style:
+                                                                  TextStyle(color: Theme.of(context).highlightColor)),
+                                                          Row(children: [
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                onShowDatesDialog(context, selectedAssignment);
+                                                              },
+                                                              child: Text(translate(context, 'check_dates_label'),
+                                                                  style: TextStyle(
+                                                                      color: Theme.of(context).highlightColor,
+                                                                      fontWeight: FontWeight.w500)),
+                                                            )
+                                                          ]),
+                                                        ]);
+                                                  }
                                                 })))
                                           : Text(
                                               'Total: ${availability.price} €',
@@ -304,4 +339,27 @@ class AcudierAvailabiltyPage extends StatelessWidget {
               ]);
             }));
   }
+}
+
+onShowDatesDialog(BuildContext context, Iterable<Assignment> selectedAssignments) {
+  List<Widget> widgetList = [];
+
+  selectedAssignments.forEach((Assignment assignment) {
+    widgetList.add(Text(
+        '${normalizeTime(assignment.startHour.hour)}:${normalizeTime(assignment.startHour.minute)} ${translate(context, "to")} ${normalizeTime(assignment.endHour.hour)}:${normalizeTime(assignment.endHour.minute)}'));
+    widgetList.add(SizedBox(height: 8));
+  });
+
+  return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+            title: Text(translate(context, 'available_date_labels')),
+            content: Column(mainAxisSize: MainAxisSize.min, children: widgetList),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Cancel'),
+                child: Text(translate(context, 'accept')),
+              ),
+            ],
+          ));
 }

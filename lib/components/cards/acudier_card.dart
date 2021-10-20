@@ -9,7 +9,7 @@ class AcudierCard extends StatelessWidget {
   final String secondName;
   final String photoUrl;
   final int age;
-  final int numJobs;
+  final double numJobs;
   final double popularity;
   final Function onPress;
 
@@ -70,7 +70,7 @@ class AcudierCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Column(children: [
-                                Text('$numJobs', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                Text('${numJobs.toInt()}', style: TextStyle(color: Colors.white, fontSize: 12)),
                                 SizedBox(height: 2),
                                 Text(translate(context, 'jobs'),
                                     style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 10))

@@ -57,11 +57,27 @@ int isDayAvailable(
   }
 
   for (Assignment assig in assignments) {
-    if (date.isBefore(assig.to) && date.isAfter(assig.from)) {
-      result = 1;
-      if (timeOfDayToDouble(startHour) >= timeOfDayToDouble(assig.startHour) &&
-          timeOfDayToDouble(endHour) <= timeOfDayToDouble(assig.endHour)) {
-        result = 2;
+    if ((date.isBefore(assig.to) || date.isAtSameMomentAs(assig.to)) &&
+        (date.isAfter(assig.from) || date.isAtSameMomentAs(assig.from))) {
+      if (result != 2) result = 1;
+
+      var dis1 = timeOfDayToDouble(endHour) - timeOfDayToDouble(startHour);
+      var dis2 = timeOfDayToDouble(assig.endHour) - timeOfDayToDouble(assig.startHour);
+
+      if (dis1 < 0) {
+        dis1 = dis1 + 24;
+      }
+
+      if (dis2 < 0) {
+        dis2 = dis2 + 24;
+      }
+      if (dis1 <= dis2) {
+        if ((timeOfDayToDouble(startHour) >= timeOfDayToDouble(assig.startHour) ||
+                timeOfDayToDouble(startHour) <= timeOfDayToDouble(assig.endHour)) &&
+            (timeOfDayToDouble(endHour) <= timeOfDayToDouble(assig.endHour) ||
+                timeOfDayToDouble(endHour) >= timeOfDayToDouble(assig.startHour))) {
+          result = 2;
+        }
       }
     }
   }
@@ -73,8 +89,11 @@ double getTotalPrice(DateTime startDate, DateTime endDate, List<Assignment> assi
   DateTime date = startDate;
 
   while (date.isBefore(endDate) || date.isAtSameMomentAs(endDate)) {
-    Assignment assig =
-        assignments.firstWhere((assig) => date.isBefore(assig.to) && date.isAfter(assig.from), orElse: () => null);
+    Assignment assig = assignments.firstWhere(
+        (assig) =>
+            (date.isBefore(assig.to) || date.isAtSameMomentAs(assig.to)) &&
+            (date.isAfter(assig.from) || date.isAtSameMomentAs(assig.from)),
+        orElse: () => null);
     date = date.add(new Duration(days: 1));
     price += assig.fare * duration;
   }

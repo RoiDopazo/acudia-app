@@ -14,7 +14,7 @@ class Profile {
   final USER_GENDER gender;
   final DateTime birthDate;
   final String photoUrl;
-  final int jobsCompleted;
+  final double jobsCompleted;
   final double popularity;
   final int createdAt;
   final int updatedAt;
