@@ -66,6 +66,8 @@
   "error_limit_exceeded": "Límite excedido",
   "error_try_again_later": "Intentelo de nuevo más tarde",
   "error_unexpected": "Se produjo un error inespereado",
+  "error_login_fails": "Error al iniciar sesión",
+  "error_login_fails_desc": "El email o la contraseña introducidos no son válidos",
   "error_creating_account": "No se puedo crear la cuenta",
   "error_creating_account_username_exists": "El email introducido ya está siendo utilizado. Intente loguearse o cree una cuenta empleando otro correo electrónico",
   "add_image": "Añadir imagen",

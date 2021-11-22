@@ -125,8 +125,8 @@ class SignUpProvider with ChangeNotifier {
       Provider.of<ProfileProvider>(context, listen: false).getProfileData(context, cognitoUser);
       Navigator.of(context).pushNamedAndRemoveUntil(Routes.MAIN, (Route<dynamic> route) => false);
     } catch (error) {
-      // TODO: Handle error
-      print(error);
+      showError(context, translate(context, 'error_login_fails'), translate(context, 'error_login_fails_desc'),
+          ERROR_VISUALIZATIONS_TYPE.dialog);
       hideLoadingDialog();
     }
   }
