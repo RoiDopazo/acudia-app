@@ -52,7 +52,8 @@ class Profile {
           : null,
       birthDate: json["birthDate"] != null && json["birthDate"] != '' ? DateTime.parse(json["birthDate"]) : null,
       photoUrl: json["photoUrl"] != null && json["photoUrl"] != '' ? json["photoUrl"] : null,
-      jobsCompleted: json['jobsCompleted'] != null && json["jobsCompleted"] != '' ? json['jobsCompleted'] : 0,
+      jobsCompleted:
+          json['jobsCompleted'] != null && json["jobsCompleted"] != '' ? json['jobsCompleted'].toDouble() : 0,
       popularity: json['popularity'] != null && json["popularity"] != '' ? json['popularity'] : 0,
       createdAt: json["createdAt"] != null && json["createdAt"] != '' ? json["createdAt"].toInt() : null,
       updatedAt: json["updatedAt"] != null && json["updatedAt"] != '' ? json["updatedAt"].toInt() : null,
