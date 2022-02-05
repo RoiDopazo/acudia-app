@@ -156,6 +156,7 @@
   "no_completed_requests": "Aún no ha finalizado ninguna solicitud",
   "accepted_request": "Aceptada",
   "confirm_question": "Está seguro?",
+  "confirm_logout": "Está seguro de querer cerrar la sesión actual?",
   "confirm_accept_request": "Está seguro de querer aceptar esta solicitud?",
   "confirm_deny_request": "Está seguro de querer rechazar esta solicitud?"
 }
