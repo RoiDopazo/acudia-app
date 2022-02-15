@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 final String GRAPHQL_ADD_ASSIGNMENT_MUTATION = """
-  mutation addAssignment (\$hospId: String!, \$hospName: String, \$hospProvince: String, \$from: AWSDate, \$to: AWSDate, \$startHour: Float, \$endHour: Float, \$fare: Float, \$days: [Boolean]) {
-  addAssignment(input: {hospId: \$hospId, data: {hospName: \$hospName, hospProvince: \$hospProvince, from: \$from, to: \$to, startHour: \$startHour, endHour: \$endHour, fare: \$fare, days: \$days}} ) {
+  mutation addAssignment (\$hospId: String!, \$hospName: String, \$hospProvince: String, \$from: AWSDate, \$to: AWSDate, \$startHour: Float, \$endHour: Float, \$fare: Float) {
+  addAssignment(input: {hospId: \$hospId, data: {hospName: \$hospName, hospProvince: \$hospProvince, from: \$from, to: \$to, startHour: \$startHour, endHour: \$endHour, fare: \$fare}} ) {
     PK
     SK
     hospName
@@ -18,8 +18,8 @@ final String GRAPHQL_ADD_ASSIGNMENT_MUTATION = """
 }""";
 
 final String GRAPHQL_UPDATE_ASSIGNMENT_MUTATION = """
-  mutation updateAssignment (\$hospId: String!, \$assignmentId: String!, \$hospName: String, \$hospProvince: String, \$from: AWSDate, \$to: AWSDate, \$startHour: Float, \$endHour: Float, \$fare: Float, \$days: [Boolean]) {
-  updateAssignment(input: {hospId: \$hospId, assignmentId: \$assignmentId, data: {hospName: \$hospName, hospProvince: \$hospProvince, from: \$from, to: \$to, startHour: \$startHour, endHour: \$endHour, fare: \$fare, days: \$days} } )
+  mutation updateAssignment (\$hospId: String!, \$assignmentId: String!, \$hospName: String, \$hospProvince: String, \$from: AWSDate, \$to: AWSDate, \$startHour: Float, \$endHour: Float, \$fare: Float) {
+  updateAssignment(input: {hospId: \$hospId, assignmentId: \$assignmentId, data: {hospName: \$hospName, hospProvince: \$hospProvince, from: \$from, to: \$to, startHour: \$startHour, endHour: \$endHour, fare: \$fare} } )
 }""";
 
 final String GRAPHQL_GET_MY_ASSIGNMENTS_QUERY = """

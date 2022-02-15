@@ -70,15 +70,15 @@ class HospitalAssignmentsPage extends StatelessWidget {
                                 children: [
                               Row(
                                 children: [
-                                  Text('${translate(context, 'hello')} ', style: TextStyle(fontSize: 32)),
+                                  Text('${translate(context, 'hello')} ', style: TextStyle(fontSize: 26)),
                                   Text(profileProvider.profile.name,
                                       overflow: TextOverflow.ellipsis,
                                       softWrap: false,
-                                      style: TextStyle(fontSize: 32, color: Theme.of(context).primaryColor)),
-                                  Text(',', style: TextStyle(fontSize: 32)),
+                                      style: TextStyle(fontSize: 26, color: Theme.of(context).primaryColor)),
+                                  Text(',', style: TextStyle(fontSize: 26)),
                                 ],
                               ),
-                              Text(translate(context, 'hospital_assignments_hi_label'), style: TextStyle(fontSize: 22))
+                              Text(translate(context, 'hospital_assignments_hi_label'), style: TextStyle(fontSize: 18))
                             ])),
                       ),
                       SizedBox(height: 16),

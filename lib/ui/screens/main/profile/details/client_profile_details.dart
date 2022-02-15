@@ -22,7 +22,7 @@ class ClientProfileDetails extends StatelessWidget {
                 return Container();
               }
 
-              int jobsCompleted = result.data["getProfileStats"]["jobsCompleted"];
+              double jobsCompleted = result.data["getProfileStats"]["jobsCompleted"];
               String acudierName = result.data["getProfileStats"]["acudier"]['name'];
               String acudierPhoto = result.data["getProfileStats"]["acudier"]['photoUrl'];
               String hospName = result.data["getProfileStats"]["hosp"]['name'];

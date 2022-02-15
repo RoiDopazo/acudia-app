@@ -74,8 +74,8 @@ class AcudierProfileDetails extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                 )))
                         : Text("Sin valoraciones"),
-                    SizedBox(height: 24),
-                    ReviewList(comments: comments.sublist(0, 3))
+                    SizedBox(height: 12),
+                    ReviewList(comments: comments.sublist(0, comments.length >= 3 ? 2 : comments.length))
                   ]));
             }));
   }

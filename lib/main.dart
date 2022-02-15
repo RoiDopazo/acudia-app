@@ -74,6 +74,7 @@ class MyApp extends StatelessWidget {
         child: GraphQLProvider(
             client: graphQLClient,
             child: MaterialApp(
+              debugShowCheckedModeBanner: false,
               supportedLocales: [
                 Locale('es', 'ES'),
                 Locale('en', 'US'),

@@ -1,5 +1,4 @@
 import 'package:acudia/app_localizations.dart';
-import 'package:acudia/colors.dart';
 import 'package:acudia/core/providers/search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -19,7 +18,6 @@ class HospitalSearchAppBar extends StatelessWidget implements PreferredSizeWidge
     return new AppBar(
       brightness: Brightness.dark,
       elevation: 1,
-      iconTheme: IconThemeData(color: aCPaletteAccent),
       backgroundColor: Theme.of(context).accentColor,
       title: isSearching == true
           ? TextField(

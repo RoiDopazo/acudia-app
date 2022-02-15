@@ -11,7 +11,7 @@ class GenericError extends StatelessWidget {
       {@required String errorTitle, @required String error, DialogType type, Function onCancel, Function onAccept}) {
     AwesomeDialog(
       context: context,
-      dialogType: type,
+      dialogType: DialogType.ERROR,
       animType: AnimType.SCALE,
       title: errorTitle,
       desc: error,
